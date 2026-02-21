@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEB MCQ – Nepal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0c14;--surf:#111520;--card:#161b2e;--bdr:rgba(255,255,255,0.07);--gold:#f5c842;--gold2:#e8a020;--blue:#4f8ef7;--red:#ff4d6d;--green:#22c55e;--org:#f97316;--pur:#a78bfa;--txt:#e8eaf0;--mut:#7c85a0;--r:16px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 0%,rgba(79,142,247,.13) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 100%,rgba(245,200,66,.09) 0%,transparent 60%);pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:1;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid var(--bdr);backdrop-filter:blur(12px);background:rgba(10,12,20,.8);position:sticky;top:0;z-index:100;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-i{width:36px;height:36px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:10px;display:grid;place-items:center;font-size:18px;font-weight:900;color:#000;}
+.logo-t{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;}
+.logo-t span{color:var(--gold);}
+.nav-b{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-size:.7rem;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+.screen{display:none;animation:fi .4s ease;}
+.screen.active{display:block;}
+@keyframes fi{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+/* HOME */
+.hero{min-height:calc(100vh - 70px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);border-radius:20px;padding:6px 16px;font-size:.78rem;font-weight:600;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:28px;}
+.eyebrow::before{content:'✦';font-size:10px;}
+h1{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,8vw,5.2rem);font-weight:900;line-height:1.06;margin-bottom:20px;}
+h1 .ac{color:var(--gold);display:block;}
+.sub{font-size:clamp(.94rem,2vw,1.12rem);color:var(--mut);max-width:560px;line-height:1.72;margin-bottom:44px;}
+.stats{display:flex;gap:40px;margin-bottom:44px;flex-wrap:wrap;justify-content:center;}
+.stat-n{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--gold);}
+.stat-l{font-size:.8rem;color:var(--mut);margin-top:2px;text-align:center;}
+.btn-p{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-weight:700;font-size:1rem;padding:16px 36px;border-radius:50px;border:none;cursor:pointer;transition:all .3s;text-transform:uppercase;letter-spacing:.5px;box-shadow:0 0 40px rgba(245,200,66,.3);}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 0 60px rgba(245,200,66,.5);}
+.fpills{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:28px;}
+.fpill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:20px;padding:8px 16px;font-size:.8rem;color:var(--mut);}
+.fpill em{color:var(--gold);font-style:normal;}
+/* STEP CONTAINER */
+.sc{max-width:860px;margin:0 auto;padding:52px 20px 80px;}
+.snum{font-size:.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+h2{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.5rem);font-weight:700;line-height:1.15;margin-bottom:8px;}
+h2 .ac{color:var(--gold);}
+.sdesc{color:var(--mut);font-size:.94rem;margin-bottom:36px;}
+.pb{display:flex;gap:6px;margin-bottom:44px;}
+.ps{height:4px;flex:1;border-radius:2px;background:var(--bdr);transition:background .4s;}
+.ps.done{background:var(--gold);}
+.ps.act{background:linear-gradient(90deg,var(--gold),var(--blue));}
+/* CARDS */
+.og{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px;}
+.oc{background:var(--card);border:1.5px solid var(--bdr);border-radius:var(--r);padding:22px 18px;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;align-items:flex-start;gap:12px;position:relative;overflow:hidden;}
+.oc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(245,200,66,.06),transparent);opacity:0;transition:opacity .3s;}
+.oc:hover{border-color:rgba(245,200,66,.4);transform:translateY(-3px);}
+.oc:hover::before{opacity:1;}
+.oc.sel{border-color:var(--gold);background:linear-gradient(135deg,rgba(245,200,66,.12),rgba(22,27,46,.9));box-shadow:0 0 22px rgba(245,200,66,.2);}
+.oc.sel::before{opacity:1;}
+.oi{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:rgba(255,255,255,.05);}
+.oc.sel .oi{background:rgba(245,200,66,.15);}
+.ot{font-weight:600;font-size:.98rem;}
+.os{font-size:.78rem;color:var(--mut);}
+.cb{position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:50%;background:var(--gold);display:none;place-items:center;font-size:12px;color:#000;font-weight:700;}
+.oc.sel .cb{display:grid;}
+/* MODE */
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px;}
+.mc{background:var(--card);border:1.5px solid var(--bdr);border-radius:var(--r);padding:26px 18px;cursor:pointer;transition:all .25s;text-align:center;position:relative;overflow:hidden;}
+.mc:hover{border-color:rgba(79,142,247,.5);transform:translateY(-3px);}
+.mc.sel{border-color:var(--blue);background:linear-gradient(135deg,rgba(79,142,247,.12),rgba(22,27,46,.9));box-shadow:0 0 22px rgba(79,142,247,.2);}
+.mc .cb{background:var(--blue);}
+.mc.sel .cb{display:grid;}
+.mt{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--blue);}
+.mq{font-size:.98rem;font-weight:600;margin:4px 0;}
+.md{font-size:.76rem;color:var(--mut);}
+/* TOPICS */
+.tg{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:26px;}
+.tc{padding:9px 17px;border-radius:50px;border:1.5px solid var(--bdr);background:var(--card);cursor:pointer;font-size:.86rem;font-weight:500;transition:all .2s;}
+.tc:hover{border-color:rgba(245,200,66,.4);}
+.tc.sel{border-color:var(--gold);color:var(--gold);background:rgba(245,200,66,.1);}
+.sa-btn{margin-bottom:12px;background:transparent;border:1px solid var(--bdr);color:var(--mut);font-size:.8rem;padding:6px 14px;border-radius:20px;cursor:pointer;transition:all .2s;}
+.sa-btn:hover{border-color:var(--gold);color:var(--gold);}
+/* BTNS */
+.br{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;}
+.bb{background:transparent;border:1.5px solid var(--bdr);color:var(--mut);font-size:.9rem;padding:13px 26px;border-radius:50px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.bb:hover{border-color:var(--gold);color:var(--gold);}
+.bn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-weight:700;font-size:.93rem;padding:13px 30px;border-radius:50px;border:none;cursor:pointer;transition:all .3s;font-family:'DM Sans',sans-serif;}
+.bn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(245,200,66,.35);}
+.bn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
+/* QUIZ */
+#qs{padding:20px 20px 40px;}
+.qhdr{display:flex;align-items:center;justify-content:space-between;max-width:900px;margin:0 auto 18px;flex-wrap:wrap;gap:12px;}
+.qi h3{font-family:'Playfair Display',serif;font-size:1.05rem;}
+.qi p{font-size:.76rem;color:var(--mut);}
+.qhr{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.tbdg{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--bdr);border-radius:50px;padding:10px 20px;}
+#tdsp{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--gold);}
+.tbdg.urg #tdsp{color:var(--red);animation:pulse .8s infinite alternate;}
+@keyframes pulse{to{opacity:.4}}
+.kh{font-size:.73rem;color:var(--mut);display:flex;align-items:center;gap:5px;}
+.kbd{background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:2px 7px;font-size:.7rem;font-family:monospace;}
+.nstrip{max-width:900px;margin:0 auto 12px;display:flex;flex-wrap:wrap;gap:5px;}
+.nd{width:30px;height:30px;border-radius:6px;border:1.5px solid var(--bdr);background:var(--card);cursor:pointer;font-size:.7rem;font-weight:700;display:grid;place-items:center;transition:all .2s;color:var(--mut);}
+.nd:hover{border-color:rgba(245,200,66,.5);}
+.nd.ans{background:rgba(79,142,247,.15);border-color:var(--blue);color:var(--blue);}
+.nd.cur{background:var(--gold);border-color:var(--gold);color:#000;}
+.qpb{max-width:900px;margin:0 auto 10px;height:5px;background:var(--card);border-radius:3px;overflow:hidden;}
+.qpf{height:100%;background:linear-gradient(90deg,var(--blue),var(--gold));border-radius:3px;transition:width .4s;}
+.qcnt{max-width:900px;margin:0 auto 14px;display:flex;justify-content:space-between;font-size:.78rem;color:var(--mut);}
+.qcard{max-width:900px;margin:0 auto 16px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:28px;}
+.qtag{display:inline-block;background:rgba(79,142,247,.15);color:var(--blue);font-size:.7rem;font-weight:600;padding:3px 11px;border-radius:20px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px;}
+.qnl{font-size:.76rem;color:var(--mut);margin-bottom:6px;}
+.qtxt{font-size:1.04rem;line-height:1.66;margin-bottom:22px;font-weight:500;}
+.qopts{display:flex;flex-direction:column;gap:10px;}
+.qopt{padding:13px 17px;border-radius:10px;border:1.5px solid var(--bdr);background:rgba(255,255,255,.02);cursor:pointer;font-size:.91rem;display:flex;align-items:center;gap:12px;transition:all .2s;user-select:none;}
+.qopt:hover:not(.lk){border-color:rgba(79,142,247,.5);background:rgba(79,142,247,.06);}
+.qopt.picked{border-color:var(--gold);background:rgba(245,200,66,.1);}
+.qopt.right{border-color:var(--green);background:rgba(34,197,94,.12);color:var(--green);}
+.qopt.bad{border-color:var(--red);background:rgba(255,77,109,.12);color:var(--red);}
+.qopt.lk{cursor:default;}
+.ol{width:30px;height:30px;border-radius:50%;background:var(--surf);display:grid;place-items:center;font-size:.76rem;font-weight:700;flex-shrink:0;transition:all .2s;}
+.qopt.picked .ol{background:var(--gold);color:#000;}
+.qopt.right .ol{background:var(--green);color:#000;}
+.qopt.bad .ol{background:var(--red);color:#fff;}
+.qhint{margin-top:11px;font-size:.73rem;color:var(--mut);}
+.qnav{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.bq{padding:11px 24px;border-radius:50px;border:none;cursor:pointer;font-weight:700;font-size:.86rem;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.bgold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;}
+.bgold:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(245,200,66,.35);}
+.bghost{background:var(--card);border:1.5px solid var(--bdr);color:var(--txt);}
+.bghost:hover{border-color:var(--gold);color:var(--gold);}
+.bghost:disabled{opacity:.3;cursor:not-allowed;}
+.bdanger{background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;}
+.bdanger:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(239,68,68,.35);}
+/* LOADING */
+.ldo{max-width:900px;margin:60px auto;text-align:center;padding:20px;}
+.spin{width:56px;height:56px;border-radius:50%;border:3px solid var(--bdr);border-top-color:var(--gold);animation:sp .9s linear infinite;margin:0 auto 24px;}
+@keyframes sp{to{transform:rotate(360deg)}}
+.ltxt{font-size:1rem;color:var(--mut);}
+.lsub{font-size:.8rem;color:var(--mut);margin-top:8px;max-width:440px;margin-left:auto;margin-right:auto;line-height:1.6;}
+.ldots::after{content:'';animation:dt 1.5s steps(4,end) infinite;}
+@keyframes dt{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
+/* MODAL */
+.mover{position:fixed;inset:0;background:rgba(0,0,0,.76);display:none;place-items:center;z-index:200;backdrop-filter:blur(6px);}
+.mover.show{display:grid;}
+.mbox{background:var(--card);border:1px solid var(--bdr);border-radius:20px;padding:36px;max-width:420px;width:90%;text-align:center;}
+.mbox h3{font-family:'Playfair Display',serif;font-size:1.45rem;margin-bottom:10px;}
+.mbox p{color:var(--mut);font-size:.88rem;line-height:1.65;margin-bottom:28px;}
+.mbtns{display:flex;gap:12px;justify-content:center;}
+/* RESULTS */
+#rs{padding:40px 20px 80px;}
+.ri{max-width:940px;margin:0 auto;}
+.rhero{text-align:center;margin-bottom:46px;}
+.rwrap{position:relative;width:190px;height:190px;margin:0 auto 22px;}
+.rsvg{width:190px;height:190px;transform:rotate(-90deg);}
+.rbg{fill:none;stroke:var(--surf);stroke-width:14;}
+.rfl{fill:none;stroke-width:14;stroke-linecap:round;transition:stroke-dashoffset 1.3s cubic-bezier(.4,0,.2,1);}
+.rct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.rpct{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;}
+.rgb{font-size:.76rem;color:var(--mut);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.rcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:13px;margin:30px 0;}
+.rcard{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:16px;text-align:center;}
+.rcn{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;}
+.rcl{font-size:.73rem;color:var(--mut);margin-top:4px;}
+.racts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:50px;}
+.bres{padding:13px 30px;border-radius:50px;border:none;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-weight:700;font-size:.93rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.bres:hover{transform:translateY(-2px);}
+.bret{padding:13px 30px;border-radius:50px;border:1.5px solid var(--bdr);background:transparent;color:var(--txt);font-weight:600;font-size:.93rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.bret:hover{border-color:var(--gold);color:var(--gold);}
+/* Topic bars */
+.sect{margin-bottom:46px;}
+.stitle{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;margin-bottom:4px;}
+.ssub{color:var(--mut);font-size:.86rem;margin-bottom:18px;}
+.tbars{display:flex;flex-direction:column;gap:10px;}
+.tbar{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:13px 16px;}
+.tbr{display:flex;justify-content:space-between;margin-bottom:7px;font-size:.84rem;}
+.tbn{font-weight:600;}
+.tbs{color:var(--mut);font-size:.76rem;}
+.tbk{height:6px;background:var(--surf);border-radius:3px;overflow:hidden;}
+.tbf{height:100%;border-radius:3px;transition:width 1.2s ease;}
+/* Analysis */
+.ftabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.ft{padding:7px 17px;border-radius:50px;border:1.5px solid var(--bdr);background:var(--card);font-size:.8rem;font-weight:600;cursor:pointer;color:var(--mut);transition:all .2s;}
+.ft:hover{border-color:var(--gold);}
+.ft.act{border-color:var(--gold);color:var(--gold);background:rgba(245,200,66,.1);}
+.alist{display:flex;flex-direction:column;gap:13px;}
+.ac_{background:var(--card);border:1.5px solid var(--bdr);border-radius:14px;overflow:hidden;}
+.ach{display:flex;align-items:center;gap:11px;padding:14px 18px;cursor:pointer;transition:background .2s;}
+.ach:hover{background:rgba(255,255,255,.02);}
+.aic{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:13px;flex-shrink:0;}
+.aic.c{background:rgba(34,197,94,.15);color:var(--green);}
+.aic.w{background:rgba(255,77,109,.15);color:var(--red);}
+.aic.s{background:rgba(79,142,247,.15);color:var(--blue);}
+.aqn{font-size:.7rem;color:var(--mut);min-width:30px;flex-shrink:0;}
+.apv{flex:1;font-size:.86rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.atpl{font-size:.67rem;background:rgba(79,142,247,.1);color:var(--blue);padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;}
+.aarr{color:var(--mut);transition:transform .3s;flex-shrink:0;}
+.ac_.open .aarr{transform:rotate(180deg);}
+.acb{display:none;padding:0 18px 18px;}
+.ac_.open .acb{display:block;}
+.afq{font-size:.96rem;font-weight:500;line-height:1.66;margin-bottom:13px;padding-top:2px;}
+.ayan{font-size:.78rem;margin-bottom:11px;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,.03);}
+.cl{color:var(--green);font-weight:700;}
+.wl{color:var(--red);font-weight:700;}
+.sl{color:var(--blue);font-weight:700;}
+.aopts{display:flex;flex-direction:column;gap:7px;margin-bottom:13px;}
+.ao{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:8px;font-size:.86rem;border:1.5px solid transparent;background:rgba(255,255,255,.02);}
+.ao.co{border-color:var(--green);background:rgba(34,197,94,.08);color:var(--green);}
+.ao.wo{border-color:var(--red);background:rgba(255,77,109,.08);color:var(--red);}
+.aol{width:24px;height:24px;border-radius:50%;background:var(--surf);display:grid;place-items:center;font-size:.68rem;font-weight:700;flex-shrink:0;}
+.ao.co .aol{background:var(--green);color:#000;}
+.ao.wo .aol{background:var(--red);color:#fff;}
+.aex{padding:11px 14px;background:rgba(245,200,66,.07);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;font-size:.84rem;line-height:1.65;color:var(--mut);}
+/* Toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(20,25,40,.96);border:1px solid var(--bdr);color:var(--txt);padding:11px 22px;border-radius:50px;font-size:.86rem;font-weight:600;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;}
+.seclab{font-size:.92rem;font-weight:700;color:var(--gold);margin-bottom:12px;margin-top:6px;}
+@media(max-width:640px){
+  nav{padding:13px 16px;}
+  .sc{padding:34px 14px 60px;}
+  .qcard{padding:18px 13px;}
+  .qhdr{flex-direction:column;align-items:flex-start;}
+  h1{font-size:2.3rem;}
+  .nstrip{display:none;}
+  .rcards{grid-template-columns:1fr 1fr;}
+  .apv{white-space:normal;}
+  .atpl{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <div class="logo">
+    <div class="logo-i">VS</div>
+    <div class="logo-t">AURA <span>MCQ</span></div>
+  </div>
+  <div class="nav-b">NEB +2 • VISION AI</div>
+</nav>
+<div class="toast" id="toast"></div>
+
+<!-- MODAL -->
+<div class="mover" id="smodal">
+  <div class="mbox">
+    <h3>Submit Test?</h3>
+    <p id="mmsg">Are you sure?</p>
+    <div class="mbtns">
+      <button class="bq bghost" onclick="closeMod()">Review More</button>
+      <button class="bq bdanger" onclick="doSubmit()">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HOME ══ -->
+<div class="screen active" id="home">
+  <div class="hero">
+    <div class="eyebrow">Welcome to the World of Tests</div>
+    <h1>Master Your <span class="ac">NEB Exams</span></h1>
+    <p class="sub">AI-powered MCQ practice strictly based on the verified NEB +2 curriculum (2082/2083). Pick your class, stream, subject, chapters — and take a real timed exam with full analysis.</p>
+    <div class="stats">
+      <div><div class="stat-n">+2</div><div class="stat-l">Class 11 & 12</div></div>
+      <div><div class="stat-n">100%</div><div class="stat-l">NEB Verified</div></div>
+      <div><div class="stat-n">0</div><div class="stat-l">Repeated Qs</div></div>
+    </div>
+    <button class="btn-p" onclick="go('cls')">
+      Start Test
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+    </button>
+    <div class="fpills">
+      <div class="fpill"><em>⌨</em> Arrow Keys Navigate</div>
+      <div class="fpill"><em>🔄</em> Change Answers Freely</div>
+      <div class="fpill"><em>🚫</em> No Repeats</div>
+      <div class="fpill"><em>📊</em> Full Report</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CLASS ══ -->
+<div class="screen" id="cls">
+  <div class="sc">
+    <div class="pb"><div class="ps act"></div><div class="ps"></div><div class="ps"></div><div class="ps"></div></div>
+    <div class="snum">Step 1 of 4</div>
+    <h2>Select Your <span class="ac">Class</span></h2>
+    <p class="sdesc">Choose your NEB grade.</p>
+    <div class="og">
+      <div class="oc" onclick="pick('cls',11,this)"><div class="oi">📗</div><div class="ot">Class 11</div><div class="os">Grade XI – First Year</div><div class="cb">✓</div></div>
+      <div class="oc" onclick="pick('cls',12,this)"><div class="oi">📘</div><div class="ot">Class 12</div><div class="os">Grade XII – Second Year</div><div class="cb">✓</div></div>
+    </div>
+    <div class="br">
+      <button class="bb" onclick="go('home')">← Home</button>
+      <button class="bn" id="cls-nx" disabled onclick="go('str')">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ STREAM ══ -->
+<div class="screen" id="str">
+  <div class="sc">
+    <div class="pb"><div class="ps done"></div><div class="ps act"></div><div class="ps"></div><div class="ps"></div></div>
+    <div class="snum">Step 2 of 4</div>
+    <h2>Choose Your <span class="ac">Stream</span></h2>
+    <p class="sdesc">Select your faculty.</p>
+    <div class="og">
+      <div class="oc" onclick="pick('str','science',this)"><div class="oi">🔬</div><div class="ot">Science</div><div class="os">Bio Group / Physical Group</div><div class="cb">✓</div></div>
+      <div class="oc" onclick="pick('str','management',this)"><div class="oi">📊</div><div class="ot">Management</div><div class="os">Business & Commerce</div><div class="cb">✓</div></div>
+    </div>
+    <div class="br">
+      <button class="bb" onclick="go('cls')">← Back</button>
+      <button class="bn" id="str-nx" disabled onclick="showGroup()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GROUP / SUBJECT ══ -->
+<div class="screen" id="grp">
+  <div class="sc">
+    <div class="pb"><div class="ps done"></div><div class="ps done"></div><div class="ps act"></div><div class="ps"></div></div>
+    <div class="snum">Step 3 of 4</div>
+    <h2>Group & <span class="ac">Subject</span></h2>
+    <p class="sdesc" id="gdesc">Choose group then subject.</p>
+    <div id="gcnt"></div>
+    <div class="br">
+      <button class="bb" onclick="go('str')">← Back</button>
+      <button class="bn" id="grp-nx" disabled onclick="showTopics()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOPICS + MODE ══ -->
+<div class="screen" id="tpc">
+  <div class="sc">
+    <div class="pb"><div class="ps done"></div><div class="ps done"></div><div class="ps done"></div><div class="ps act"></div></div>
+    <div class="snum">Step 4 of 4</div>
+    <h2>Chapters & <span class="ac">Test Mode</span></h2>
+    <p class="sdesc">Select chapters to include, then choose test duration.</p>
+    <div class="seclab">📚 Select Chapters</div>
+    <button class="sa-btn" id="saBtn" onclick="toggleAll()">Select All Chapters</button>
+    <div class="tg" id="tgrid"></div>
+    <div class="seclab">⏱ Test Duration</div>
+    <div class="mg">
+      <div class="mc" onclick="pickMode(10,30,this)"><div class="cb">✓</div><div class="mt">10 min</div><div class="mq">30 Questions</div><div class="md">Quick practice</div></div>
+      <div class="mc" onclick="pickMode(30,100,this)"><div class="cb">✓</div><div class="mt">30 min</div><div class="mq">100 Questions</div><div class="md">Standard exam</div></div>
+      <div class="mc" onclick="pickMode(60,150,this)"><div class="cb">✓</div><div class="mt">1 hour</div><div class="mq">150 Questions</div><div class="md">Full mock exam</div></div>
+    </div>
+    <div class="br">
+      <button class="bb" onclick="go('grp')">← Back</button>
+      <button class="bn" id="tpc-nx" disabled onclick="startQuiz()">🚀 Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div class="screen" id="qs">
+  <div class="qhdr">
+    <div class="qi"><h3 id="qtitle">NEB MCQ</h3><p id="qmeta"></p></div>
+    <div class="qhr">
+      <div class="kh"><span class="kbd">←</span><span class="kbd">→</span>Navigate &nbsp;<span class="kbd">1-4</span>Select</div>
+      <div class="tbdg" id="tbdg"><span>⏱</span><span id="tdsp">00:00</span></div>
+    </div>
+  </div>
+  <div class="nstrip" id="nstrip"></div>
+  <div class="qpb"><div class="qpf" id="qpf" style="width:0%"></div></div>
+  <div class="qcnt"><span id="qctxt">Q 1</span><span id="qatxt">Answered: 0</span></div>
+  <div id="qcontent"></div>
+  <div class="qnav" id="qnav" style="display:none">
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="bq bghost" id="pbtn" onclick="prevQ()" disabled>← Prev</button>
+      <button class="bq bghost" id="nbtn" onclick="nextQ()">Next →</button>
+    </div>
+    <button class="bq bdanger" onclick="openMod()">Submit Test ✓</button>
+  </div>
+</div>
+
+<!-- ══ RESULTS ══ -->
+<div class="screen" id="rs">
+  <div class="ri">
+    <div class="rhero">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);border-radius:20px;padding:6px 16px;font-size:.76rem;font-weight:600;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:20px;">✦ Test Complete</div>
+      <h2 style="margin-bottom:8px">Your <span class="ac">Results</span></h2>
+      <p style="color:var(--mut);margin-bottom:30px" id="rsumt"></p>
+      <div class="rwrap">
+        <svg class="rsvg" viewBox="0 0 190 190">
+          <circle class="rbg" cx="95" cy="95" r="82"/>
+          <circle class="rfl" id="rfl" cx="95" cy="95" r="82" stroke-dasharray="515" stroke-dashoffset="515"/>
+        </svg>
+        <div class="rct">
+          <div class="rpct" id="rpct">0%</div>
+          <div class="rgb" id="rgb">GRADE</div>
+        </div>
+      </div>
+      <div id="rgm" style="font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;margin:6px 0;"></div>
+      <div id="rmsg" style="color:var(--mut);font-size:.93rem;"></div>
+    </div>
+    <div class="rcards" id="rcards"></div>
+    <div class="racts">
+      <button class="bres" onclick="restart()">🏠 New Test</button>
+      <button class="bret" onclick="retake()">🔁 Retake Same</button>
+    </div>
+    <div class="sect">
+      <div class="stitle">📊 Chapter Performance</div>
+      <div class="ssub">See which chapters need more revision.</div>
+      <div class="tbars" id="tbars"></div>
+    </div>
+    <div class="sect">
+      <div class="stitle">📋 Full Question Analysis</div>
+      <div class="ssub">Click any card to expand the complete breakdown and explanation.</div>
+      <div class="ftabs">
+        <div class="ft act" onclick="filterA('all',this)">All</div>
+        <div class="ft" onclick="filterA('c',this)">✓ Correct</div>
+        <div class="ft" onclick="filterA('w',this)">✗ Wrong</div>
+        <div class="ft" onclick="filterA('s',this)">— Skipped</div>
+      </div>
+      <div class="alist" id="alist"></div>
+    </div>
+  </div>
+</div>
+</div><!-- wrap -->
+
+<script>
+// ════════════════════════════════════════════
+// 🔑  YOUR GEMINI API KEY GOES HERE
+// Get one free at: https://aistudio.google.com/
+// ════════════════════════════════════════════
+const GEMINI_KEY = 'AIzaSyDNv1s8pMM2M0zgSsdVMCEJjU3_nrryTXw';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`;
+
+// ════════════════════════════════════════════
+// VERIFIED NEB CHAPTER DATA
+// Source: CDC Curriculum 2079-2081 (NEB new syllabus)
+// ════════════════════════════════════════════
+const CUR = {
+  science:{
+    bio:{
+      name:'Biology Group',
+      subjects:{
+        Physics:{icon:'⚛️',
+          11:[
+            'Ch.1 – Physical Quantities, Units & Dimensions',
+            'Ch.2 – Vectors',
+            'Ch.3 – Kinematics',
+            'Ch.4 – Dynamics (Laws of Motion, Friction)',
+            'Ch.5 – Work, Energy & Power',
+            'Ch.6 – Circular Motion',
+            'Ch.7 – Gravitation',
+            'Ch.8 – Elasticity',
+            'Ch.9 – Heat & Temperature',
+            'Ch.10 – Thermal Expansion',
+            'Ch.11 – Quantity of Heat & Calorimetry',
+            'Ch.12 – Rate of Heat Transfer',
+            'Ch.13 – Ideal Gas & Kinetic Theory',
+            'Ch.14 – Reflection at Curved Mirrors',
+            'Ch.15 – Refraction at Plane Surfaces (TIR, Prisms)',
+            'Ch.16 – Refraction Through Lenses',
+            'Ch.17 – Dispersion of Light',
+            'Ch.18 – Electric Charges & Electric Field',
+            'Ch.19 – Electric Potential, PE & Capacitors',
+            'Ch.20 – DC Circuits (Ohm\'s Law, Kirchhoff\'s Laws)',
+            'Ch.21 – Nuclear Physics & Radioactivity',
+            'Ch.22 – Solids & Recent Trends in Physics',
+          ],
+          12:[
+            'Ch.1 – Rotational Dynamics',
+            'Ch.2 – Periodic Motion (SHM)',
+            'Ch.3 – Fluid Statics & Dynamics',
+            'Ch.4 – First & Second Law of Thermodynamics',
+            'Ch.5 – Wave Motion',
+            'Ch.6 – Mechanical Waves & Sound',
+            'Ch.7 – Wave Optics (Interference, Diffraction)',
+            'Ch.8 – Electrostatics (Coulomb\'s Law, Gauss\'s Law)',
+            'Ch.9 – Capacitance',
+            'Ch.10 – Electric Current & Magnetic Effects',
+            'Ch.11 – Magnetic Force on Conductors & Moving Charges',
+            'Ch.12 – Electromagnetic Induction & AC',
+            'Ch.13 – Alternating Current Circuits',
+            'Ch.14 – Electrons & Photons (Photoelectric Effect, de Broglie)',
+            'Ch.15 – Semiconductor Devices (Diode, Transistor, Logic Gates)',
+            'Ch.16 – Quantization of Energy & X-Rays',
+          ]
+        },
+        Chemistry:{icon:'🧪',
+          11:[
+            'Ch.1 – General Introduction & Stoichiometry',
+            'Ch.2 – Atomic Structure (Bohr\'s Model, Quantum Numbers)',
+            'Ch.3 – Classification of Elements & Periodic Table',
+            'Ch.4 – Chemical Bonding & Molecular Structure',
+            'Ch.5 – Oxidation & Reduction',
+            'Ch.6 – Electrolysis',
+            'Ch.7 – Volumetric Analysis (Acid-Base Titration)',
+            'Ch.8 – Chemical Equilibrium',
+            'Ch.9 – Ionic Equilibrium (pH, Buffer, Hydrolysis)',
+            'Ch.10 – States of Matter (Gas Laws, Liquefaction, Solid State)',
+            'Ch.11 – s-Block Elements (Alkali & Alkaline Earth Metals)',
+            'Ch.12 – p-Block Elements (Group 13–18)',
+            'Ch.13 – General Organic Chemistry (IUPAC, Isomerism)',
+            'Ch.14 – Hydrocarbons (Alkanes, Alkenes, Alkynes, Benzene)',
+          ],
+          12:[
+            'Ch.1 – Haloalkanes & Haloarenes',
+            'Ch.2 – Alcohols, Phenols & Ethers',
+            'Ch.3 – Aldehydes & Ketones',
+            'Ch.4 – Carboxylic Acids & Acid Derivatives',
+            'Ch.5 – Amines',
+            'Ch.6 – d-Block & Transition Metals',
+            'Ch.7 – Coordination Compounds',
+            'Ch.8 – Nuclear Chemistry & Radioactivity',
+            'Ch.9 – Reaction Kinetics',
+            'Ch.10 – Chemical Thermodynamics (ΔH, ΔG, Entropy)',
+            'Ch.11 – Electrochemistry (Galvanic Cells, EMF)',
+            'Ch.12 – Industrial & Environmental Chemistry',
+          ]
+        },
+        Biology:{icon:'🧬',
+          11:[
+            'Ch.1 – Introduction to Biology & Biomolecules',
+            'Ch.2 – Cell: The Structural & Functional Unit',
+            'Ch.3 – Cell Division (Mitosis, Meiosis)',
+            'Ch.4 – Viruses, Bacteria & Fungi',
+            'Ch.5 – Algae, Bryophyta & Pteridophyta',
+            'Ch.6 – Gymnosperm & Angiosperm',
+            'Ch.7 – Morphology of Angiosperms (Root, Stem, Leaf, Flower)',
+            'Ch.8 – Anatomy of Angiosperms',
+            'Ch.9 – Animal Kingdom – Invertebrates',
+            'Ch.10 – Animal Kingdom – Vertebrates',
+            'Ch.11 – Human Digestive System',
+            'Ch.12 – Human Respiratory System',
+            'Ch.13 – Human Circulatory System',
+          ],
+          12:[
+            'Ch.1 – Plant Physiology (Photosynthesis, Respiration, Transpiration)',
+            'Ch.2 – Plant Growth & Development (Hormones)',
+            'Ch.3 – Human Excretory System',
+            'Ch.4 – Nervous System & Sense Organs',
+            'Ch.5 – Endocrine System',
+            'Ch.6 – Reproductive System',
+            'Ch.7 – Growth, Regeneration & Ageing',
+            'Ch.8 – Genetics (Mendelism, Chromosomal Theory)',
+            'Ch.9 – Hereditary Materials (DNA, RNA, Gene Expression)',
+            'Ch.10 – Biotechnology (Genetic Engineering, Applications)',
+            'Ch.11 – Evolution (Lamarck, Darwin, Modern Synthesis)',
+            'Ch.12 – Conservation of Biodiversity & Wildlife in Nepal',
+            'Ch.13 – Human Health & Disease (Immunity, Vaccines)',
+            'Ch.14 – Environmental Biology & Ecology',
+            'Ch.15 – Applied Biology (Apiculture, Sericulture, Aquaculture)',
+          ]
+        },
+        Mathematics:{icon:'📐',
+          11:[
+            'Ch.1 – Logic & Set Theory',
+            'Ch.2 – Real Numbers & Mathematical Induction',
+            'Ch.3 – Sequence & Series (AP, GP, HP)',
+            'Ch.4 – Complex Numbers',
+            'Ch.5 – Quadratic Equations',
+            'Ch.6 – Matrices & Determinants',
+            'Ch.7 – Trigonometry (Compound Angles, Multiple Angles)',
+            'Ch.8 – Inverse Trigonometric Functions',
+            'Ch.9 – Triangle Solutions (Sine, Cosine Rules)',
+            'Ch.10 – Coordinate Geometry – Straight Lines',
+            'Ch.11 – Coordinate Geometry – Circles',
+            'Ch.12 – Conic Sections (Parabola, Ellipse, Hyperbola)',
+            'Ch.13 – Vectors (2D)',
+            'Ch.14 – Statistics (Mean, Median, Mode, Dispersion)',
+            'Ch.15 – Limits & Continuity',
+            'Ch.16 – Derivatives (Rules of Differentiation)',
+          ],
+          12:[
+            'Ch.1 – Permutation & Combination',
+            'Ch.2 – Binomial Theorem',
+            'Ch.3 – Exponential & Logarithmic Series',
+            'Ch.4 – Trigonometric Equations',
+            'Ch.5 – 3D Geometry (Planes & Lines)',
+            'Ch.6 – Vectors (3D, Dot & Cross Product)',
+            'Ch.7 – Correlation & Regression',
+            'Ch.8 – Probability',
+            'Ch.9 – Continuity & Differentiability',
+            'Ch.10 – Applications of Derivatives (Rate, Maxima/Minima)',
+            'Ch.11 – Antiderivatives & Indefinite Integrals',
+            'Ch.12 – Definite Integrals & Area',
+            'Ch.13 – Ordinary Differential Equations',
+            'Ch.14 – Linear Programming',
+          ]
+        }
+      }
+    },
+    physical:{
+      name:'Physical Group',
+      subjects:{
+        Physics:{icon:'⚛️',
+          11:[
+            'Ch.1 – Physical Quantities, Units & Dimensions',
+            'Ch.2 – Vectors',
+            'Ch.3 – Kinematics',
+            'Ch.4 – Dynamics (Laws of Motion, Friction)',
+            'Ch.5 – Work, Energy & Power',
+            'Ch.6 – Circular Motion',
+            'Ch.7 – Gravitation',
+            'Ch.8 – Elasticity',
+            'Ch.9 – Heat & Temperature',
+            'Ch.10 – Thermal Expansion',
+            'Ch.11 – Quantity of Heat & Calorimetry',
+            'Ch.12 – Rate of Heat Transfer',
+            'Ch.13 – Ideal Gas & Kinetic Theory',
+            'Ch.14 – Reflection at Curved Mirrors',
+            'Ch.15 – Refraction at Plane Surfaces (TIR, Prisms)',
+            'Ch.16 – Refraction Through Lenses',
+            'Ch.17 – Dispersion of Light',
+            'Ch.18 – Electric Charges & Electric Field',
+            'Ch.19 – Electric Potential, PE & Capacitors',
+            'Ch.20 – DC Circuits (Ohm\'s Law, Kirchhoff\'s Laws)',
+            'Ch.21 – Nuclear Physics & Radioactivity',
+            'Ch.22 – Solids & Recent Trends in Physics',
+          ],
+          12:[
+            'Ch.1 – Rotational Dynamics',
+            'Ch.2 – Periodic Motion (SHM)',
+            'Ch.3 – Fluid Statics & Dynamics',
+            'Ch.4 – First & Second Law of Thermodynamics',
+            'Ch.5 – Wave Motion',
+            'Ch.6 – Mechanical Waves & Sound',
+            'Ch.7 – Wave Optics (Interference, Diffraction)',
+            'Ch.8 – Electrostatics (Coulomb\'s Law, Gauss\'s Law)',
+            'Ch.9 – Capacitance',
+            'Ch.10 – Electric Current & Magnetic Effects',
+            'Ch.11 – Magnetic Force on Conductors & Moving Charges',
+            'Ch.12 – Electromagnetic Induction & AC',
+            'Ch.13 – Alternating Current Circuits',
+            'Ch.14 – Electrons & Photons (Photoelectric Effect, de Broglie)',
+            'Ch.15 – Semiconductor Devices (Diode, Transistor, Logic Gates)',
+            'Ch.16 – Quantization of Energy & X-Rays',
+          ]
+        },
+        Chemistry:{icon:'🧪',
+          11:[
+            'Ch.1 – General Introduction & Stoichiometry',
+            'Ch.2 – Atomic Structure (Bohr\'s Model, Quantum Numbers)',
+            'Ch.3 – Classification of Elements & Periodic Table',
+            'Ch.4 – Chemical Bonding & Molecular Structure',
+            'Ch.5 – Oxidation & Reduction',
+            'Ch.6 – Electrolysis',
+            'Ch.7 – Volumetric Analysis (Acid-Base Titration)',
+            'Ch.8 – Chemical Equilibrium',
+            'Ch.9 – Ionic Equilibrium (pH, Buffer, Hydrolysis)',
+            'Ch.10 – States of Matter (Gas Laws, Liquefaction, Solid State)',
+            'Ch.11 – s-Block Elements (Alkali & Alkaline Earth Metals)',
+            'Ch.12 – p-Block Elements (Group 13–18)',
+            'Ch.13 – General Organic Chemistry (IUPAC, Isomerism)',
+            'Ch.14 – Hydrocarbons (Alkanes, Alkenes, Alkynes, Benzene)',
+          ],
+          12:[
+            'Ch.1 – Haloalkanes & Haloarenes',
+            'Ch.2 – Alcohols, Phenols & Ethers',
+            'Ch.3 – Aldehydes & Ketones',
+            'Ch.4 – Carboxylic Acids & Acid Derivatives',
+            'Ch.5 – Amines',
+            'Ch.6 – d-Block & Transition Metals',
+            'Ch.7 – Coordination Compounds',
+            'Ch.8 – Nuclear Chemistry & Radioactivity',
+            'Ch.9 – Reaction Kinetics',
+            'Ch.10 – Chemical Thermodynamics (ΔH, ΔG, Entropy)',
+            'Ch.11 – Electrochemistry (Galvanic Cells, EMF)',
+            'Ch.12 – Industrial & Environmental Chemistry',
+          ]
+        },
+        Mathematics:{icon:'📐',
+          11:[
+            'Ch.1 – Logic & Set Theory',
+            'Ch.2 – Real Numbers & Mathematical Induction',
+            'Ch.3 – Sequence & Series (AP, GP, HP)',
+            'Ch.4 – Complex Numbers',
+            'Ch.5 – Quadratic Equations',
+            'Ch.6 – Matrices & Determinants',
+            'Ch.7 – Trigonometry (Compound Angles, Multiple Angles)',
+            'Ch.8 – Inverse Trigonometric Functions',
+            'Ch.9 – Triangle Solutions (Sine, Cosine Rules)',
+            'Ch.10 – Coordinate Geometry – Straight Lines',
+            'Ch.11 – Coordinate Geometry – Circles',
+            'Ch.12 – Conic Sections (Parabola, Ellipse, Hyperbola)',
+            'Ch.13 – Vectors (2D)',
+            'Ch.14 – Statistics (Mean, Median, Mode, Dispersion)',
+            'Ch.15 – Limits & Continuity',
+            'Ch.16 – Derivatives (Rules of Differentiation)',
+          ],
+          12:[
+            'Ch.1 – Permutation & Combination',
+            'Ch.2 – Binomial Theorem',
+            'Ch.3 – Exponential & Logarithmic Series',
+            'Ch.4 – Trigonometric Equations',
+            'Ch.5 – 3D Geometry (Planes & Lines)',
+            'Ch.6 – Vectors (3D, Dot & Cross Product)',
+            'Ch.7 – Correlation & Regression',
+            'Ch.8 – Probability',
+            'Ch.9 – Continuity & Differentiability',
+            'Ch.10 – Applications of Derivatives (Rate, Maxima/Minima)',
+            'Ch.11 – Antiderivatives & Indefinite Integrals',
+            'Ch.12 – Definite Integrals & Area',
+            'Ch.13 – Ordinary Differential Equations',
+            'Ch.14 – Linear Programming',
+          ]
+        },
+        'Computer Science':{icon:'💻',
+          11:[
+            'Ch.1 – Introduction to Computer System',
+            'Ch.2 – Number Systems & Boolean Algebra',
+            'Ch.3 – Computer Software & Operating System',
+            'Ch.4 – Application Package (MS Office: Word, Excel, PowerPoint, Access)',
+            'Ch.5 – Programming Concepts & Flowchart',
+            'Ch.6 – C Programming (Input/Output, Variables, Data Types, Operators)',
+            'Ch.7 – C Programming – Control Structures (if, switch, loops)',
+            'Ch.8 – C Programming – Arrays & Strings',
+            'Ch.9 – C Programming – User-Defined Functions',
+            'Ch.10 – Computer Network & Internet',
+            'Ch.11 – Database Management System (DBMS)',
+            'Ch.12 – Multimedia',
+            'Ch.13 – Information Security & Cyber Law',
+          ],
+          12:[
+            'Ch.1 – C Programming – Structures & Pointers',
+            'Ch.2 – C Programming – File Handling',
+            'Ch.3 – Object-Oriented Programming (C++ Basics, Classes, Objects)',
+            'Ch.4 – Web Technology I – HTML & CSS',
+            'Ch.5 – Web Technology II – JavaScript Basics',
+            'Ch.6 – Software Development Process & SDLC',
+            'Ch.7 – Database (SQL – DDL, DML, Queries, Joins)',
+            'Ch.8 – Data Communication & Networking (OSI Model, TCP/IP)',
+            'Ch.9 – Encryption & Cyber Security',
+            'Ch.10 – Artificial Intelligence Concepts',
+            'Ch.11 – E-Commerce & Digital Payment',
+            'Ch.12 – Contemporary Trends (Cloud, IoT, Big Data)',
+          ]
+        }
+      }
+    }
+  },
+  management:{
+    gen:{
+      name:'Management Stream',
+      subjects:{
+        Economics:{icon:'📈',
+          11:[
+            'Ch.1 – Basic Concepts of Economics',
+            'Ch.2 – Demand Analysis',
+            'Ch.3 – Supply Analysis & Market Equilibrium',
+            'Ch.4 – Elasticity of Demand & Supply',
+            'Ch.5 – Consumer\'s Behaviour (Utility Analysis)',
+            'Ch.6 – Production Function & Laws of Returns',
+            'Ch.7 – Cost of Production',
+            'Ch.8 – Revenue Analysis & Market Structures (Perfect Competition)',
+            'Ch.9 – Monopoly & Monopolistic Competition',
+            'Ch.10 – National Income (GDP, GNP, NNP)',
+            'Ch.11 – Money & Banking (Commercial Banks)',
+            'Ch.12 – Population & Human Capital',
+          ],
+          12:[
+            'Ch.1 – Oligopoly & Price Determination',
+            'Ch.2 – Factor Market (Labour, Land, Capital)',
+            'Ch.3 – Government Finance & Fiscal Policy',
+            'Ch.4 – Monetary Policy & Central Banking (NRB)',
+            'Ch.5 – International Trade & Trade Policy',
+            'Ch.6 – Balance of Payments & Foreign Exchange',
+            'Ch.7 – Economic Growth & Development',
+            'Ch.8 – Nepal\'s Agriculture Sector',
+            'Ch.9 – Nepal\'s Industry & Hydropower Sector',
+            'Ch.10 – Nepal\'s Trade, Tourism & Remittance',
+            'Ch.11 – Foreign Aid, Investment & Poverty',
+            'Ch.12 – Economic Planning & SDGs in Nepal',
+          ]
+        },
+        Accountancy:{icon:'🧾',
+          11:[
+            'Ch.1 – Accounting Concepts, Principles & Standards',
+            'Ch.2 – Accounting Equation & Double Entry System',
+            'Ch.3 – Journal Entries',
+            'Ch.4 – Ledger Accounts',
+            'Ch.5 – Cash Book & Bank Book',
+            'Ch.6 – Subsidiary Books (Purchase, Sales, Returns)',
+            'Ch.7 – Trial Balance',
+            'Ch.8 – Capital & Revenue: Expenditure & Receipts',
+            'Ch.9 – Final Accounts (Trading, P&L, Balance Sheet)',
+            'Ch.10 – Depreciation Methods (SLM, WDV)',
+            'Ch.11 – Errors & Their Rectification',
+            'Ch.12 – Bank Reconciliation Statement',
+            'Ch.13 – Bills of Exchange',
+          ],
+          12:[
+            'Ch.1 – Partnership Accounts – Fundamentals',
+            'Ch.2 – Partnership – Goodwill Valuation',
+            'Ch.3 – Partnership – Admission of a Partner',
+            'Ch.4 – Partnership – Retirement & Death',
+            'Ch.5 – Partnership – Dissolution',
+            'Ch.6 – Accounts of Non-Trading Concerns',
+            'Ch.7 – Company Accounts – Issue of Shares',
+            'Ch.8 – Company Accounts – Issue of Debentures',
+            'Ch.9 – Cash Flow Statement',
+            'Ch.10 – Fund Flow Statement',
+            'Ch.11 – Ratio Analysis',
+            'Ch.12 – Computer Application in Accounting (Tally Concepts)',
+          ]
+        },
+        'Business Studies':{icon:'💼',
+          11:[
+            'Ch.1 – Introduction to Business',
+            'Ch.2 – Forms of Business Organisation',
+            'Ch.3 – Business Registration & Business Plan',
+            'Ch.4 – Entrepreneurship',
+            'Ch.5 – Management: Concept, Function & Levels',
+            'Ch.6 – Marketing Mix & Consumer Behaviour',
+            'Ch.7 – Finance & Financial Statement Basics',
+            'Ch.8 – Human Resource Management',
+            'Ch.9 – Business Communication',
+            'Ch.10 – Business Ethics & Social Responsibility',
+          ],
+          12:[
+            'Ch.1 – Business Environment (Micro & Macro)',
+            'Ch.2 – Cooperative Organisation',
+            'Ch.3 – Capital Market & Securities in Nepal',
+            'Ch.4 – Banking & Insurance in Nepal',
+            'Ch.5 – International Business & WTO',
+            'Ch.6 – E-Commerce',
+            'Ch.7 – Production Management & Quality Control',
+            'Ch.8 – Consumer Protection & Rights in Nepal',
+            'Ch.9 – Taxation & Auditing Basics',
+            'Ch.10 – Business Statistics & Decision Making',
+          ]
+        },
+        'Business Mathematics':{icon:'🔢',
+          11:[
+            'Ch.1 – Number System & Arithmetic (Profit, Loss, Discount)',
+            'Ch.2 – Percentage & Ratio Proportion',
+            'Ch.3 – Simple Interest & Compound Interest',
+            'Ch.4 – Set Theory & Venn Diagrams',
+            'Ch.5 – Matrices & Determinants',
+            'Ch.6 – Equation of Straight Line',
+            'Ch.7 – Linear Programming (Graphical Method)',
+            'Ch.8 – Statistics – Measures of Central Tendency',
+            'Ch.9 – Statistics – Measures of Dispersion',
+            'Ch.10 – Probability – Basics',
+          ],
+          12:[
+            'Ch.1 – Compound Interest & Annuity',
+            'Ch.2 – Population Growth & Depreciation',
+            'Ch.3 – Correlation Analysis',
+            'Ch.4 – Regression Analysis',
+            'Ch.5 – Index Numbers',
+            'Ch.6 – Time Series Analysis',
+            'Ch.7 – Probability Distributions (Binomial & Normal)',
+            'Ch.8 – Differential Calculus – Basics',
+            'Ch.9 – Applications of Derivatives in Business',
+            'Ch.10 – Integration – Basics & Business Applications',
+          ]
+        }
+      }
+    }
+  }
+};
+
+// ════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════
+let S={
+  cls:null,stream:null,group:null,subject:null,
+  chapters:[],mins:null,totalQ:null,
+  qs:[],ans:{},curQ:0,
+  timer:null,secsLeft:0,
+  done:false,hashes:new Set()
+};
+
+// ════════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════════
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function toast(msg,ms=3200){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid=setTimeout(()=>t.classList.remove('show'),ms);
+}
+function hq(q){let h=0;for(let c of q.toLowerCase().trim()){h=Math.imul(31,h)+c.charCodeAt(0)|0;}return h;}
+
+// ════════════════════════════════════════════
+// STEP PICKERS
+// ════════════════════════════════════════════
+function pick(step,val,el){
+  el.closest('.og').querySelectorAll('.oc').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  if(step==='cls'){S.cls=val;document.getElementById('cls-nx').disabled=false;}
+  if(step==='str'){S.stream=val;S.group=null;S.subject=null;document.getElementById('str-nx').disabled=false;}
+}
+
+function showGroup(){
+  const gc=document.getElementById('gcnt'); gc.innerHTML='';
+  S.group=null; S.subject=null;
+  document.getElementById('grp-nx').disabled=true;
+  if(S.stream==='science'){
+    document.getElementById('gdesc').textContent='Choose Bio or Physical group, then pick a subject.';
+    gc.innerHTML=`
+      <div class="og" id="gsel" style="margin-bottom:18px">
+        <div class="oc" onclick="pickGrp('bio',this)"><div class="oi">🧬</div><div class="ot">Bio Group</div><div class="os">Physics, Chemistry, Biology, Math</div><div class="cb">✓</div></div>
+        <div class="oc" onclick="pickGrp('physical',this)"><div class="oi">💻</div><div class="ot">Physical Group</div><div class="os">Physics, Chemistry, Math, Computer</div><div class="cb">✓</div></div>
+      </div>
+      <div id="ssel"></div>`;
+  } else {
+    document.getElementById('gdesc').textContent='Select a Management subject.';
+    S.group='gen';
+    renderSubs('gen',gc);
+  }
+  go('grp');
+}
+
+function pickGrp(g,el){
+  document.querySelectorAll('#gsel .oc').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel'); S.group=g; S.subject=null;
+  document.getElementById('grp-nx').disabled=true;
+  const ss=document.getElementById('ssel'); ss.innerHTML='';
+  renderSubs(g,ss);
+}
+
+function renderSubs(g,cont){
+  const data=S.stream==='science'?CUR.science:CUR.management;
+  const subs=data[g].subjects;
+  const div=document.createElement('div'); div.className='og';
+  for(const[nm,d] of Object.entries(subs)){
+    div.innerHTML+=`<div class="oc" onclick="pickSub('${nm}',this)">
+      <div class="oi">${d.icon}</div><div class="ot">${nm}</div>
+      <div class="os">Class ${S.cls} – NEB ${S.stream==='science'?'Science':'Management'}</div>
+      <div class="cb">✓</div>
+    </div>`;
+  }
+  cont.appendChild(div);
+}
+
+function pickSub(nm,el){
+  document.querySelectorAll('#gcnt .oc').forEach(c=>{if(!c.closest('#gsel'))c.classList.remove('sel');});
+  el.classList.add('sel'); S.subject=nm;
+  document.getElementById('grp-nx').disabled=false;
+}
+
+function showTopics(){
+  const data=S.stream==='science'?CUR.science:CUR.management;
+  const chs=data[S.group].subjects[S.subject][S.cls];
+  S.chapters=[]; S.mins=null; S.totalQ=null;
+  document.getElementById('tpc-nx').disabled=true;
+  document.querySelectorAll('.mc').forEach(c=>c.classList.remove('sel'));
+  const grid=document.getElementById('tgrid'); grid.innerHTML='';
+  chs.forEach(ch=>{
+    const chip=document.createElement('div'); chip.className='tc'; chip.textContent=ch;
+    chip.onclick=()=>{
+      chip.classList.toggle('sel');
+      if(chip.classList.contains('sel')) S.chapters.push(ch);
+      else S.chapters=S.chapters.filter(x=>x!==ch);
+      chkBtn();
+      document.getElementById('saBtn').textContent=S.chapters.length===chs.length?'Deselect All':'Select All Chapters';
+    };
+    grid.appendChild(chip);
+  });
+  document.getElementById('saBtn').textContent='Select All Chapters';
+  go('tpc');
+}
+function toggleAll(){
+  const chips=document.querySelectorAll('.tc');
+  const data=S.stream==='science'?CUR.science:CUR.management;
+  const chs=data[S.group].subjects[S.subject][S.cls];
+  if(S.chapters.length===chs.length){chips.forEach(c=>c.classList.remove('sel'));S.chapters=[];document.getElementById('saBtn').textContent='Select All Chapters';}
+  else{chips.forEach(c=>c.classList.add('sel'));S.chapters=[...chs];document.getElementById('saBtn').textContent='Deselect All';}
+  chkBtn();
+}
+function pickMode(m,q,el){
+  document.querySelectorAll('.mc').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel'); S.mins=m; S.totalQ=q; chkBtn();
+}
+function chkBtn(){
+  document.getElementById('tpc-nx').disabled=S.chapters.length===0||!S.mins;
+}
+
+// ════════════════════════════════════════════
+// QUIZ START
+// ════════════════════════════════════════════
+async function startQuiz(){
+  S.qs=[]; S.ans={}; S.curQ=0; S.done=false; S.hashes=new Set();
+  go('qs');
+  document.getElementById('qtitle').textContent=`${S.subject} – Class ${S.cls}`;
+  document.getElementById('qmeta').textContent=`${S.chapters.length} chapter(s)  •  ${S.totalQ} questions  •  ${S.mins} min`;
+  document.getElementById('qnav').style.display='none';
+  document.getElementById('qcontent').innerHTML=`
+    <div class="ldo">
+      <div class="spin"></div>
+      <div class="ltxt">Generating NEB Questions<span class="ldots"></span></div>
+      <div class="lsub">VISION-S AI is creating ${S.totalQ} unique questions strictly from your selected chapters. This may take 30–90 seconds for larger sets — please wait.</div>
+    </div>`;
+  await genAll();
+}
+
+async function geminiCall(prompt) {
+  // Use v1beta for better JSON support
+  const API_URL = GEMINI_URL.replace('/v1/', '/v1beta/'); 
+  
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      // THIS IS THE KEY: We force the AI to follow your JSON structure
+      generationConfig: {
+        temperature: 0.7,
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              ch: { type: "string" },
+              q: { type: "string" },
+              opts: { type: "array", items: { type: "string" } },
+              ans: { type: "integer" },
+              exp: { type: "string" }
+            },
+            required: ["ch", "q", "opts", "ans", "exp"]
+          }
+        }
+      }
+    })
+  });
+
+  if (!res.ok) {
+    const e = await res.json();
+    throw new Error(e.error?.message || `HTTP ${res.status}`);
+  }
+  const d = await res.json();
+  let raw = d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  
+  // Clean up any potential markdown fluff
+  return raw.replace(/```json|```/gi, '').trim();
+}
+
+async function genAll(){
+  const BATCH=15;
+  let tries=0;
+  while(S.qs.length<S.totalQ && tries<25){
+    const need=Math.min(BATCH,S.totalQ-S.qs.length);
+    const used=S.qs.slice(-25).map(q=>q.q.substring(0,65)).join(' | ');
+    const chList=S.chapters.join('\n- ');
+
+    const prompt=`You are an expert NEB (National Examinations Board) Nepal teacher for Class ${S.cls} ${S.subject}.
+
+Generate exactly ${need} UNIQUE multiple-choice questions (MCQs) from ONLY these chapters:
+- ${chList}
+
+STRICT RULES – never break these:
+1. Questions MUST come ONLY from the listed chapters. Zero exceptions.
+2. Follow NEB new curriculum (CDC 2079-2081). No old syllabus content.
+3. Each question: exactly 4 options labeled implicitly as index 0-3. Only 1 is correct.
+4. NEVER generate a question similar to any of these already used (avoid repeating concepts too): ${used||'none yet'}
+5. Spread difficulty: 30% easy, 45% medium, 25% hard.
+6. For Physics/Chemistry/Math numericals: include specific numbers, units, formulas.
+7. Distribute questions EVENLY across all listed chapters – don't focus on just one.
+8. Explanation must be educational (2-3 sentences), mentioning the exact concept name.
+9. All content must be factually accurate and exam-ready.
+
+Return ONLY a valid JSON array (no markdown, no extra text, no comments):
+[
+  {
+    "ch": "exact chapter name as listed",
+    "q": "question text",
+    "opts": ["option A text", "option B text", "option C text", "option D text"],
+    "ans": 0,
+    "exp": "clear explanation of why the answer is correct"
+  }
+]
+"ans" is the 0-based index of the correct option.`;
+
+    try{
+      const txt=await geminiCall(prompt);
+      const batch=JSON.parse(txt);
+      if(!Array.isArray(batch)) throw new Error('Not an array');
+      for(const item of batch){
+        if(!item.q||!item.opts||item.opts.length!==4||item.ans===undefined) continue;
+        const h=hq(item.q);
+        if(!S.hashes.has(h)&&S.qs.length<S.totalQ){
+          S.hashes.add(h); S.qs.push(item);
+        }
+      }
+    }catch(e){
+      if(S.qs.length===0){
+        document.getElementById('qcontent').innerHTML=`
+          <div class="ldo">
+            <div style="font-size:2rem;margin-bottom:14px">❌</div>
+            <div class="ltxt" style="color:var(--red)">Gemini API Error</div>
+            <div class="lsub">${e.message}<br><br>
+              Check your API key. Make sure it is a valid Google AI Studio key from<br>
+              <a href="https://aistudio.google.com" target="_blank" style="color:var(--blue)">aistudio.google.com</a><br><br>
+              Replace GEMINI_KEY in the code with your actual key.
+            </div>
+            <button class="bn" onclick="go('home')" style="margin-top:22px">← Home</button>
+          </div>`;
+        return;
+      }
+      break;
+    }
+    tries++;
+  }
+  if(S.qs.length===0) return;
+  startTimer(); buildDots(); renderQ();
+  document.getElementById('qnav').style.display='flex';
+  document.addEventListener('keydown',onKey);
+}
+
+// ════════════════════════════════════════════
+// TIMER
+// ════════════════════════════════════════════
+function startTimer(){
+  S.secsLeft=S.mins*60;
+  clearInterval(S.timer);
+  renderTimer();
+  S.timer=setInterval(()=>{
+    S.secsLeft--;
+    renderTimer();
+    if(S.secsLeft<=60) document.getElementById('tbdg').classList.add('urg');
+    if(S.secsLeft<=0){clearInterval(S.timer);toast('⏰ Time up! Auto-submitting…',4000);setTimeout(doSubmit,1800);}
+  },1000);
+}
+function renderTimer(){
+  const m=Math.floor(S.secsLeft/60).toString().padStart(2,'0');
+  const s=(S.secsLeft%60).toString().padStart(2,'0');
+  document.getElementById('tdsp').textContent=`${m}:${s}`;
+}
+
+// ════════════════════════════════════════════
+// KEYBOARD
+// ════════════════════════════════════════════
+function onKey(e){
+  if(S.done) return;
+  if(!document.getElementById('qs').classList.contains('active')) return;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();nextQ();}
+  else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();prevQ();}
+  else if(['1','2','3','4'].includes(e.key)){e.preventDefault();pickAns(parseInt(e.key)-1);}
+}
+
+// ════════════════════════════════════════════
+// NAV DOTS
+// ════════════════════════════════════════════
+function buildDots(){
+  const strip=document.getElementById('nstrip'); strip.innerHTML='';
+  S.qs.forEach((_,i)=>{
+    const d=document.createElement('div'); d.className='nd'; d.textContent=i+1; d.id=`d${i}`;
+    d.onclick=(()=>{const idx=i;return()=>jumpTo(idx);})();
+    strip.appendChild(d);
+  });
+  redrawDots();
+}
+function redrawDots(){
+  S.qs.forEach((_,i)=>{
+    const d=document.getElementById(`d${i}`); if(!d)return;
+    d.className='nd';
+    if(S.ans[i]!==undefined) d.classList.add('ans');
+    if(i===S.curQ) d.classList.add('cur');
+  });
+}
+
+// ════════════════════════════════════════════
+// RENDER QUESTION
+// ════════════════════════════════════════════
+function renderQ(){
+  const q=S.qs[S.curQ]; if(!q)return;
+  document.getElementById('qpf').style.width=(S.curQ/S.qs.length*100)+'%';
+  document.getElementById('qctxt').textContent=`Question ${S.curQ+1} of ${S.qs.length}`;
+  document.getElementById('qatxt').textContent=`Answered: ${Object.keys(S.ans).length}`;
+  const L=['A','B','C','D'];
+  const sel=S.ans[S.curQ];
+  document.getElementById('qcontent').innerHTML=`
+    <div class="qcard">
+      <div class="qtag">${q.ch}</div>
+      <div class="qnl">Q${S.curQ+1} of ${S.qs.length}</div>
+      <div class="qtxt">${q.q}</div>
+      <div class="qopts">
+        ${q.opts.map((o,i)=>`
+          <div class="qopt${sel===i?' picked':''}" onclick="pickAns(${i})" id="opt${i}">
+            <div class="ol">${L[i]}</div><span>${o}</span>
+          </div>`).join('')}
+      </div>
+      <div class="qhint">Press 1–4 to pick • ← → to navigate • Change answer any time before Submit</div>
+    </div>`;
+  document.getElementById('pbtn').disabled=S.curQ===0;
+  document.getElementById('nbtn').disabled=S.curQ>=S.qs.length-1;
+  redrawDots();
+}
+
+function pickAns(i){
+  if(S.done) return;
+  S.ans[S.curQ]=i;
+  document.querySelectorAll('.qopt').forEach((o,j)=>{
+    o.classList.toggle('picked',j===i);
+    o.querySelector('.ol').style.background=j===i?'var(--gold)':'';
+    o.querySelector('.ol').style.color=j===i?'#000':'';
+  });
+  document.getElementById('qatxt').textContent=`Answered: ${Object.keys(S.ans).length}`;
+  redrawDots();
+}
+function nextQ(){if(S.curQ<S.qs.length-1){S.curQ++;renderQ();window.scrollTo(0,0);}}
+function prevQ(){if(S.curQ>0){S.curQ--;renderQ();window.scrollTo(0,0);}}
+function jumpTo(i){S.curQ=i;renderQ();window.scrollTo(0,0);}
+
+// ════════════════════════════════════════════
+// SUBMIT
+// ════════════════════════════════════════════
+function openMod(){
+  const a=Object.keys(S.ans).length, u=S.qs.length-a;
+  document.getElementById('mmsg').textContent=u>0
+    ?`You still have ${u} unanswered question(s). You can go back and answer them. Submit anyway?`
+    :`All ${a} questions answered. Ready to see your results?`;
+  document.getElementById('smodal').classList.add('show');
+}
+function closeMod(){document.getElementById('smodal').classList.remove('show');}
+function doSubmit(){
+  closeMod();
+  clearInterval(S.timer);
+  document.removeEventListener('keydown',onKey);
+  S.done=true;
+  buildResults();
+  go('rs');
+}
+
+// ════════════════════════════════════════════
+// RESULTS
+// ════════════════════════════════════════════
+function buildResults(){
+  const qs=S.qs;
+  let cor=0,wrg=0,skp=0;
+  const cmap={};
+  qs.forEach((q,i)=>{
+    const ua=S.ans[i];
+    if(!cmap[q.ch]) cmap[q.ch]={c:0,t:0};
+    cmap[q.ch].t++;
+    if(ua===undefined)skp++;
+    else if(ua===q.ans){cor++;cmap[q.ch].c++;}
+    else wrg++;
+  });
+  const pct=Math.round((cor/qs.length)*100);
+  const used=S.mins*60-S.secsLeft;
+  const mm=Math.floor(used/60),ss=used%60;
+  let grade,gc,gmsg;
+  if(pct>=90){grade='A+';gc='#f5c842';gmsg='Outstanding! NEB Distinction level.';}
+  else if(pct>=80){grade='A';gc='#22c55e';gmsg='Excellent performance!';}
+  else if(pct>=65){grade='B+';gc='#4f8ef7';gmsg='Good job! A bit more practice and you\'re there.';}
+  else if(pct>=50){grade='B';gc='#a78bfa';gmsg='You passed! Review your weak chapters.';}
+  else if(pct>=40){grade='C';gc='#f97316';gmsg='Keep practicing. Focus on core concepts.';}
+  else{grade='D';gc='#ff4d6d';gmsg='More revision needed. Don\'t give up!';}
+
+  // Ring
+  const circ=2*Math.PI*82;
+  const fl=document.getElementById('rfl');
+  fl.style.stroke=gc;
+  setTimeout(()=>{fl.style.strokeDashoffset=circ*(1-pct/100);},120);
+  document.getElementById('rpct').textContent=pct+'%';
+  document.getElementById('rpct').style.color=gc;
+  document.getElementById('rgb').textContent=`GRADE ${grade}`;
+  document.getElementById('rgm').textContent=`Grade: ${grade}`;
+  document.getElementById('rgm').style.color=gc;
+  document.getElementById('rmsg').textContent=gmsg;
+  document.getElementById('rsumt').textContent=`${S.subject} – Class ${S.cls}  •  ${qs.length} Questions  •  ${S.mins} Min`;
+
+  document.getElementById('rcards').innerHTML=`
+    <div class="rcard"><div class="rcn" style="color:var(--green)">${cor}</div><div class="rcl">✓ Correct</div></div>
+    <div class="rcard"><div class="rcn" style="color:var(--red)">${wrg}</div><div class="rcl">✗ Wrong</div></div>
+    <div class="rcard"><div class="rcn" style="color:var(--blue)">${skp}</div><div class="rcl">— Skipped</div></div>
+    <div class="rcard"><div class="rcn" style="color:var(--gold)">${pct}%</div><div class="rcl">Score %</div></div>
+    <div class="rcard"><div class="rcn" style="color:var(--org)">${mm}m ${ss}s</div><div class="rcl">Time Used</div></div>
+    <div class="rcard"><div class="rcn" style="color:var(--pur)">${S.chapters.length}</div><div class="rcl">Chapters</div></div>`;
+
+  // Chapter bars
+  const bars=document.getElementById('tbars'); bars.innerHTML='';
+  for(const[ch,d] of Object.entries(cmap)){
+    const p=Math.round((d.c/d.t)*100);
+    const col=p>=70?'var(--green)':p>=40?'var(--org)':'var(--red)';
+    bars.innerHTML+=`<div class="tbar">
+      <div class="tbr"><span class="tbn">${ch}</span><span class="tbs">${d.c}/${d.t} (${p}%)</span></div>
+      <div class="tbk"><div class="tbf" style="width:0%;background:${col}" data-p="${p}"></div></div>
+    </div>`;
+  }
+  setTimeout(()=>document.querySelectorAll('.tbf').forEach(b=>{b.style.width=b.dataset.p+'%';}),160);
+  buildAnalysis('all');
+}
+
+function buildAnalysis(f){
+  const list=document.getElementById('alist'); list.innerHTML='';
+  const L=['A','B','C','D'];
+  S.qs.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const st=ua===undefined?'s':ua===q.ans?'c':'w';
+    if(f!=='all'&&st!==f)return;
+    const icons={c:'✓',w:'✗',s:'—'};
+    let yatxt;
+    if(st==='c') yatxt=`<span class="cl">Correct ✓ — ${L[q.ans]}. ${q.opts[q.ans]}</span>`;
+    else if(st==='w') yatxt=`<span class="wl">Wrong ✗</span> — You chose <strong>${L[ua]}. ${q.opts[ua]}</strong>. Correct: <span class="cl">${L[q.ans]}. ${q.opts[q.ans]}</span>`;
+    else yatxt=`<span class="sl">Not Answered</span> — Correct: <span class="cl">${L[q.ans]}. ${q.opts[q.ans]}</span>`;
+    const card=document.createElement('div'); card.className='ac_';
+    card.innerHTML=`
+      <div class="ach" onclick="this.closest('.ac_').classList.toggle('open')">
+        <div class="aic ${st}">${icons[st]}</div>
+        <div class="aqn">Q${i+1}</div>
+        <div class="apv">${q.q}</div>
+        <div class="atpl">${q.ch}</div>
+        <div class="aarr">▼</div>
+      </div>
+      <div class="acb">
+        <div class="afq">${q.q}</div>
+        <div class="ayan">${yatxt}</div>
+        <div class="aopts">
+          ${q.opts.map((o,j)=>{
+            let cls='';
+            if(j===q.ans)cls='co';
+            else if(j===ua&&ua!==q.ans)cls='wo';
+            return `<div class="ao ${cls}"><div class="aol">${L[j]}</div><span>${o}${j===q.ans?' <strong>✓ Correct Answer</strong>':''}</span></div>`;
+          }).join('')}
+        </div>
+        <div class="aex">💡 ${q.exp}</div>
+      </div>`;
+    list.appendChild(card);
+  });
+  if(!list.innerHTML) list.innerHTML=`<div style="text-align:center;color:var(--mut);padding:40px;font-size:.88rem">No questions in this category.</div>`;
+}
+function filterA(f,el){
+  document.querySelectorAll('.ft').forEach(t=>t.classList.remove('act'));
+  el.classList.add('act'); buildAnalysis(f);
+}
+
+// ════════════════════════════════════════════
+// RESTART
+// ════════════════════════════════════════════
+function restart(){
+  clearInterval(S.timer); document.removeEventListener('keydown',onKey);
+  S={cls:null,stream:null,group:null,subject:null,chapters:[],mins:null,totalQ:null,
+    qs:[],ans:{},curQ:0,timer:null,secsLeft:0,done:false,hashes:new Set()};
+  go('home');
+}
+function retake(){
+  clearInterval(S.timer); document.removeEventListener('keydown',onKey);
+  S.qs=[]; S.ans={}; S.curQ=0; S.done=false; S.hashes=new Set();
+  startQuiz();
+}
+</script>
+</body>
+</html>

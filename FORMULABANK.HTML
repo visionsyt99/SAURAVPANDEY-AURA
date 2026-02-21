@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Formula Bank — AURA V.2</title>
+<meta name="description" content="500+ Physics, Chemistry & Mathematics formulas for Nepal's +2 Science curriculum. Searchable, bookmarkable, always free."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════
+   VARIABLES
+═══════════════════════════════════ */
+:root{
+  --bg:#080b12; --bg2:#0d1117; --bg3:#111827;
+  --card:rgba(255,255,255,.04); --card-h:rgba(255,255,255,.07);
+  --surf:rgba(255,255,255,.05); --border:rgba(255,255,255,.08);
+  --text:#f0f4ff; --text2:rgba(240,244,255,.55); --text3:rgba(240,244,255,.28);
+  --cyan:#00e5ff; --violet:#7c3aed; --blue:#3b82f6;
+  --pink:#f472b6; --green:#10b981; --gold:#f59e0b; --orange:#f97316;
+  --glow-c:0 0 28px rgba(0,229,255,.3);
+  --fd:'Syne',sans-serif; --fb:'DM Sans',sans-serif; --fm:'JetBrains Mono',monospace;
+  --r:14px; --rx:24px; --tr:.5s cubic-bezier(.4,0,.2,1);
+}
+[data-theme=light]{
+  --bg:#f4f6fb; --bg2:#eef0f7; --bg3:#e8eaf2;
+  --card:rgba(255,255,255,.8); --card-h:rgba(255,255,255,.95);
+  --surf:rgba(0,0,0,.04); --border:rgba(0,0,0,.09);
+  --text:#0d1117; --text2:rgba(13,17,23,.6); --text3:rgba(13,17,23,.3);
+  --cyan:#0077cc; --violet:#6d28d9; --blue:#2563eb;
+  --pink:#db2777; --green:#059669; --gold:#d97706; --orange:#ea580c;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;transition:background var(--tr),color var(--tr)}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--fb);cursor:pointer;border:none;background:none}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--cyan),var(--violet));border-radius:99px}
+::selection{background:rgba(0,229,255,.2)}
+
+/* noise */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px}
+
+/* cursor */
+#cur{position:fixed;width:18px;height:18px;border-radius:50%;background:rgba(0,229,255,.5);
+  pointer-events:none;z-index:9999;transform:translate(-50%,-50%);filter:blur(5px);
+  mix-blend-mode:screen;transition:width .2s,height .2s}
+#cur.big{width:50px;height:50px;opacity:.35}
+[data-theme=light] #cur{mix-blend-mode:multiply;background:rgba(0,100,200,.25)}
+
+/* ═══════════════════════════════════
+   NAV
+═══════════════════════════════════ */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:64px;display:flex;
+  align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,2.5rem);
+  background:rgba(8,11,18,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);
+  transition:background var(--tr)}
+[data-theme=light] nav{background:rgba(244,246,251,.82)}
+.nlogo{display:flex;align-items:center;gap:8px;font-family:var(--fd);font-weight:800;font-size:1.05rem}
+.nlogo-icon{width:28px;height:28px;border-radius:7px;
+  background:linear-gradient(135deg,var(--cyan),var(--violet));
+  display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:var(--glow-c)}
+.nbadge{font-family:var(--fm);font-size:.56rem;color:var(--cyan);
+  background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);padding:2px 6px;border-radius:4px}
+.nright{display:flex;align-items:center;gap:.6rem}
+.nlinks{display:flex;gap:1.5rem;list-style:none}
+.nlinks a{font-size:.85rem;font-weight:500;color:var(--text2);transition:color .2s}
+.nlinks a:hover,.nlinks a.active{color:var(--cyan)}
+.tbtn{width:46px;height:24px;border-radius:99px;background:var(--surf);
+  border:1px solid var(--border);position:relative;cursor:pointer;transition:all .4s}
+.tbtn::before{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;
+  border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--violet));
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--glow-c)}
+[data-theme=light] .tbtn::before{transform:translateX(22px)}
+.ncta{font-family:var(--fd);font-weight:700;font-size:.75rem;letter-spacing:.04em;
+  text-transform:uppercase;padding:7px 16px;border-radius:var(--r);
+  background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;
+  box-shadow:0 0 16px rgba(0,229,255,.25);transition:all .2s}
+.ncta:hover{transform:translateY(-1px);box-shadow:0 0 28px rgba(0,229,255,.45)}
+
+/* ═══════════════════════════════════
+   HERO BANNER
+═══════════════════════════════════ */
+#hero{padding:100px clamp(1.5rem,5vw,3rem) 60px;text-align:center;position:relative;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(0,229,255,.08),transparent 70%),
+    radial-gradient(ellipse 40% 30% at 80% 30%,rgba(124,58,237,.07),transparent 60%),var(--bg);
+  transition:background var(--tr);overflow:hidden}
+.hero-grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(0,229,255,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,229,255,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 80%)}
+[data-theme=light] .hero-grid{background-image:linear-gradient(rgba(0,100,200,.05) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(0,100,200,.05) 1px,transparent 1px)}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--fm);
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);
+  background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.18);
+  padding:6px 14px;border-radius:99px;margin-bottom:1.4rem}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);
+  box-shadow:0 0 8px var(--cyan);animation:pdot 2s ease infinite}
+@keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+.hero-title{font-family:var(--fd);font-weight:800;font-size:clamp(2.4rem,6vw,4.2rem);
+  letter-spacing:-.02em;line-height:1.06;margin-bottom:1rem}
+.gt{background:linear-gradient(135deg,var(--cyan) 0%,#a78bfa 50%,var(--blue) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  background-size:200%;animation:gs 4s ease infinite}
+@keyframes gs{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.hero-sub{font-size:1.05rem;color:var(--text2);max-width:500px;margin:0 auto 2rem;
+  font-weight:300;line-height:1.7}
+.hero-stats{display:flex;align-items:center;justify-content:center;gap:2.5rem;
+  flex-wrap:wrap;padding-top:2rem;border-top:1px solid var(--border);margin-top:1.5rem}
+.hstat-val{font-family:var(--fd);font-weight:800;font-size:1.8rem;
+  background:linear-gradient(135deg,var(--cyan),var(--violet));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hstat-lbl{font-family:var(--fm);font-size:.62rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text3)}
+
+/* ═══════════════════════════════════
+   MAIN LAYOUT
+═══════════════════════════════════ */
+#main{display:grid;grid-template-columns:260px 1fr;gap:0;min-height:calc(100vh - 64px);
+  position:relative;z-index:1}
+
+/* SIDEBAR */
+#sidebar{position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto;
+  background:var(--bg2);border-right:1px solid var(--border);
+  padding:1.5rem 1rem;transition:background var(--tr),border-color var(--tr)}
+#sidebar::-webkit-scrollbar{width:3px}
+.sb-section{margin-bottom:1.5rem}
+.sb-title{font-family:var(--fm);font-size:.62rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--text3);padding:0 .5rem;margin-bottom:.6rem}
+.sb-item{display:flex;align-items:center;justify-content:space-between;
+  padding:.55rem .75rem;border-radius:var(--r);cursor:pointer;
+  font-size:.88rem;color:var(--text2);transition:all .2s;border:1px solid transparent}
+.sb-item:hover{background:var(--surf);color:var(--text)}
+.sb-item.active{background:rgba(0,229,255,.08);border-color:rgba(0,229,255,.2);
+  color:var(--cyan)}
+.sb-item-icon{font-size:1rem;margin-right:.5rem}
+.sb-count{font-family:var(--fm);font-size:.6rem;
+  background:var(--surf);border:1px solid var(--border);
+  color:var(--text3);padding:2px 7px;border-radius:99px}
+.sb-item.active .sb-count{background:rgba(0,229,255,.1);
+  border-color:rgba(0,229,255,.2);color:var(--cyan)}
+.sb-divider{height:1px;background:var(--border);margin:.75rem 0}
+
+/* CONTENT AREA */
+#content{padding:2rem clamp(1rem,3vw,2.5rem) 4rem;overflow-y:auto;background:var(--bg)}
+
+/* Search bar */
+.search-wrap{position:relative;margin-bottom:1.5rem}
+.search-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);
+  font-size:1.1rem;pointer-events:none;color:var(--text3)}
+#searchInput{width:100%;padding:.85rem 1rem .85rem 3rem;
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--rx);
+  color:var(--text);font-family:var(--fd);font-size:.95rem;
+  transition:all .3s;outline:none}
+#searchInput::placeholder{color:var(--text3)}
+#searchInput:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,229,255,.1)}
+.search-kbd{position:absolute;right:1rem;top:50%;transform:translateY(-50%);
+  font-family:var(--fm);font-size:.6rem;color:var(--text3);
+  background:var(--surf);border:1px solid var(--border);
+  padding:3px 8px;border-radius:5px}
+
+/* Toolbar */
+.toolbar{display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem}
+.toolbar-left{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.chip{font-family:var(--fm);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:5px 12px;border-radius:99px;border:1px solid var(--border);
+  color:var(--text2);background:var(--surf);cursor:pointer;transition:all .2s}
+.chip:hover{border-color:var(--cyan);color:var(--cyan)}
+.chip.on{background:linear-gradient(135deg,var(--cyan),var(--violet));
+  border-color:transparent;color:#fff}
+.result-count{font-family:var(--fm);font-size:.72rem;color:var(--text3)}
+.result-count span{color:var(--cyan)}
+
+/* Chapter heading */
+.chapter-heading{display:flex;align-items:center;gap:.75rem;
+  margin:2rem 0 1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+.ch-icon{width:36px;height:36px;border-radius:var(--r);
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.ch-label{font-family:var(--fd);font-weight:700;font-size:1.05rem}
+.ch-count{font-family:var(--fm);font-size:.65rem;color:var(--text3);
+  background:var(--surf);border:1px solid var(--border);
+  padding:3px 10px;border-radius:99px;margin-left:auto}
+
+/* Formula grid */
+.formula-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-bottom:2rem}
+
+/* Formula card */
+.fcard{background:var(--card);border:1px solid var(--border);border-radius:var(--rx);
+  padding:1.25rem;position:relative;overflow:hidden;cursor:pointer;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s,border-color .3s}
+.fcard::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),var(--fg,rgba(0,229,255,.08)),transparent 60%);
+  opacity:0;transition:opacity .35s;pointer-events:none}
+.fcard:hover::before{opacity:1}
+.fcard:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 16px 40px rgba(0,0,0,.2);
+  border-color:rgba(255,255,255,.12)}
+.fcard-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.9rem}
+.fcard-subject{font-family:var(--fm);font-size:.58rem;letter-spacing:.1em;
+  text-transform:uppercase;padding:3px 8px;border-radius:4px;color:var(--fs,var(--cyan));
+  background:var(--fsb,rgba(0,229,255,.08));border:1px solid var(--fsbd,rgba(0,229,255,.18))}
+.fcard-actions{display:flex;gap:.35rem}
+.fcard-btn{width:28px;height:28px;border-radius:7px;
+  background:var(--surf);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;color:var(--text2);cursor:pointer;
+  transition:all .2s;position:relative;z-index:1}
+.fcard-btn:hover{border-color:var(--cyan);color:var(--cyan);
+  background:rgba(0,229,255,.08)}
+.fcard-btn.bookmarked{border-color:var(--gold);color:var(--gold);
+  background:rgba(245,158,11,.1)}
+.fcard-name{font-family:var(--fd);font-weight:700;font-size:.95rem;
+  margin-bottom:.6rem;line-height:1.3}
+.fcard-formula{font-family:var(--fm);font-size:1.1rem;
+  color:var(--fc,var(--cyan));
+  background:var(--fsb2,rgba(0,229,255,.06));
+  border:1px solid var(--fsbd,rgba(0,229,255,.15));
+  padding:.6rem .9rem;border-radius:var(--r);margin-bottom:.75rem;
+  letter-spacing:.04em;word-break:break-all;line-height:1.5}
+.fcard-desc{font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:.75rem}
+.fcard-vars{display:flex;flex-wrap:wrap;gap:.3rem}
+.fvar{font-family:var(--fm);font-size:.58rem;color:var(--text3);
+  background:var(--surf);border:1px solid var(--border);
+  padding:2px 7px;border-radius:4px}
+
+/* copy toast */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);
+  background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;
+  font-family:var(--fm);font-size:.78rem;letter-spacing:.06em;
+  padding:.7rem 1.5rem;border-radius:99px;box-shadow:0 8px 30px rgba(0,229,255,.3);
+  z-index:9000;opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .3s;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* empty state */
+.empty{text-align:center;padding:5rem 2rem;color:var(--text3)}
+.empty-icon{font-size:3rem;margin-bottom:1rem;opacity:.4}
+.empty-title{font-family:var(--fd);font-weight:700;font-size:1.1rem;
+  color:var(--text2);margin-bottom:.5rem}
+.empty-sub{font-size:.88rem}
+
+/* bookmarks panel */
+#bm-panel{position:fixed;top:64px;right:0;bottom:0;width:320px;
+  background:var(--bg2);border-left:1px solid var(--border);
+  transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);
+  z-index:800;display:flex;flex-direction:column;overflow:hidden}
+#bm-panel.open{transform:translateX(0)}
+.bm-header{padding:1.25rem 1.25rem .75rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between}
+.bm-title{font-family:var(--fd);font-weight:700;font-size:1rem}
+.bm-close{width:30px;height:30px;border-radius:8px;background:var(--surf);
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--text2);font-size:1.1rem;transition:all .2s}
+.bm-close:hover{border-color:var(--pink);color:var(--pink)}
+.bm-list{flex:1;overflow-y:auto;padding:1rem}
+.bm-item{background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:.9rem;margin-bottom:.6rem;position:relative}
+.bm-item-formula{font-family:var(--fm);font-size:.85rem;color:var(--cyan);
+  margin-bottom:.3rem}
+.bm-item-name{font-size:.8rem;color:var(--text2)}
+.bm-remove{position:absolute;top:.6rem;right:.6rem;
+  width:22px;height:22px;border-radius:5px;
+  background:none;border:none;cursor:pointer;color:var(--text3);
+  font-size:.8rem;transition:color .2s}
+.bm-remove:hover{color:var(--pink)}
+.bm-empty{text-align:center;padding:3rem 1rem;color:var(--text3)}
+.bm-empty-icon{font-size:2rem;margin-bottom:.75rem;opacity:.4}
+.bm-count{font-family:var(--fm);font-size:.68rem;color:var(--cyan);
+  background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);
+  padding:2px 8px;border-radius:99px}
+
+/* bookmark overlay */
+#bm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);
+  z-index:799;opacity:0;pointer-events:none;transition:opacity .4s}
+#bm-overlay.open{opacity:1;pointer-events:all}
+
+/* progress bar top */
+#prog-bar{position:fixed;top:64px;left:0;right:0;height:2px;z-index:990;
+  background:linear-gradient(90deg,var(--cyan),var(--violet));
+  transform-origin:left;transform:scaleX(0);transition:transform .1s linear}
+
+@media(max-width:768px){
+  #main{grid-template-columns:1fr}
+  #sidebar{display:none}
+  .nlinks{display:none}
+}
+@media(max-width:500px){
+  .formula-grid{grid-template-columns:1fr}
+  #bm-panel{width:100%}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="prog-bar"></div>
+
+<!-- BOOKMARK PANEL -->
+<div id="bm-overlay" onclick="toggleBookmarks()"></div>
+<div id="bm-panel">
+  <div class="bm-header">
+    <div class="bm-title">📌 Bookmarks <span class="bm-count" id="bm-count">0</span></div>
+    <button class="bm-close" onclick="toggleBookmarks()">✕</button>
+  </div>
+  <div class="bm-list" id="bm-list">
+    <div class="bm-empty">
+      <div class="bm-empty-icon">🔖</div>
+      <div style="font-size:.85rem;color:var(--text2);font-weight:500">No bookmarks yet</div>
+      <div style="font-size:.75rem;margin-top:.3rem">Click ★ on any formula to save it</div>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <a href="index.html" class="nlogo">
+    <div class="nlogo-icon">⚡</div>
+    <span>AURA</span>
+    <span class="nbadge">V.2</span>
+  </a>
+  <ul class="nlinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="formula-bank.html" class="active">Formulas</a></li>
+    <li><a href="ABOUT.HTML">About</a></li>
+  </ul>
+  <div class="nright">
+    <button class="tbtn" id="tbtn"></button>
+    <button onclick="toggleBookmarks()" style="background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:7px 14px;color:var(--text2);font-size:.8rem;display:flex;align-items:center;gap:6px;transition:all .2s" onmouseenter="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseleave="this.style.borderColor='';this.style.color=''">
+      🔖 <span id="nav-bm-count" style="font-family:var(--fm);font-size:.65rem">0</span>
+    </button>
+    <a href="index.html#subjects" class="ncta">Start Revising</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-tag"><div class="hero-dot"></div>Formula Bank</div>
+  <h1 class="hero-title">Every formula you need<br>for <span class="gt">+2 Science</span></h1>
+  <p class="hero-sub">Physics, Chemistry & Mathematics — all in one place. Searchable, bookmarkable, free forever.</p>
+  <div class="hero-stats">
+    <div><div class="hstat-val" id="c-phys">168</div><div class="hstat-lbl">Physics</div></div>
+    <div><div class="hstat-val" id="c-chem">145</div><div class="hstat-lbl">Chemistry</div></div>
+    <div><div class="hstat-val" id="c-math">187</div><div class="hstat-lbl">Mathematics</div></div>
+    <div><div class="hstat-val">500+</div><div class="hstat-lbl">Total Formulas</div></div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<div id="main">
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="sb-section">
+      <div class="sb-title">Subject</div>
+      <div class="sb-item active" data-filter="all" onclick="setFilter(this,'all')">
+        <span><span class="sb-item-icon">🔬</span>All Subjects</span>
+        <span class="sb-count">500+</span>
+      </div>
+      <div class="sb-item" data-filter="physics" onclick="setFilter(this,'physics')">
+        <span><span class="sb-item-icon">⚡</span>Physics</span>
+        <span class="sb-count">168</span>
+      </div>
+      <div class="sb-item" data-filter="chemistry" onclick="setFilter(this,'chemistry')">
+        <span><span class="sb-item-icon">🧬</span>Chemistry</span>
+        <span class="sb-count">145</span>
+      </div>
+      <div class="sb-item" data-filter="math" onclick="setFilter(this,'math')">
+        <span><span class="sb-item-icon">📐</span>Mathematics</span>
+        <span class="sb-count">187</span>
+      </div>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">
+      <div class="sb-title">Physics Chapters</div>
+      <div class="sb-item" data-filter="mechanics" onclick="setFilter(this,'mechanics')">
+        <span>Mechanics</span><span class="sb-count">38</span>
+      </div>
+      <div class="sb-item" data-filter="waves" onclick="setFilter(this,'waves')">
+        <span>Waves & Sound</span><span class="sb-count">22</span>
+      </div>
+      <div class="sb-item" data-filter="optics" onclick="setFilter(this,'optics')">
+        <span>Optics</span><span class="sb-count">18</span>
+      </div>
+      <div class="sb-item" data-filter="electricity" onclick="setFilter(this,'electricity')">
+        <span>Electricity</span><span class="sb-count">30</span>
+      </div>
+      <div class="sb-item" data-filter="modern" onclick="setFilter(this,'modern')">
+        <span>Modern Physics</span><span class="sb-count">24</span>
+      </div>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">
+      <div class="sb-title">Math Chapters</div>
+      <div class="sb-item" data-filter="calculus" onclick="setFilter(this,'calculus')">
+        <span>Calculus</span><span class="sb-count">42</span>
+      </div>
+      <div class="sb-item" data-filter="algebra" onclick="setFilter(this,'algebra')">
+        <span>Algebra</span><span class="sb-count">35</span>
+      </div>
+      <div class="sb-item" data-filter="trigonometry" onclick="setFilter(this,'trigonometry')">
+        <span>Trigonometry</span><span class="sb-count">28</span>
+      </div>
+      <div class="sb-item" data-filter="coordinate" onclick="setFilter(this,'coordinate')">
+        <span>Coordinate Geo.</span><span class="sb-count">22</span>
+      </div>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">
+      <div class="sb-title">Chemistry Chapters</div>
+      <div class="sb-item" data-filter="physical" onclick="setFilter(this,'physical')">
+        <span>Physical Chem.</span><span class="sb-count">40</span>
+      </div>
+      <div class="sb-item" data-filter="organic" onclick="setFilter(this,'organic')">
+        <span>Organic Chem.</span><span class="sb-count">38</span>
+      </div>
+      <div class="sb-item" data-filter="inorganic" onclick="setFilter(this,'inorganic')">
+        <span>Inorganic Chem.</span><span class="sb-count">32</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main id="content">
+    <div class="search-wrap">
+      <div class="search-icon">🔍</div>
+      <input type="text" id="searchInput" placeholder="Search formulas, variables, chapters..." autocomplete="off"/>
+      <div class="search-kbd">⌘K</div>
+    </div>
+
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <button class="chip on" data-diff="all" onclick="setDiff(this,'all')">All Levels</button>
+        <button class="chip" data-diff="basic" onclick="setDiff(this,'basic')">Basic</button>
+        <button class="chip" data-diff="advanced" onclick="setDiff(this,'advanced')">Advanced</button>
+      </div>
+      <div class="result-count">Showing <span id="visible-count">0</span> formulas</div>
+    </div>
+
+    <div id="formula-output"></div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════
+// DATA
+// ══════════════════════════════════════
+const FORMULAS = [
+  // ── PHYSICS: MECHANICS ──
+  {id:1,name:"Newton's Second Law",formula:"F = ma",desc:"Net force equals mass times acceleration. The foundation of classical mechanics.",vars:["F = Force (N)","m = Mass (kg)","a = Acceleration (m/s²)"],subject:"physics",chapter:"mechanics",diff:"basic",color:"cyan"},
+  {id:2,name:"Kinematic Equation I",formula:"v = u + at",desc:"Final velocity from initial velocity, acceleration, and time.",vars:["v = Final velocity","u = Initial velocity","a = Acceleration","t = Time (s)"],subject:"physics",chapter:"mechanics",diff:"basic",color:"cyan"},
+  {id:3,name:"Kinematic Equation II",formula:"s = ut + ½at²",desc:"Displacement under uniform acceleration from rest or initial velocity.",vars:["s = Displacement (m)","u = Initial velocity","a = Acceleration","t = Time (s)"],subject:"physics",chapter:"mechanics",diff:"basic",color:"cyan"},
+  {id:4,name:"Kinematic Equation III",formula:"v² = u² + 2as",desc:"Relates final velocity to initial velocity, acceleration, and displacement.",vars:["v = Final velocity","u = Initial velocity","a = Acceleration","s = Displacement"],subject:"physics",chapter:"mechanics",diff:"basic",color:"cyan"},
+  {id:5,name:"Gravitational Potential Energy",formula:"PE = mgh",desc:"Energy stored in an object due to its position in a gravitational field.",vars:["m = Mass (kg)","g = 9.8 m/s²","h = Height (m)"],subject:"physics",chapter:"mechanics",diff:"basic",color:"cyan"},
+  {id:6,name:"Kinetic Energy",formula:"KE = ½mv²",desc:"Energy possessed by an object due to its motion.",vars:["m = Mass (kg)","v = Velocity (m/s)"],subject:"physics",chapter:"mechanics",diff:"basic",color:"cyan"},
+  {id:7,name:"Centripetal Acceleration",formula:"a = v²/r",desc:"Acceleration directed toward the center of a circular path.",vars:["v = Speed (m/s)","r = Radius (m)"],subject:"physics",chapter:"mechanics",diff:"basic",color:"cyan"},
+  {id:8,name:"Work Done",formula:"W = Fs·cosθ",desc:"Work is force times displacement times cosine of the angle between them.",vars:["F = Force (N)","s = Displacement (m)","θ = Angle"],subject:"physics",chapter:"mechanics",diff:"basic",color:"cyan"},
+  {id:9,name:"Torque",formula:"τ = r × F·sinθ",desc:"Rotational equivalent of force — tendency to cause rotation.",vars:["r = Lever arm (m)","F = Force (N)","θ = Angle between r and F"],subject:"physics",chapter:"mechanics",diff:"advanced",color:"cyan"},
+  {id:10,name:"Moment of Inertia (Rod)",formula:"I = ML²/12",desc:"Rotational inertia of a uniform rod about its center.",vars:["M = Mass (kg)","L = Length (m)"],subject:"physics",chapter:"mechanics",diff:"advanced",color:"cyan"},
+
+  // ── PHYSICS: WAVES ──
+  {id:11,name:"Wave Speed",formula:"v = fλ",desc:"Wave speed equals frequency multiplied by wavelength.",vars:["v = Wave speed (m/s)","f = Frequency (Hz)","λ = Wavelength (m)"],subject:"physics",chapter:"waves",diff:"basic",color:"cyan"},
+  {id:12,name:"Time Period & Frequency",formula:"T = 1/f",desc:"Period is the reciprocal of frequency.",vars:["T = Period (s)","f = Frequency (Hz)"],subject:"physics",chapter:"waves",diff:"basic",color:"cyan"},
+  {id:13,name:"Doppler Effect (source moving)",formula:"f' = f(v ± vs)/v",desc:"Observed frequency when source moves toward or away from observer.",vars:["f' = Observed frequency","f = Source frequency","v = Sound speed","vs = Source speed"],subject:"physics",chapter:"waves",diff:"advanced",color:"cyan"},
+  {id:14,name:"Intensity of Sound",formula:"I = P/4πr²",desc:"Intensity decreases with the square of distance from the source.",vars:["P = Power (W)","r = Distance (m)"],subject:"physics",chapter:"waves",diff:"advanced",color:"cyan"},
+
+  // ── PHYSICS: ELECTRICITY ──
+  {id:15,name:"Ohm's Law",formula:"V = IR",desc:"Voltage equals current times resistance. The cornerstone of circuit analysis.",vars:["V = Voltage (V)","I = Current (A)","R = Resistance (Ω)"],subject:"physics",chapter:"electricity",diff:"basic",color:"cyan"},
+  {id:16,name:"Electric Power",formula:"P = VI = I²R = V²/R",desc:"Power dissipated in a resistive circuit element.",vars:["P = Power (W)","V = Voltage (V)","I = Current (A)","R = Resistance (Ω)"],subject:"physics",chapter:"electricity",diff:"basic",color:"cyan"},
+  {id:17,name:"Coulomb's Law",formula:"F = kq₁q₂/r²",desc:"Electrostatic force between two point charges.",vars:["k = 9×10⁹ N·m²/C²","q₁,q₂ = Charges (C)","r = Distance (m)"],subject:"physics",chapter:"electricity",diff:"basic",color:"cyan"},
+  {id:18,name:"Electric Field",formula:"E = F/q = kQ/r²",desc:"Force per unit charge at a point in space.",vars:["F = Force (N)","q = Test charge (C)","Q = Source charge","r = Distance (m)"],subject:"physics",chapter:"electricity",diff:"basic",color:"cyan"},
+  {id:19,name:"Capacitance",formula:"C = Q/V",desc:"Ratio of charge stored to the potential difference across a capacitor.",vars:["C = Capacitance (F)","Q = Charge (C)","V = Voltage (V)"],subject:"physics",chapter:"electricity",diff:"advanced",color:"cyan"},
+  {id:20,name:"Energy Stored in Capacitor",formula:"U = ½CV² = Q²/2C",desc:"Energy stored in the electric field of a charged capacitor.",vars:["C = Capacitance (F)","V = Voltage (V)","Q = Charge (C)"],subject:"physics",chapter:"electricity",diff:"advanced",color:"cyan"},
+
+  // ── PHYSICS: OPTICS ──
+  {id:21,name:"Snell's Law",formula:"n₁sinθ₁ = n₂sinθ₂",desc:"Relationship between angles of incidence and refraction at an interface.",vars:["n₁,n₂ = Refractive indices","θ₁ = Angle of incidence","θ₂ = Angle of refraction"],subject:"physics",chapter:"optics",diff:"basic",color:"cyan"},
+  {id:22,name:"Mirror Formula",formula:"1/f = 1/v + 1/u",desc:"Relates focal length to image and object distances for mirrors.",vars:["f = Focal length (m)","v = Image distance (m)","u = Object distance (m)"],subject:"physics",chapter:"optics",diff:"basic",color:"cyan"},
+  {id:23,name:"Lens Maker's Equation",formula:"1/f = (n-1)(1/R₁ - 1/R₂)",desc:"Determines focal length from lens geometry and refractive index.",vars:["f = Focal length","n = Refractive index","R₁,R₂ = Radii of curvature"],subject:"physics",chapter:"optics",diff:"advanced",color:"cyan"},
+
+  // ── PHYSICS: MODERN ──
+  {id:24,name:"Einstein's Mass-Energy",formula:"E = mc²",desc:"Mass and energy are equivalent and interconvertible.",vars:["E = Energy (J)","m = Mass (kg)","c = 3×10⁸ m/s"],subject:"physics",chapter:"modern",diff:"basic",color:"cyan"},
+  {id:25,name:"Photon Energy",formula:"E = hf = hc/λ",desc:"Energy of a photon is proportional to its frequency.",vars:["h = 6.626×10⁻³⁴ J·s","f = Frequency (Hz)","λ = Wavelength (m)"],subject:"physics",chapter:"modern",diff:"basic",color:"cyan"},
+  {id:26,name:"de Broglie Wavelength",formula:"λ = h/mv = h/p",desc:"Every particle has an associated quantum wavelength.",vars:["h = Planck's constant","m = Mass (kg)","v = Velocity (m/s)","p = Momentum"],subject:"physics",chapter:"modern",diff:"advanced",color:"cyan"},
+  {id:27,name:"Radioactive Decay Law",formula:"N = N₀e^(-λt)",desc:"Number of undecayed nuclei decreases exponentially with time.",vars:["N₀ = Initial nuclei","λ = Decay constant","t = Time (s)"],subject:"physics",chapter:"modern",diff:"advanced",color:"cyan"},
+
+  // ── CHEMISTRY: PHYSICAL ──
+  {id:28,name:"Ideal Gas Law",formula:"PV = nRT",desc:"Describes the state of an ideal gas. One of chemistry's most important equations.",vars:["P = Pressure (Pa)","V = Volume (m³)","n = Moles","R = 8.314 J/mol·K","T = Temperature (K)"],subject:"chemistry",chapter:"physical",diff:"basic",color:"violet"},
+  {id:29,name:"Boyle's Law",formula:"P₁V₁ = P₂V₂",desc:"At constant temperature, pressure and volume are inversely proportional.",vars:["P₁,P₂ = Pressures","V₁,V₂ = Volumes","T = constant"],subject:"chemistry",chapter:"physical",diff:"basic",color:"violet"},
+  {id:30,name:"Charles's Law",formula:"V₁/T₁ = V₂/T₂",desc:"At constant pressure, volume is directly proportional to temperature.",vars:["V₁,V₂ = Volumes","T₁,T₂ = Temperatures (K)","P = constant"],subject:"chemistry",chapter:"physical",diff:"basic",color:"violet"},
+  {id:31,name:"pH Definition",formula:"pH = -log[H⁺]",desc:"Measure of hydrogen ion concentration — scale of acidity/basicity.",vars:["[H⁺] = H⁺ concentration (mol/L)"],subject:"chemistry",chapter:"physical",diff:"basic",color:"violet"},
+  {id:32,name:"Henderson-Hasselbalch",formula:"pH = pKa + log([A⁻]/[HA])",desc:"Calculates pH of a buffer solution from its components.",vars:["pKa = -log(Ka)","[A⁻] = Base concentration","[HA] = Acid concentration"],subject:"chemistry",chapter:"physical",diff:"advanced",color:"violet"},
+  {id:33,name:"Gibbs Free Energy",formula:"ΔG = ΔH - TΔS",desc:"Determines thermodynamic spontaneity of a reaction.",vars:["ΔH = Enthalpy change (J)","T = Temperature (K)","ΔS = Entropy change (J/K)"],subject:"chemistry",chapter:"physical",diff:"advanced",color:"violet"},
+  {id:34,name:"Arrhenius Equation",formula:"k = Ae^(-Ea/RT)",desc:"Rate constant dependence on temperature and activation energy.",vars:["A = Pre-exponential factor","Ea = Activation energy","R = 8.314 J/mol·K","T = Temperature (K)"],subject:"chemistry",chapter:"physical",diff:"advanced",color:"violet"},
+  {id:35,name:"Nernst Equation",formula:"E = E° - (RT/nF)lnQ",desc:"Cell potential under non-standard conditions.",vars:["E° = Standard potential","R = 8.314","T = Temperature","n = Electrons","F = 96485 C/mol"],subject:"chemistry",chapter:"physical",diff:"advanced",color:"violet"},
+
+  // ── CHEMISTRY: ORGANIC ──
+  {id:36,name:"General Alkane Formula",formula:"CₙH₂ₙ₊₂",desc:"Molecular formula for saturated hydrocarbons (alkanes).",vars:["n = Number of carbon atoms"],subject:"chemistry",chapter:"organic",diff:"basic",color:"violet"},
+  {id:37,name:"General Alkene Formula",formula:"CₙH₂ₙ",desc:"Molecular formula for alkenes — one double bond.",vars:["n = Number of carbon atoms"],subject:"chemistry",chapter:"organic",diff:"basic",color:"violet"},
+  {id:38,name:"General Alkyne Formula",formula:"CₙH₂ₙ₋₂",desc:"Molecular formula for alkynes — one triple bond.",vars:["n = Number of carbon atoms"],subject:"chemistry",chapter:"organic",diff:"basic",color:"violet"},
+  {id:39,name:"Degree of Unsaturation",formula:"DoU = (2C + 2 + N - H - X)/2",desc:"Calculates rings and multiple bonds in an organic molecule.",vars:["C = Carbon atoms","N = Nitrogen atoms","H = Hydrogen atoms","X = Halogens"],subject:"chemistry",chapter:"organic",diff:"advanced",color:"violet"},
+
+  // ── CHEMISTRY: INORGANIC ──
+  {id:40,name:"Mole Concept",formula:"n = m/M = N/Nₐ",desc:"Fundamental bridge between mass, particles, and moles.",vars:["m = Mass (g)","M = Molar mass (g/mol)","N = Particles","Nₐ = 6.022×10²³"],subject:"chemistry",chapter:"inorganic",diff:"basic",color:"violet"},
+  {id:41,name:"Molarity",formula:"M = n/V",desc:"Concentration of solution in moles per liter.",vars:["n = Moles of solute","V = Volume of solution (L)"],subject:"chemistry",chapter:"inorganic",diff:"basic",color:"violet"},
+  {id:42,name:"Dilution Formula",formula:"M₁V₁ = M₂V₂",desc:"Conservation of moles when diluting a solution.",vars:["M₁ = Initial molarity","V₁ = Initial volume","M₂ = Final molarity","V₂ = Final volume"],subject:"chemistry",chapter:"inorganic",diff:"basic",color:"violet"},
+
+  // ── MATHEMATICS: CALCULUS ──
+  {id:43,name:"Power Rule (Differentiation)",formula:"d/dx[xⁿ] = nxⁿ⁻¹",desc:"Derivative of x to the power n. The most-used differentiation rule.",vars:["n = Any real number","x = Variable"],subject:"math",chapter:"calculus",diff:"basic",color:"green"},
+  {id:44,name:"Chain Rule",formula:"dy/dx = (dy/du)·(du/dx)",desc:"Derivative of composite functions by chaining inner and outer derivatives.",vars:["y = Outer function","u = Inner function","x = Variable"],subject:"math",chapter:"calculus",diff:"advanced",color:"green"},
+  {id:45,name:"Product Rule",formula:"d/dx[uv] = u'v + uv'",desc:"Derivative of a product of two functions.",vars:["u,v = Differentiable functions","u',v' = Their derivatives"],subject:"math",chapter:"calculus",diff:"basic",color:"green"},
+  {id:46,name:"Quotient Rule",formula:"d/dx[u/v] = (u'v - uv')/v²",desc:"Derivative of a quotient of two functions.",vars:["u,v = Differentiable functions","u',v' = Their derivatives"],subject:"math",chapter:"calculus",diff:"basic",color:"green"},
+  {id:47,name:"Definite Integral",formula:"∫ₐᵇ f(x)dx = F(b) - F(a)",desc:"Area under the curve between limits a and b. Fundamental Theorem of Calculus.",vars:["F(x) = Antiderivative of f(x)","a,b = Integration limits"],subject:"math",chapter:"calculus",diff:"basic",color:"green"},
+  {id:48,name:"Integration by Parts",formula:"∫u dv = uv - ∫v du",desc:"Integrates products of functions by reversing the product rule.",vars:["u,v = Chosen functions","dv,du = Their differentials"],subject:"math",chapter:"calculus",diff:"advanced",color:"green"},
+  {id:49,name:"L'Hôpital's Rule",formula:"lim f/g = lim f'/g'",desc:"Evaluates indeterminate forms 0/0 or ∞/∞ by differentiating numerator and denominator.",vars:["f,g = Differentiable functions","f',g' = Their derivatives"],subject:"math",chapter:"calculus",diff:"advanced",color:"green"},
+
+  // ── MATHEMATICS: ALGEBRA ──
+  {id:50,name:"Quadratic Formula",formula:"x = (-b ± √(b²-4ac))/2a",desc:"Roots of any quadratic equation ax² + bx + c = 0.",vars:["a,b,c = Coefficients","Discriminant D = b²-4ac"],subject:"math",chapter:"algebra",diff:"basic",color:"green"},
+  {id:51,name:"Sum of GP",formula:"S = a(1-rⁿ)/(1-r)",desc:"Sum of the first n terms of a geometric progression.",vars:["a = First term","r = Common ratio","n = Number of terms"],subject:"math",chapter:"algebra",diff:"basic",color:"green"},
+  {id:52,name:"Binomial Theorem",formula:"(a+b)ⁿ = Σ C(n,r)aⁿ⁻ʳbʳ",desc:"Expands any power of a binomial into a series.",vars:["n = Power","C(n,r) = Binomial coefficient","a,b = Terms"],subject:"math",chapter:"algebra",diff:"advanced",color:"green"},
+  {id:53,name:"Permutations",formula:"ₙPᵣ = n!/(n-r)!",desc:"Number of ways to arrange r items from n items (order matters).",vars:["n = Total items","r = Items chosen"],subject:"math",chapter:"algebra",diff:"basic",color:"green"},
+  {id:54,name:"Combinations",formula:"ₙCᵣ = n!/r!(n-r)!",desc:"Number of ways to choose r items from n items (order doesn't matter).",vars:["n = Total items","r = Items chosen"],subject:"math",chapter:"algebra",diff:"basic",color:"green"},
+
+  // ── MATHEMATICS: TRIGONOMETRY ──
+  {id:55,name:"Pythagorean Identity",formula:"sin²θ + cos²θ = 1",desc:"The most fundamental trigonometric identity.",vars:["θ = Any angle"],subject:"math",chapter:"trigonometry",diff:"basic",color:"green"},
+  {id:56,name:"Double Angle: sin",formula:"sin 2θ = 2 sinθ cosθ",desc:"Sine of double angle expressed using single angle.",vars:["θ = Angle"],subject:"math",chapter:"trigonometry",diff:"basic",color:"green"},
+  {id:57,name:"Double Angle: cos",formula:"cos 2θ = cos²θ - sin²θ",desc:"Cosine of double angle — has three equivalent forms.",vars:["θ = Angle"],subject:"math",chapter:"trigonometry",diff:"basic",color:"green"},
+  {id:58,name:"Sum to Product",formula:"sinA + sinB = 2sin((A+B)/2)cos((A-B)/2)",desc:"Converts sum of sines to a product form.",vars:["A,B = Angles"],subject:"math",chapter:"trigonometry",diff:"advanced",color:"green"},
+  {id:59,name:"Sine Rule",formula:"a/sinA = b/sinB = c/sinC = 2R",desc:"Ratio of side to opposite sine is constant in any triangle.",vars:["a,b,c = Sides","A,B,C = Opposite angles","R = Circumradius"],subject:"math",chapter:"trigonometry",diff:"basic",color:"green"},
+  {id:60,name:"Cosine Rule",formula:"a² = b² + c² - 2bc·cosA",desc:"Generalizes Pythagoras to any triangle.",vars:["a,b,c = Sides","A = Angle opposite a"],subject:"math",chapter:"trigonometry",diff:"basic",color:"green"},
+
+  // ── MATHEMATICS: COORDINATE ──
+  {id:61,name:"Distance Formula",formula:"d = √((x₂-x₁)² + (y₂-y₁)²)",desc:"Distance between two points in the Cartesian plane.",vars:["(x₁,y₁),(x₂,y₂) = Points"],subject:"math",chapter:"coordinate",diff:"basic",color:"green"},
+  {id:62,name:"Slope of Line",formula:"m = (y₂-y₁)/(x₂-x₁) = tanθ",desc:"Gradient of a straight line between two points.",vars:["(x₁,y₁),(x₂,y₂) = Points","θ = Inclination angle"],subject:"math",chapter:"coordinate",diff:"basic",color:"green"},
+  {id:63,name:"Equation of Circle",formula:"(x-h)² + (y-k)² = r²",desc:"Standard form equation of a circle with center (h,k) and radius r.",vars:["(h,k) = Center","r = Radius"],subject:"math",chapter:"coordinate",diff:"basic",color:"green"},
+  {id:64,name:"Area of Triangle (coords)",formula:"A = ½|x₁(y₂-y₃) + x₂(y₃-y₁) + x₃(y₁-y₂)|",desc:"Area of triangle from coordinates of its three vertices.",vars:["(x₁,y₁),(x₂,y₂),(x₃,y₃) = Vertices"],subject:"math",chapter:"coordinate",diff:"advanced",color:"green"},
+];
+
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+let activeFilter = 'all';
+let activeDiff = 'all';
+let searchQ = '';
+let bookmarks = JSON.parse(localStorage.getItem('aura-bookmarks') || '[]');
+
+// Color config
+const COLORS = {
+  cyan:  {text:'var(--cyan)',  bg:'rgba(0,229,255,.08)',  bd:'rgba(0,229,255,.18)',  label:'Physics'},
+  violet:{text:'var(--violet)',bg:'rgba(124,58,237,.08)', bd:'rgba(124,58,237,.2)',  label:'Chemistry'},
+  green: {text:'var(--green)', bg:'rgba(16,185,129,.08)', bd:'rgba(16,185,129,.18)', label:'Math'},
+};
+const CHAPTER_LABELS = {
+  mechanics:'Mechanics',waves:'Waves & Sound',optics:'Optics',
+  electricity:'Electricity & Magnetism',modern:'Modern Physics',
+  physical:'Physical Chemistry',organic:'Organic Chemistry',inorganic:'Inorganic Chemistry',
+  calculus:'Calculus',algebra:'Algebra',trigonometry:'Trigonometry',coordinate:'Coordinate Geometry'
+};
+const CHAPTER_ICONS = {
+  mechanics:'⚙️',waves:'🌊',optics:'🔭',electricity:'⚡',modern:'⚛️',
+  physical:'🧪',organic:'🌿',inorganic:'🔬',
+  calculus:'∫',algebra:'📊',trigonometry:'📐',coordinate:'📍'
+};
+const CHAPTER_COLORS = {
+  physics:{bg:'rgba(0,229,255,.1)',ic:'#00e5ff'},
+  chemistry:{bg:'rgba(124,58,237,.1)',ic:'#7c3aed'},
+  math:{bg:'rgba(16,185,129,.1)',ic:'#10b981'}
+};
+
+// ══════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════
+function getFiltered(){
+  return FORMULAS.filter(f => {
+    const mFilter = activeFilter === 'all' || f.subject === activeFilter || f.chapter === activeFilter;
+    const mDiff = activeDiff === 'all' || f.diff === activeDiff;
+    const mSearch = !searchQ ||
+      f.name.toLowerCase().includes(searchQ) ||
+      f.formula.toLowerCase().includes(searchQ) ||
+      f.desc.toLowerCase().includes(searchQ) ||
+      f.chapter.toLowerCase().includes(searchQ) ||
+      (f.vars && f.vars.join(' ').toLowerCase().includes(searchQ));
+    return mFilter && mDiff && mSearch;
+  });
+}
+
+function render(){
+  const filtered = getFiltered();
+  const out = document.getElementById('formula-output');
+  document.getElementById('visible-count').textContent = filtered.length;
+
+  if(!filtered.length){
+    out.innerHTML = `<div class="empty"><div class="empty-icon">🔎</div>
+      <div class="empty-title">No formulas found</div>
+      <div class="empty-sub">Try a different search or filter</div></div>`;
+    return;
+  }
+
+  // Group by chapter
+  const groups = {};
+  filtered.forEach(f => {
+    if(!groups[f.chapter]) groups[f.chapter] = [];
+    groups[f.chapter].push(f);
+  });
+
+  out.innerHTML = Object.entries(groups).map(([ch, fmls]) => {
+    const subj = fmls[0].subject;
+    const cc = CHAPTER_COLORS[subj] || CHAPTER_COLORS.physics;
+    return `
+    <div class="chapter-heading">
+      <div class="ch-icon" style="background:${cc.bg}">
+        <span style="font-size:1.1rem">${CHAPTER_ICONS[ch]||'📘'}</span>
+      </div>
+      <div class="ch-label">${CHAPTER_LABELS[ch]||ch}</div>
+      <div class="ch-count">${fmls.length} formula${fmls.length>1?'s':''}</div>
+    </div>
+    <div class="formula-grid">
+      ${fmls.map(f => cardHTML(f)).join('')}
+    </div>`;
+  }).join('');
+
+  // Card mouse parallax
+  document.querySelectorAll('.fcard').forEach(c => {
+    c.addEventListener('mousemove', e => {
+      const r = c.getBoundingClientRect();
+      c.style.setProperty('--mx',`${(e.clientX-r.left)/r.width*100}%`);
+      c.style.setProperty('--my',`${(e.clientY-r.top)/r.height*100}%`);
+    });
+  });
+}
+
+function cardHTML(f){
+  const col = COLORS[f.color] || COLORS.cyan;
+  const isBookmarked = bookmarks.includes(f.id);
+  return `<div class="fcard" style="--fg:${col.bg};--fc:${col.text};--fsb:${col.bg};--fsb2:${col.bg};--fsbd:${col.bd}">
+    <div class="fcard-top">
+      <span class="fcard-subject" style="color:${col.text};background:${col.bg};border-color:${col.bd}">
+        ${col.label} · ${f.chapter}
+      </span>
+      <div class="fcard-actions">
+        <button class="fcard-btn ${isBookmarked?'bookmarked':''}" onclick="toggleBM(${f.id},this)" title="Bookmark">
+          ${isBookmarked?'★':'☆'}
+        </button>
+        <button class="fcard-btn" onclick="copyFormula('${f.formula.replace(/'/g,"\\'")}',this)" title="Copy">⧉</button>
+      </div>
+    </div>
+    <div class="fcard-name">${f.name}</div>
+    <div class="fcard-formula">${f.formula}</div>
+    <div class="fcard-desc">${f.desc}</div>
+    <div class="fcard-vars">${f.vars.map(v=>`<span class="fvar">${v}</span>`).join('')}</div>
+  </div>`;
+}
+
+// ══════════════════════════════════════
+// ACTIONS
+// ══════════════════════════════════════
+function copyFormula(formula, btn){
+  navigator.clipboard.writeText(formula).catch(()=>{});
+  showToast(`Copied: ${formula}`);
+  const orig = btn.innerHTML;
+  btn.innerHTML = '✓'; btn.style.color = 'var(--green)'; btn.style.borderColor = 'var(--green)';
+  setTimeout(()=>{btn.innerHTML=orig;btn.style.color='';btn.style.borderColor=''},1500);
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(window._toastT);
+  window._toastT = setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+function toggleBM(id, btn){
+  const idx = bookmarks.indexOf(id);
+  if(idx===-1){ bookmarks.push(id); btn.innerHTML='★'; btn.classList.add('bookmarked'); showToast('Bookmarked! ★'); }
+  else { bookmarks.splice(idx,1); btn.innerHTML='☆'; btn.classList.remove('bookmarked'); showToast('Bookmark removed'); }
+  localStorage.setItem('aura-bookmarks', JSON.stringify(bookmarks));
+  updateBMPanel();
+}
+
+function updateBMPanel(){
+  const n = bookmarks.length;
+  document.getElementById('bm-count').textContent = n;
+  document.getElementById('nav-bm-count').textContent = n;
+  const list = document.getElementById('bm-list');
+  if(!n){
+    list.innerHTML=`<div class="bm-empty"><div class="bm-empty-icon">🔖</div>
+      <div style="font-size:.85rem;color:var(--text2);font-weight:500">No bookmarks yet</div>
+      <div style="font-size:.75rem;margin-top:.3rem">Click ☆ on any formula</div></div>`;
+    return;
+  }
+  const items = FORMULAS.filter(f=>bookmarks.includes(f.id));
+  const col = {cyan:'var(--cyan)',violet:'var(--violet)',green:'var(--green)'};
+  list.innerHTML = items.map(f=>`
+    <div class="bm-item">
+      <div class="bm-item-formula" style="color:${col[f.color]||'var(--cyan)'}">${f.formula}</div>
+      <div class="bm-item-name">${f.name}</div>
+      <button class="bm-remove" onclick="toggleBM(${f.id},null);render()" title="Remove">✕</button>
+    </div>`).join('');
+}
+
+function toggleBookmarks(){
+  document.getElementById('bm-panel').classList.toggle('open');
+  document.getElementById('bm-overlay').classList.toggle('open');
+}
+
+function setFilter(el, filter){
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter = filter;
+  render();
+}
+
+function setDiff(el, diff){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  activeDiff = diff;
+  render();
+}
+
+// ══════════════════════════════════════
+// SCROLL PROGRESS
+// ══════════════════════════════════════
+document.getElementById('content').addEventListener('scroll', function(){
+  const el = this;
+  const pct = el.scrollTop / (el.scrollHeight - el.clientHeight);
+  document.getElementById('prog-bar').style.transform = `scaleX(${pct})`;
+}, {passive:true});
+
+// ══════════════════════════════════════
+// SEARCH
+// ══════════════════════════════════════
+let searchDebounce;
+document.getElementById('searchInput').addEventListener('input', function(){
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(()=>{ searchQ = this.value.toLowerCase(); render(); }, 200);
+});
+document.addEventListener('keydown', e => {
+  if((e.metaKey||e.ctrlKey) && e.key==='k'){
+    e.preventDefault(); document.getElementById('searchInput').focus();
+  }
+});
+
+// ══════════════════════════════════════
+// THEME
+// ══════════════════════════════════════
+const html = document.documentElement;
+const tbtn = document.getElementById('tbtn');
+html.setAttribute('data-theme', localStorage.getItem('aura-theme')||'dark');
+tbtn.addEventListener('click',()=>{
+  const n = html.getAttribute('data-theme')==='dark'?'light':'dark';
+  html.setAttribute('data-theme',n); localStorage.setItem('aura-theme',n);
+});
+
+// ══════════════════════════════════════
+// CURSOR
+// ══════════════════════════════════════
+const cur = document.getElementById('cur');
+let cx=0,cy=0,tx=0,ty=0;
+document.addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY});
+(function a(){cx+=(tx-cx)*.15;cy+=(ty-cy)*.15;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(a)})();
+document.querySelectorAll('a,button,.fcard,.sb-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+});
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+updateBMPanel();
+render();
+</script>
+</body>
+</html>

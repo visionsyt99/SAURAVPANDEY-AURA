@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA — +2 College Guide Nepal</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ══ THEME ══ */
+:root{--a:#6c63ff;--a2:#ff6b6b;--a3:#00d4aa;--gold:#ffd700;}
+[data-theme="dark"]{--bg:#030409;--card:#0d1426;--card2:#111827;--text:#e8eaf0;--text2:#8b95aa;--mut:#485168;--bor:rgba(108,99,255,.18);--glow:0 0 40px rgba(108,99,255,.28);--nav:rgba(3,4,9,.92);--ov:linear-gradient(to bottom,rgba(13,20,38,0) 20%,rgba(13,20,38,.97) 100%);--no:.04;}
+[data-theme="light"]{--bg:#eef0ff;--card:#fff;--card2:#f4f5ff;--text:#111827;--text2:#374151;--mut:#9ca3af;--bor:rgba(108,99,255,.2);--glow:0 8px 40px rgba(108,99,255,.18);--nav:rgba(238,240,255,.94);--ov:linear-gradient(to bottom,rgba(255,255,255,0) 20%,rgba(255,255,255,.97) 100%);--no:.02;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;overflow-x:hidden;cursor:none;transition:background .4s,color .4s;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:9000;opacity:var(--no);mix-blend-mode:overlay;}
+
+/* ══ CURSOR ══ */
+.cur{width:10px;height:10px;background:var(--a);border-radius:50%;position:fixed;transform:translate(-50%,-50%);pointer-events:none;z-index:9998;mix-blend-mode:screen;transition:transform .1s;}
+[data-theme="light"] .cur{mix-blend-mode:multiply;}
+.cur-r{width:36px;height:36px;border:1.5px solid rgba(108,99,255,.45);border-radius:50%;position:fixed;transform:translate(-50%,-50%);pointer-events:none;z-index:9997;transition:width .3s,height .3s;}
+
+/* ══ BG ══ */
+.gbg{position:fixed;inset:0;background-image:linear-gradient(rgba(108,99,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(108,99,255,.04) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;z-index:0;}
+[data-theme="light"] .gbg{opacity:.5;}
+.orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;animation:oF 10s ease-in-out infinite;}
+.o1{width:600px;height:600px;background:rgba(108,99,255,.07);top:-250px;left:-200px;}
+.o2{width:450px;height:450px;background:rgba(0,212,170,.05);bottom:0;right:-150px;animation-delay:4s;}
+.o3{width:300px;height:300px;background:rgba(255,107,107,.04);top:55%;left:40%;animation-delay:7s;}
+[data-theme="light"] .o1{background:rgba(108,99,255,.1);}
+@keyframes oF{0%,100%{transform:translate(0,0);}50%{transform:translate(24px,-24px);}}
+
+/* ══ THEME BTN ══ */
+.tbtn{position:fixed;top:22px;right:22px;z-index:500;width:64px;height:32px;background:var(--card);border:1.5px solid var(--bor);border-radius:100px;cursor:none;display:flex;align-items:center;padding:4px;transition:all .3s;box-shadow:var(--glow);}
+.tbtn:hover{border-color:var(--a);}
+.tknob{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a3));display:flex;align-items:center;justify-content:center;font-size:12px;transition:transform .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 2px 10px rgba(108,99,255,.45);}
+[data-theme="light"] .tknob{transform:translateX(32px);}
+
+/* ══ NAV TABS ══ */
+.nav-tabs{position:fixed;top:22px;left:50%;transform:translateX(-50%);z-index:500;display:flex;gap:4px;background:var(--card);border:1px solid var(--bor);border-radius:100px;padding:4px;backdrop-filter:blur(20px);}
+.ntab{background:transparent;border:none;color:var(--mut);padding:7px 18px;border-radius:100px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:none;transition:all .25s;letter-spacing:.5px;}
+.ntab.active,.ntab:hover{background:var(--a);color:#fff;}
+.ntab.active{box-shadow:0 0 16px rgba(108,99,255,.4);}
+
+/* ══ PAGES ══ */
+.page{display:none;}
+.page.show{display:block;}
+
+/* ══ HERO ══ */
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:100px 24px 80px;}
+.hbadge{display:inline-flex;align-items:center;gap:10px;background:rgba(108,99,255,.1);border:1px solid var(--bor);border-radius:100px;padding:8px 24px;font-family:'Space Mono',monospace;font-size:11px;color:var(--a);letter-spacing:2.5px;margin-bottom:44px;animation:fU .8s ease forwards;opacity:0;}
+.pdot{width:7px;height:7px;background:var(--a3);border-radius:50%;animation:pd 2s ease-in-out infinite;}
+@keyframes pd{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.6);}}
+.htitle{font-family:'Bebas Neue',sans-serif;font-size:clamp(68px,13vw,170px);line-height:.88;letter-spacing:-1px;animation:fU .8s ease .15s forwards;opacity:0;}
+.outl{color:transparent;-webkit-text-stroke:1.5px rgba(108,99,255,.4);}
+.curs{font-style:italic;font-family:'DM Serif Display',serif;color:var(--a);font-size:.58em;-webkit-text-stroke:0;vertical-align:middle;}
+.hdesc{font-size:15.5px;color:var(--text2);max-width:540px;line-height:1.8;margin:28px auto 48px;animation:fU .8s ease .3s forwards;opacity:0;}
+.hstats{display:flex;gap:56px;animation:fU .8s ease .45s forwards;opacity:0;}
+.sn{font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1;color:var(--a);text-shadow:0 0 30px rgba(108,99,255,.5);}
+[data-theme="light"] .sn{text-shadow:none;}
+.sl{font-size:10px;color:var(--mut);letter-spacing:2.5px;margin-top:4px;}
+.sclue{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--mut);font-size:10px;letter-spacing:2.5px;animation:fU .8s ease 1s forwards;opacity:0;}
+.sln{width:1px;height:56px;background:linear-gradient(to bottom,var(--a),transparent);animation:sl 2.2s ease-in-out infinite;}
+@keyframes sl{0%,100%{transform:scaleY(1);opacity:1;}50%{transform:scaleY(.4);opacity:.4;}}
+@keyframes fU{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
+/* ══ FILTERS ══ */
+.fbar{position:sticky;top:0;z-index:200;background:var(--nav);backdrop-filter:blur(24px);border-bottom:1px solid var(--bor);padding:14px 48px;transition:background .4s;}
+.fbar-in{max-width:1440px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.fl{font-family:'Space Mono',monospace;font-size:10px;color:var(--mut);letter-spacing:2px;margin-right:4px;}
+.sw{position:relative;flex:1;max-width:260px;}
+.si{width:100%;background:rgba(108,99,255,.06);border:1px solid var(--bor);color:var(--text);padding:9px 14px 9px 36px;border-radius:100px;font-family:'Syne',sans-serif;font-size:13px;outline:none;cursor:none;transition:all .3s;}
+.si::placeholder{color:var(--mut);}
+.si:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(108,99,255,.12);}
+.sico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--mut);font-size:15px;pointer-events:none;}
+.fb{background:transparent;border:1px solid var(--bor);color:var(--mut);padding:7px 16px;border-radius:100px;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:none;transition:all .25s;}
+.fb:hover{color:var(--text);border-color:rgba(108,99,255,.4);}
+.fb.active{background:var(--a);border-color:var(--a);color:#fff;box-shadow:0 0 16px rgba(108,99,255,.4);}
+
+/* ══ COMPARE STRIP ══ */
+.cmp-strip{background:rgba(108,99,255,.08);border-bottom:1px solid var(--bor);padding:10px 48px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.cmp-label{font-family:'Space Mono',monospace;font-size:10px;color:var(--a);letter-spacing:2px;}
+.cmp-slots{display:flex;gap:8px;flex:1;}
+.cmp-slot{background:var(--card2);border:1px dashed var(--bor);border-radius:8px;padding:6px 14px;font-size:12px;color:var(--mut);font-family:'Space Mono',monospace;min-width:140px;display:flex;align-items:center;justify-content:space-between;gap:6px;}
+.cmp-slot.filled{border-style:solid;border-color:var(--a);color:var(--text);}
+.cmp-slot .rm{background:none;border:none;color:var(--a2);cursor:none;font-size:14px;padding:0;line-height:1;}
+.cmp-go{background:var(--a);border:none;color:#fff;padding:8px 20px;border-radius:100px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:none;transition:all .25s;box-shadow:0 0 16px rgba(108,99,255,.35);}
+.cmp-go:hover{transform:scale(1.04);}
+.cmp-go:disabled{opacity:.4;transform:none;}
+
+/* ══ MAIN GRID ══ */
+.main{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:60px 48px;}
+.sech{display:flex;align-items:baseline;gap:16px;margin-bottom:44px;}
+.sect{font-family:'DM Serif Display',serif;font-size:42px;color:var(--text);}
+.secc{font-family:'Space Mono',monospace;font-size:13px;color:var(--mut);}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(390px,1fr));gap:26px;}
+
+/* ══ CARD ══ */
+.card{background:var(--card);border:1px solid var(--bor);border-radius:22px;overflow:hidden;position:relative;cursor:none;opacity:0;transform:translateY(40px);transition:box-shadow .35s,border-color .35s,background .4s;}
+.card.vis{opacity:1;transform:translateY(0);transition:opacity .6s ease,transform .6s ease,box-shadow .35s,border-color .35s;}
+.card:hover{border-color:rgba(108,99,255,.45);box-shadow:var(--glow);transform:translateY(-5px)!important;}
+/* compare selected state */
+.card.cmp-sel{border-color:var(--a3);box-shadow:0 0 30px rgba(0,212,170,.3);}
+
+.cstr{position:absolute;top:0;left:0;right:0;height:4px;z-index:2;}
+.se{background:linear-gradient(90deg,#00d4aa,#00b894);}
+.sm{background:linear-gradient(90deg,#ffd700,#f39c12);}
+.sh{background:linear-gradient(90deg,#ff6b6b,#ff4757);}
+.sv{background:linear-gradient(90deg,#ff4757,#c0392b);}
+.ciw{position:relative;height:196px;overflow:hidden;}
+.cimg{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.4,0,.2,1);}
+.card:hover .cimg{transform:scale(1.07);}
+.cov{position:absolute;inset:0;background:var(--ov);}
+.cgr{position:absolute;inset:0;background:linear-gradient(135deg,rgba(108,99,255,.2) 0%,transparent 55%);}
+.crk{position:absolute;bottom:8px;right:12px;font-family:'Bebas Neue',sans-serif;font-size:68px;color:rgba(255,255,255,.07);line-height:1;pointer-events:none;z-index:1;}
+[data-theme="light"] .crk{color:rgba(0,0,0,.04);}
+.dbadge{position:absolute;bottom:12px;left:12px;z-index:3;display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1px;backdrop-filter:blur(8px);}
+.xbadge{position:absolute;top:12px;left:12px;z-index:3;display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(108,99,255,.25);color:#a29bfe;border:1px solid rgba(108,99,255,.5);backdrop-filter:blur(8px);}
+.de{background:rgba(0,212,170,.2);color:#00d4aa;border:1px solid rgba(0,212,170,.4);}
+.dm{background:rgba(255,215,0,.18);color:#ffd700;border:1px solid rgba(255,215,0,.4);}
+.dh{background:rgba(255,107,107,.2);color:#ff6b6b;border:1px solid rgba(255,107,107,.4);}
+.dv{background:rgba(255,71,87,.2);color:#ff4757;border:1px solid rgba(255,71,87,.4);}
+
+/* compare btn on card */
+.cmp-card-btn{position:absolute;top:12px;right:12px;z-index:3;background:rgba(0,212,170,.15);border:1px solid rgba(0,212,170,.35);color:var(--a3);padding:4px 10px;border-radius:100px;font-family:'Space Mono',monospace;font-size:10px;cursor:none;transition:all .25s;backdrop-filter:blur(8px);}
+.cmp-card-btn:hover,.cmp-card-btn.added{background:var(--a3);color:#000;border-color:var(--a3);}
+
+.cbdy{padding:22px 24px 24px;}
+.cname{font-family:'DM Serif Display',serif;font-size:20px;color:var(--text);line-height:1.25;margin-bottom:5px;}
+.cloc{display:flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:11px;color:var(--mut);}
+.map-link{color:var(--a3);text-decoration:none;font-size:10px;margin-left:auto;display:flex;align-items:center;gap:4px;border:1px solid rgba(0,212,170,.25);border-radius:6px;padding:2px 8px;transition:all .2s;}
+.map-link:hover{background:rgba(0,212,170,.1);}
+.spill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;margin:10px 0;}
+.sy{background:rgba(0,212,170,.12);color:var(--a3);border:1px solid rgba(0,212,170,.3);}
+.sn2{background:rgba(255,107,107,.1);color:var(--a2);border:1px solid rgba(255,107,107,.25);}
+.cdesc{font-size:12px;color:var(--text2);line-height:1.7;margin:10px 0;padding-left:12px;border-left:2px solid var(--bor);}
+.div{height:1px;background:var(--bor);margin:14px 0;}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.ik{font-family:'Space Mono',monospace;font-size:9px;color:var(--mut);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.iv{font-size:12px;color:var(--text);line-height:1.4;}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.tag{background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.22);color:var(--gold);font-family:'Space Mono',monospace;font-size:9px;padding:3px 9px;border-radius:6px;}
+.ubox{background:rgba(108,99,255,.07);border:1px solid rgba(108,99,255,.16);border-radius:12px;padding:11px 13px;margin-bottom:10px;}
+[data-theme="light"] .ubox{background:rgba(108,99,255,.06);}
+.blbl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+.bacc{color:var(--a);}
+.bacc3{color:var(--a3);}
+.btxt{font-size:12px;color:var(--text);line-height:1.55;}
+.bital{font-style:italic;}
+.mpill{display:inline-flex;align-items:center;gap:6px;background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.2);border-radius:7px;padding:5px 11px;font-family:'Space Mono',monospace;font-size:10px;color:var(--a);margin-top:11px;}
+.rmbtn{display:inline-flex;align-items:center;gap:7px;background:transparent;border:1px solid var(--bor);color:var(--a);padding:7px 16px;border-radius:100px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:none;transition:all .25s;margin-top:11px;margin-left:6px;}
+.rmbtn:hover{background:var(--a);color:#fff;border-color:var(--a);}
+.qbanner{background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(0,212,170,.06));border:1px solid rgba(108,99,255,.2);border-radius:12px;padding:11px 13px;margin-top:10px;}
+.qtxt{font-family:'DM Serif Display',serif;font-size:13px;font-style:italic;color:var(--text);line-height:1.55;}
+
+/* ══ MODAL ══ */
+.mback{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.76);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.mback.open{opacity:1;pointer-events:all;}
+.mbox{background:var(--card);border:1px solid var(--bor);border-radius:26px;max-width:760px;width:100%;max-height:92vh;overflow-y:auto;position:relative;transform:scale(.92) translateY(20px);transition:transform .38s cubic-bezier(.34,1.56,.64,1);scrollbar-width:thin;scrollbar-color:var(--a) transparent;}
+.mback.open .mbox{transform:scale(1) translateY(0);}
+.mcls{position:absolute;top:16px;right:16px;z-index:10;background:rgba(108,99,255,.15);border:1px solid var(--bor);color:var(--text);width:34px;height:34px;border-radius:50%;font-size:15px;display:flex;align-items:center;justify-content:center;cursor:none;transition:all .2s;}
+.mcls:hover{background:var(--a);color:#fff;}
+.miw{position:relative;}
+.mimg{width:100%;height:270px;object-fit:cover;display:block;border-radius:26px 26px 0 0;}
+.miov{position:absolute;inset:0;background:var(--ov);border-radius:26px 26px 0 0;pointer-events:none;}
+.mbdy{padding:24px 28px 32px;}
+.mstr{height:3px;border-radius:4px;margin-bottom:16px;}
+.mname{font-family:'DM Serif Display',serif;font-size:28px;color:var(--text);margin-bottom:6px;}
+.mloc{font-family:'Space Mono',monospace;font-size:11px;color:var(--mut);margin-bottom:6px;}
+
+/* map embed */
+.map-embed{width:100%;height:220px;border-radius:14px;border:1px solid var(--bor);margin-bottom:18px;overflow:hidden;}
+.map-embed iframe{width:100%;height:100%;border:none;}
+.map-ext-btn{display:inline-flex;align-items:center;gap:7px;background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.25);color:var(--a3);padding:7px 16px;border-radius:100px;font-family:'Space Mono',monospace;font-size:11px;text-decoration:none;transition:all .25s;margin-bottom:18px;cursor:pointer;}
+.map-ext-btn:hover{background:rgba(0,212,170,.16);}
+
+.msec{margin-bottom:18px;}
+.msect{font-family:'Space Mono',monospace;font-size:9px;color:var(--mut);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.msect::after{content:'';flex:1;height:1px;background:var(--bor);}
+.crgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.cri{background:var(--card2);border:1px solid var(--bor);border-radius:12px;padding:11px 13px;}
+.crik{font-family:'Space Mono',monospace;font-size:9px;color:var(--mut);letter-spacing:2px;margin-bottom:4px;}
+.criv{font-size:12.5px;color:var(--text);line-height:1.4;}
+.docs{display:flex;flex-direction:column;gap:7px;}
+.doc{display:flex;align-items:flex-start;gap:9px;background:var(--card2);border:1px solid var(--bor);border-radius:10px;padding:9px 12px;font-size:12.5px;color:var(--text);line-height:1.4;}
+.dico{color:var(--a3);font-size:13px;flex-shrink:0;margin-top:1px;}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.mquote{background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(0,212,170,.06));border:1px solid rgba(108,99,255,.22);border-radius:14px;padding:15px 17px;margin-bottom:16px;}
+.mqtxt{font-family:'DM Serif Display',serif;font-size:15px;font-style:italic;color:var(--text);line-height:1.65;}
+.mqsrc{font-family:'Space Mono',monospace;font-size:9px;color:var(--a);letter-spacing:1.5px;margin-top:7px;}
+.sst{display:inline-flex;align-items:center;gap:7px;padding:7px 15px;border-radius:10px;font-size:13px;font-weight:600;margin-bottom:14px;}
+.sst.yes{background:rgba(0,212,170,.12);color:var(--a3);border:1px solid rgba(0,212,170,.3);}
+.sst.no{background:rgba(255,107,107,.1);color:var(--a2);border:1px solid rgba(255,107,107,.25);}
+.tip-box{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.14);border-radius:12px;padding:11px 13px;}
+[data-theme="light"] .tip-box{background:rgba(0,212,170,.06);}
+
+/* ══ COMPARE PAGE ══ */
+.cmp-page{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:60px 40px;}
+.cmp-page-hd{font-family:'DM Serif Display',serif;font-size:38px;color:var(--text);margin-bottom:8px;}
+.cmp-page-sub{font-size:14px;color:var(--mut);margin-bottom:40px;font-family:'Space Mono',monospace;}
+.cmp-cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+.cmp-col{background:var(--card);border:1px solid var(--bor);border-radius:20px;overflow:hidden;}
+.cmp-col-img{width:100%;height:160px;object-fit:cover;display:block;}
+.cmp-col-body{padding:20px;}
+.cmp-col-name{font-family:'DM Serif Display',serif;font-size:18px;color:var(--text);margin-bottom:4px;}
+.cmp-col-loc{font-family:'Space Mono',monospace;font-size:10px;color:var(--mut);margin-bottom:14px;}
+.cmp-row{margin-bottom:12px;}
+.cmp-rk{font-family:'Space Mono',monospace;font-size:9px;color:var(--mut);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.cmp-rv{font-size:12.5px;color:var(--text);line-height:1.4;}
+.cmp-rv.good{color:var(--a3);}
+.cmp-rv.bad{color:var(--a2);}
+.cmp-empty{grid-column:1/-1;text-align:center;padding:80px 0;color:var(--mut);font-family:'DM Serif Display',serif;font-size:26px;font-style:italic;}
+
+/* ══ MAP PAGE ══ */
+.map-page{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:60px 48px;}
+.map-page-hd{font-family:'DM Serif Display',serif;font-size:38px;color:var(--text);margin-bottom:8px;}
+.map-page-sub{font-size:14px;color:var(--mut);margin-bottom:32px;font-family:'Space Mono',monospace;}
+.map-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;}
+.map-card{background:var(--card);border:1px solid var(--bor);border-radius:18px;overflow:hidden;transition:box-shadow .3s,border-color .3s;}
+.map-card:hover{border-color:rgba(108,99,255,.4);box-shadow:var(--glow);}
+.map-frame{width:100%;height:200px;border:none;display:block;}
+.map-info{padding:16px 18px;}
+.map-name{font-family:'DM Serif Display',serif;font-size:16px;color:var(--text);margin-bottom:4px;}
+.map-addr{font-family:'Space Mono',monospace;font-size:10px;color:var(--mut);margin-bottom:10px;}
+.map-open-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.25);color:var(--a3);padding:6px 14px;border-radius:100px;font-family:'Space Mono',monospace;font-size:10px;text-decoration:none;transition:all .2s;cursor:pointer;}
+.map-open-btn:hover{background:rgba(0,212,170,.16);}
+
+/* ══ PYQ PAGE ══ */
+.pyq-page{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:60px 48px;}
+.pyq-page-hd{font-family:'DM Serif Display',serif;font-size:38px;color:var(--text);margin-bottom:8px;}
+.pyq-page-sub{font-size:14px;color:var(--mut);margin-bottom:40px;font-family:'Space Mono',monospace;}
+.pyq-select-row{display:flex;align-items:center;gap:12px;margin-bottom:32px;flex-wrap:wrap;}
+.pyq-sel{background:var(--card2);border:1px solid var(--bor);color:var(--text);padding:10px 16px;border-radius:100px;font-family:'Syne',sans-serif;font-size:13px;outline:none;cursor:none;transition:all .3s;min-width:220px;}
+.pyq-sel:focus{border-color:var(--a);}
+.pyq-upload-area{background:rgba(108,99,255,.05);border:2px dashed rgba(108,99,255,.3);border-radius:20px;padding:48px;text-align:center;transition:all .3s;cursor:none;margin-bottom:32px;}
+.pyq-upload-area:hover,.pyq-upload-area.drag{background:rgba(108,99,255,.1);border-color:var(--a);}
+.pyq-upload-icon{font-size:48px;margin-bottom:16px;}
+.pyq-upload-title{font-family:'DM Serif Display',serif;font-size:22px;color:var(--text);margin-bottom:8px;}
+.pyq-upload-sub{font-size:13px;color:var(--mut);}
+.pyq-upload-input{display:none;}
+.pyq-upload-btn{display:inline-flex;align-items:center;gap:8px;background:var(--a);border:none;color:#fff;padding:11px 24px;border-radius:100px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:none;transition:all .25s;margin-top:16px;box-shadow:0 0 20px rgba(108,99,255,.35);}
+.pyq-upload-btn:hover{transform:scale(1.04);}
+.pyq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+.pyq-card{background:var(--card);border:1px solid var(--bor);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px;transition:box-shadow .3s,border-color .3s;}
+.pyq-card:hover{border-color:rgba(108,99,255,.4);box-shadow:var(--glow);}
+.pyq-college{font-family:'Space Mono',monospace;font-size:10px;color:var(--a);letter-spacing:1.5px;text-transform:uppercase;}
+.pyq-title{font-family:'DM Serif Display',serif;font-size:16px;color:var(--text);}
+.pyq-meta{font-size:12px;color:var(--mut);}
+.pyq-actions{display:flex;gap:8px;margin-top:4px;}
+.pyq-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:none;transition:all .25s;border:1px solid var(--bor);background:transparent;color:var(--text);}
+.pyq-btn:hover{border-color:var(--a);color:var(--a);}
+.pyq-btn.dl{background:var(--a);border-color:var(--a);color:#fff;box-shadow:0 0 12px rgba(108,99,255,.3);}
+.pyq-empty{text-align:center;padding:80px 0;color:var(--mut);font-family:'DM Serif Display',serif;font-size:24px;font-style:italic;}
+.pyq-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:6px;font-family:'Space Mono',monospace;font-size:10px;background:rgba(0,212,170,.08);color:var(--a3);border:1px solid rgba(0,212,170,.2);}
+
+/* ══ NO RESULTS ══ */
+.nores{grid-column:1/-1;text-align:center;padding:80px 0;color:var(--mut);font-family:'DM Serif Display',serif;font-size:26px;font-style:italic;}
+
+/* ══ FOOTER ══ */
+footer{position:relative;z-index:1;text-align:center;padding:70px 24px 50px;border-top:1px solid var(--bor);}
+.flogo{font-family:'Bebas Neue',sans-serif;font-size:80px;color:transparent;-webkit-text-stroke:1.5px rgba(108,99,255,.22);margin-bottom:14px;line-height:1;}
+footer p{color:var(--mut);font-size:13px;line-height:1.7;max-width:400px;margin:0 auto;}
+.fmono{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;margin-top:18px;}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:768px){.grid,.cmp-cols,.map-list,.pyq-grid{grid-template-columns:1fr;}.hstats{gap:28px;}.htitle{font-size:60px;}.fbar,.cmp-strip{padding:12px 20px;}.main,.map-page,.pyq-page,.cmp-page{padding:40px 20px;}.nav-tabs{top:auto;bottom:20px;transform:none;left:50%;}.mgrid,.crgrid{grid-template-columns:1fr;}.ig{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="cur" id="cur"></div>
+<div class="cur-r" id="curR"></div>
+
+<!-- THEME + NAV -->
+<button class="tbtn" id="tBtn"><div class="tknob"><span id="tIco">🌙</span></div></button>
+<div class="nav-tabs">
+  <button class="ntab active" data-page="home">🏠 Colleges</button>
+  <button class="ntab" data-page="maps">📍 Maps</button>
+  <button class="ntab" data-page="compare">⚖️ Compare</button>
+  <button class="ntab" data-page="pyq">📋 PYQ</button>
+</div>
+
+<div class="gbg"></div>
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+
+<!-- ══════════════════ HOME PAGE ══════════════════ -->
+<div class="page show" id="page-home">
+<section class="hero">
+  <div class="hbadge"><div class="pdot"></div>AURA EDUCATION GUIDE · NEPAL 2025</div>
+  <h1 class="htitle">TOP 23<br><span class="outl">+2</span> <span class="curs">Colleges</span><br>NEPAL</h1>
+  <p class="hdesc">Curated profiles with entrance criteria, required documents, scholarship status, Google Maps, PYQ papers, and side-by-side comparison — everything a SEE graduate needs.</p>
+  <div class="hstats">
+    <div><div class="sn" data-t="23">0</div><div class="sl">COLLEGES</div></div>
+    <div><div class="sn" data-t="4">0</div><div class="sl">DIFF LEVELS</div></div>
+    <div><div class="sn" data-t="5">0</div><div class="sl">STREAMS</div></div>
+  </div>
+  <div class="sclue"><span>EXPLORE</span><div class="sln"></div></div>
+</section>
+
+<div class="fbar">
+  <div class="fbar-in">
+    <span class="fl">FILTER //</span>
+    <div class="sw"><span class="sico">⌕</span><input class="si" type="text" placeholder="Search college, city, stream…" id="sInput"></div>
+    <button class="fb active" data-f="all">All</button>
+    <button class="fb" data-f="Easy">✅ Easy</button>
+    <button class="fb" data-f="Medium">⚖️ Medium</button>
+    <button class="fb" data-f="Hard">⚡ Hard</button>
+    <button class="fb" data-f="Very Hard">🔥 Very Hard</button>
+  </div>
+</div>
+
+<!-- COMPARE STRIP -->
+<div class="cmp-strip">
+  <span class="cmp-label">⚖️ COMPARE //</span>
+  <div class="cmp-slots">
+    <div class="cmp-slot" id="slot0">Select college 1…</div>
+    <div class="cmp-slot" id="slot1">Select college 2…</div>
+    <div class="cmp-slot" id="slot2">Select college 3…</div>
+  </div>
+  <button class="cmp-go" id="cmpGo" disabled onclick="goCmp()">Compare Now →</button>
+</div>
+
+<section class="main">
+  <div class="sech"><h2 class="sect">All Colleges</h2><span class="secc" id="cnt">23 results</span></div>
+  <div class="grid" id="grid"></div>
+</section>
+</div>
+
+<!-- ══════════════════ MAPS PAGE ══════════════════ -->
+<div class="page" id="page-maps">
+<div class="map-page">
+  <h2 class="map-page-hd">📍 College Locations</h2>
+  <p class="map-page-sub">EXACT GOOGLE MAPS LOCATIONS FOR ALL 23 COLLEGES — click any to open in Google Maps</p>
+  <div class="map-list" id="mapList"></div>
+</div>
+</div>
+
+<!-- ══════════════════ COMPARE PAGE ══════════════════ -->
+<div class="page" id="page-compare">
+<div class="cmp-page">
+  <h2 class="cmp-page-hd">⚖️ Side-by-Side Comparison</h2>
+  <p class="cmp-page-sub">SELECT 2–3 COLLEGES FROM THE HOME PAGE AND HIT COMPARE</p>
+  <div class="cmp-cols" id="cmpCols"><div class="cmp-empty">No colleges selected yet.<br><span style="font-size:16px;font-family:'Syne',sans-serif;font-style:normal;color:var(--mut)">Go back to Colleges → add to compare → click Compare Now</span></div></div>
+</div>
+</div>
+
+<!-- ══════════════════ PYQ PAGE ══════════════════ -->
+<div class="page" id="page-pyq">
+<div class="pyq-page">
+  <h2 class="pyq-page-hd">📋 Past Year Questions</h2>
+  <p class="pyq-page-sub">UPLOAD & BROWSE PAST YEAR ENTRANCE PAPERS BY COLLEGE</p>
+
+  <div class="pyq-select-row">
+    <span class="fl">COLLEGE //</span>
+    <select class="pyq-sel" id="pyqFilter">
+      <option value="all">All Colleges</option>
+    </select>
+    <span class="fl" style="margin-left:16px">YEAR //</span>
+    <select class="pyq-sel" id="pyqYear" style="min-width:120px">
+      <option value="all">All Years</option>
+      <option>2081 BS</option><option>2080 BS</option><option>2079 BS</option>
+      <option>2078 BS</option><option>2077 BS</option><option>2076 BS</option>
+    </select>
+  </div>
+
+  <div class="pyq-upload-area" id="dropZone">
+    <div class="pyq-upload-icon">📄</div>
+    <div class="pyq-upload-title">Upload Past Year Questions</div>
+    <div class="pyq-upload-sub">Drag & drop PDF/image files here, or click to browse<br><span style="font-size:11px;color:var(--a)">Supports PDF, JPG, PNG — max 20MB per file</span></div>
+    <input type="file" class="pyq-upload-input" id="pyqFile" multiple accept=".pdf,.jpg,.jpeg,.png">
+    <button class="pyq-upload-btn" onclick="document.getElementById('pyqFile').click()">📁 Choose Files</button>
+  </div>
+
+  <div class="sech" style="margin-bottom:24px">
+    <h3 class="sect" style="font-size:28px">Available Papers</h3>
+    <span class="secc" id="pyqCount">0 papers</span>
+  </div>
+  <div class="pyq-grid" id="pyqGrid"><div class="pyq-empty">No papers uploaded yet.<br><span style="font-size:14px;font-family:'Syne',sans-serif;font-style:normal">Upload entrance exam papers above to build your PYQ library!</span></div></div>
+</div>
+</div>
+
+<!-- ══ MODAL ══ -->
+<div class="mback" id="modal">
+  <div class="mbox">
+    <button class="mcls" id="mCls">✕</button>
+    <div class="miw"><img class="mimg" id="mImg" src="" alt=""><div class="miov"></div></div>
+    <div class="mbdy">
+      <div class="mstr" id="mStr"></div>
+      <div class="mname" id="mName"></div>
+      <div class="mloc" id="mLoc"></div>
+
+      <!-- MAP EMBED -->
+      <div class="msec">
+        <div class="msect">📍 EXACT LOCATION</div>
+        <div class="map-embed"><iframe id="mMapFrame" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+        <a class="map-ext-btn" id="mMapLink" href="#" target="_blank">🗺️ Open in Google Maps ↗</a>
+      </div>
+
+      <!-- QUOTE -->
+      <div class="mquote" id="mQW" style="display:none">
+        <div class="mqtxt" id="mQ"></div>
+        <div class="mqsrc">— AURA MOTIVATION</div>
+      </div>
+
+      <div style="font-size:13.5px;color:var(--text2);line-height:1.78;padding:14px 16px;background:var(--card2);border-radius:12px;border-left:3px solid var(--a);margin-bottom:18px;" id="mDesc"></div>
+
+      <!-- SCHOLARSHIP -->
+      <div class="msec">
+        <div class="msect">🎓 INTERNAL SCHOLARSHIP STATUS</div>
+        <div class="sst" id="mSS"></div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6;" id="mSN"></div>
+      </div>
+
+      <!-- CRITERIA -->
+      <div class="msec">
+        <div class="msect">📋 MINIMUM CRITERIA TO FILL FORM</div>
+        <div class="crgrid" id="mCr"></div>
+      </div>
+
+      <!-- DOCS -->
+      <div class="msec">
+        <div class="msect">📄 DOCUMENTS REQUIRED</div>
+        <div class="docs" id="mDocs"></div>
+      </div>
+
+      <!-- FACTS -->
+      <div class="msec">
+        <div class="msect">📊 QUICK FACTS</div>
+        <div class="mgrid" id="mGrid"></div>
+      </div>
+
+      <div class="ik" style="margin-bottom:8px">🏅 EXTERNAL SCHOLARSHIPS</div>
+      <div class="tags" id="mSch" style="margin-bottom:16px"></div>
+
+      <div class="ubox">
+        <div class="blbl bacc">★ UNIQUE SELLING POINT</div>
+        <div class="btxt bital" id="mUSP"></div>
+      </div>
+      <div class="tip-box" style="margin-top:11px">
+        <div class="blbl bacc3">◈ BRIDGE COURSE TIP</div>
+        <div class="btxt" id="mTip"></div>
+      </div>
+      <div class="mpill" id="mMo"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="flogo">AURA</div>
+  <p>Built for every SEE graduate who dares to dream big. 🇳🇵</p>
+  <p class="fmono">AURA EDUCATION PLATFORM · NEPAL · 2025</p>
+</footer>
+
+<script>
+/* ════════════════════════════════════
+   COLLEGE DATA
+════════════════════════════════════ */
+const DATA=[
+{rank:1,name:"St. Xavier's College (SXC)",loc:"Maitighar, Kathmandu",diff:"Very Hard",focus:"Mathematics, Science, English & Logic — 100 MCQs",scholar:["Entrance Topper (Partial Fee Waiver)"],month:"Ashadh (Late June–July)",usp:"Nepal's most prestigious +2. Jesuit-run since 1988. Acceptance rate under 2.8% — tougher to get into than many Ivy League schools.",tip:"Master Olympiad-level Maths and verbal analogies. Revise ALL past SXC papers. NEVER trust a coaching institute — SXC officially states it is NOT affiliated with any.",desc:"Nepal's crown jewel of +2 education. Founded by the Nepal Jesuit Society in 1988, SXC has produced Nepal's most accomplished graduates. Each year 18,000–30,000 students apply for just 504 seats — an acceptance rate below 2.8%. The college runs two Science groups: Biology and Computer. It boasts state-of-the-art labs, rooftop cafeteria, 40 Mbps internet, multimedia classrooms, and an alumni network reaching Oxford, Cambridge, MIT, and Harvard.",img:"https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80",stream:"Science",isXavier:true,internalScholarship:false,scholarNote:"SXC does NOT offer internal scholarships for +2. Admission is 100% merit-based. A partial fee concession may apply for the absolute entrance exam topper only.",criteria:[{k:"Science Grade",v:"Minimum 'A' in SEE Science"},{k:"Maths Grade",v:"Minimum 'A' in both Compulsory & Optional Maths"},{k:"English Grade",v:"Minimum 'A' in SEE English"},{k:"All Other Subjects",v:"Minimum 'B+' across all remaining subjects"},{k:"Form Fee",v:"Rs. 125 via Khalti or eSewa"},{k:"Application Mode",v:"Online only at sxc.edu.np"},{k:"Groups Available",v:"Biology OR Computer (choose one — no change after)"},{k:"Symbol Number",v:"Required — SEE symbol number to begin form"}],docs:["SEE Admit Card (original — required at exam hall)","SXC Entrance Exam Admit Card (color printed, A4)","SEE Grade Sheet / Marksheet (internet print accepted)","Grade 8, 9 & 10 marksheets (uploaded during form filling)","2B Pencil, eraser, ordinary calculator (exam day essentials)","NO mobile phones or smart devices allowed in exam hall","Parents/Guardian must accompany student to interview","Character Certificate (original — submitted at admission)"],quote:"30,000 students walked in. 700 made it to interview. 500 were selected. You don't need luck — you need preparation, grit, and the belief that your name belongs on that list. It's difficult, but not impossible.",interview:true,lat:27.6933,lng:85.3211,mapsUrl:"https://maps.google.com/?q=27.6933,85.3211"},
+{rank:2,name:"St. Xavier's School Jawalakhel (SXJ)",loc:"Jawalakhel, Lalitpur",diff:"Very Hard",focus:"Maths, Science, English & IQ — Objective MCQs + Interview",scholar:["Merit-based (Limited)"],month:"Baisakh–Jestha (Apr–May)",usp:"The original Xavier's school campus. Jesuit values, disciplined culture, and a legacy since 1951. Smaller intake = more personal attention and a tighter community.",tip:"Entrance tests Maths, Science, English, and IQ through objective questions. Revise all SEE topics deeply. Interview assesses character — be honest, confident, and genuinely curious.",desc:"St. Xavier's School Jawalakhel, run by the Nepal Jesuit Society, is the school that gave birth to the entire Xaverian tradition in the Kathmandu Valley. Operating from the peaceful Jawalakhel campus in Lalitpur, SXJ offers a smaller, more intimate learning environment. The school upholds Jesuit ideals — forming 'Men and Women for Others' — combining strong academics with moral formation, co-curricular excellence, and community service.",img:"https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80",stream:"Science",isXavier:true,internalScholarship:false,scholarNote:"SXJ follows the Jesuit network's general policy — scholarships are not formally offered at +2 level. Some merit-based partial concessions may exist at the school's discretion.",criteria:[{k:"SEE Performance",v:"Strong grades in Science, Maths & English"},{k:"Entrance Exam",v:"Objective MCQs — Maths, Science, English, IQ"},{k:"Exam Duration",v:"75 minutes"},{k:"Interview",v:"Mandatory after written shortlisting"},{k:"Application",v:"Visit sxj.edu.np for current cycle"}],docs:["SEE Grade Sheet / Marksheet (photocopy)","SEE Admit Card","Completed application form","Recent passport-size photographs (4 copies)","Character Certificate from previous school","Transfer Certificate (TC)","Birth Certificate (photocopy)","Parent/Guardian ID copy"],quote:"The Jesuit tradition has shaped Nepal's greatest minds for over 70 years. To walk through SXJ's gates is to join a legacy — one earned by those who work harder than doubt.",interview:true,lat:27.6743,lng:85.3135,mapsUrl:"https://maps.app.goo.gl/BZ5wupi69Zb4Y9EZ6"},
+{rank:3,name:"St. Xavier's School Godavari (SXG)",loc:"Godavari, Lalitpur",diff:"Hard",focus:"Maths, Science, English & IQ — Objective Questions (75 mins)",scholar:["Merit-based"],month:"Baisakh–Jestha (Apr–May)",usp:"Nepal's oldest modern educational institution (est. 1951). Scenic, serene campus at the Godavari hills. A rare and deeply formative Jesuit experience.",tip:"Entrance exam is 75 minutes — objective questions in Maths, Science, English, and IQ. Depth of understanding beats last-minute cramming. Come calm and prepared.",desc:"St. Xavier's School Godavari, founded in 1951 by Fr. Marshall D. Moran at the invitation of King Tribhuvan, is Nepal's oldest modern educational institution. Set against the forested slopes of the Godavari hills in Lalitpur, the campus offers a serene, meditative learning environment unlike any other school in Nepal. SXG brings the full Xaverian tradition to the scenic southern valley.",img:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",stream:"Science",isXavier:true,internalScholarship:false,scholarNote:"SXG does not formally offer internal scholarships at +2 level. As a Jesuit institution, exceptional cases may be considered. Check sxg.edu.np for the current year's details.",criteria:[{k:"SEE Performance",v:"Strong grades in Science, Maths & English"},{k:"Entrance Exam",v:"Objective: Maths, Science, English & IQ"},{k:"Duration",v:"75 minutes"},{k:"Interview",v:"Shortlisted candidates face interview panel"},{k:"Updates",v:"Check sxg.edu.np after SEE results"}],docs:["SEE Grade Sheet / Marksheet (attested copy)","SEE Admit Card","Completed application form","Recent passport-size photographs (4 copies)","Character Certificate","Transfer Certificate (TC)","Birth Certificate (photocopy)","Parent/Guardian ID photocopy"],quote:"Nepal's oldest school still stands — not because of age, but because of values. If you earn a seat in Godavari's hills, you carry those values for a lifetime.",interview:true,lat:27.5924,lng:85.3797,mapsUrl:"https://maps.app.goo.gl/n3ZpA4yc6Zur8KhY7"},
+{rank:4,name:"Kathmandu Model College (KMC)",loc:"Bagbazar, Kathmandu",diff:"Hard",focus:"Management: Economics, English & Accountancy / Science: Physics & Chemistry MCQs",scholar:["Merit-based","District-quota","Sports Quota"],month:"Jestha (May)",usp:"Legacy institution since 1961. Nepal's largest +2 enrollment. Exceptional Management stream — alumni lead Nepal's top corporations, banks and CA firms.",tip:"Management: Economics basics, English writing, accountancy fundamentals. Science: Physics and Chemistry MCQ speed is everything. Cover all SEE topics thoroughly.",desc:"Kathmandu Model College, established in 1961, is one of Nepal's oldest and most respected educational institutions. With thousands of students across Science, Management, and Humanities, KMC offers vibrant student societies, sports programs, and cultural events. Its Management faculty is particularly renowned, producing CAs, MBAs, and corporate leaders who dominate Nepal's business landscape.",img:"https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=800&q=80",stream:"Management/Science",internalScholarship:true,scholarNote:"YES — KMC offers merit-based, district-quota, and sports-quota scholarships. Top entrance scorers receive significant fee reductions.",criteria:[{k:"SEE GPA",v:"Minimum 2.40 GPA"},{k:"Entrance Exam",v:"Written MCQ by the college"},{k:"Streams",v:"Science & Management"},{k:"Application",v:"Physical form from college + online"}],docs:["SEE Grade Sheet / Marksheet","Completed application form","Recent passport-size photographs (4 copies)","Character Certificate","Transfer Certificate (TC)","Citizenship / Birth Certificate"],quote:"Six decades of graduates. One consistent truth: KMC doesn't just teach students — it builds careers.",interview:false,lat:27.7066,lng:85.3189,mapsUrl:"https://maps.app.goo.gl/zmn5KS1DWZhZsSQg7"},
+{rank:5,name:"Trinity Int'l College",loc:"Dillibazar, Kathmandu",diff:"Hard",focus:"Mathematics, Science, English & Logical Reasoning — MCQ-based",scholar:["Merit-based","Entrance Topper","Sibling Discount"],month:"Baisakh (Apr)",usp:"Kathmandu's most popular Science +2. Exceptional NEB board results, experienced faculty & a fiercely competitive peer environment that sharpens every student.",tip:"Speed-based MCQ Maths practice is essential. Chemistry numericals and Physics formula application are critical — time management under exam pressure is your real advantage.",desc:"Trinity International College is synonymous with Science +2 excellence in Nepal. Consistently producing NEB toppers and high-scorers who ace MBBS and IOE entrance exams, Trinity maintains a strict academic culture, regular mock tests, and specialized faculty. Its large student body creates a genuinely competitive environment that prepares you for the real entrance exams ahead.",img:"https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80",stream:"Science",internalScholarship:true,scholarNote:"YES — Trinity offers merit-based and entrance-topper scholarships. Exceptional SEE performers may receive partial to significant fee waivers.",criteria:[{k:"SEE GPA",v:"Minimum 3.20 GPA recommended"},{k:"Science & Maths",v:"Strong grades essential"},{k:"Entrance Exam",v:"Written MCQ — Maths, Science, English"},{k:"Application",v:"Online & physical form both accepted"}],docs:["SEE Grade Sheet / Marksheet (original + photocopy)","SEE Admit Card","Application form","Recent passport-size photographs (4–6 copies)","Character Certificate","Transfer Certificate (TC)","Citizenship / Birth Certificate"],quote:"At Trinity, your competition sits next to you in class. Use that pressure as fuel — not fear.",interview:false,lat:27.7037,lng:85.3251,mapsUrl:"https://maps.app.goo.gl/wzE1YAwHwpnqvdXr9"},
+{rank:6,name:"Prasadi Academy",loc:"Lalitpur, Kathmandu",diff:"Hard",focus:"Mathematics, Physics, Biology & Aptitude — MCQ-heavy",scholar:["Merit-based","Entrance Topper"],month:"Baisakh (Apr)",usp:"Top-ranked launchpad for Nepal's future doctors and engineers. Consistently produces MBBS and IOE entrance toppers year after year.",tip:"Biology diagrams, chemical equations, and Physics MCQs dominate. Solve at least 5 years of past papers. Speed + accuracy is the golden formula — build both simultaneously.",desc:"Prasadi Academy has earned a legendary reputation as the definitive launchpad for Nepal's doctors and engineers. Running an intensive academic program with dedicated entrance coaching, weekly benchmark tests, and doubt-clearing sessions, Prasadi's students graduate ready to ace MBBS and IOE. Its entrance is demanding, but those who pass are already halfway to their dreams.",img:"https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=800&q=80",stream:"Science",internalScholarship:true,scholarNote:"YES — Prasadi offers entrance-topper scholarships and merit-based fee reductions. Exceptional SEE performers may receive partial to significant fee waivers.",criteria:[{k:"SEE GPA",v:"3.20+ GPA strongly recommended"},{k:"Entrance Exam",v:"MCQ — Physics, Chemistry, Biology, Maths"},{k:"Application",v:"Physical form from college office"}],docs:["SEE Grade Sheet / Marksheet","Completed application form","Recent passport-size photographs (4 copies)","Character Certificate","Transfer Certificate (TC)","Citizenship / Birth Certificate"],quote:"Every MBBS topper was once a confused SEE graduate. The difference? They chose Prasadi and never looked back.",interview:false,lat:27.6702,lng:85.3159,mapsUrl:"https://maps.google.com/?q=27.6702,85.3159"},
+{rank:7,name:"Budhanilkantha School",loc:"Budhanilkantha, Kathmandu",diff:"Very Hard",focus:"Balanced: Maths, Science, English & Critical Thinking",scholar:["Full Government Scholarship","HSEB/NEB Recommended","Merit-based"],month:"Chaitra–Baisakh (Mar–Apr)",usp:"Nepal's only fully residential 100% scholarship school. Government-founded, globally oriented — graduates reach Oxford, Cambridge & Ivy Leagues regularly.",tip:"Advanced algebra, geometry, and English comprehension are key. Physical fitness and personality assessment matter enormously — prepare holistically.",desc:"Established in 1972 under royal patronage, Budhanilkantha is Nepal's most unique +2 institution — fully residential with a 100% scholarship model for selected students. The sprawling campus north of Kathmandu offers exceptional faculty, a nationally competitive entrance, and an environment that builds both intellect and character.",img:"https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80",stream:"Science",internalScholarship:true,scholarNote:"YES — Budhanilkantha operates on a full government scholarship model. Most students pay little to no tuition. Scholarship is the default, not the exception.",criteria:[{k:"SEE Performance",v:"Exceptional grades across all subjects"},{k:"Written Test",v:"Competitive Math, Science, English"},{k:"Physical Fitness",v:"Physical assessment included"},{k:"Personality",v:"Interview and personality evaluation"},{k:"Residential",v:"Must be willing to live on campus"}],docs:["SEE Grade Sheet / Marksheet","Application form (official website)","Recent passport-size photographs","Character Certificate","Birth Certificate","Citizenship / Parent Citizenship copy","Medical fitness certificate"],quote:"A scholarship to Budhanilkantha isn't given. It's earned by the few who are both academically fearless and personally exceptional.",interview:true,lat:27.7804,lng:85.3580,mapsUrl:"https://maps.google.com/?q=27.7804,85.3580"},
+{rank:8,name:"Rato Bangala School",loc:"Patan, Lalitpur",diff:"Very Hard",focus:"English Literature, Critical Thinking, Maths & Creative Writing",scholar:["Merit-based","Need-based Financial Aid","Entrance Topper"],month:"Chaitra–Baisakh (Mar–Apr)",usp:"Nepal's pioneer of progressive, child-centered pedagogy. Internationally benchmarked curriculum — English and critical thinking excellence at their absolute peak.",tip:"Read widely — newspapers, novels, essays. Practice critical analysis and creative writing. Their Maths tests logical reasoning, not rote formulas. Think before you answer.",desc:"Rato Bangala School, born from the legendary Rato Bangala Kitab publishing project, is a pioneer of progressive education in Nepal. Located in the cultural heart of Patan, the school applies a creative philosophy across classrooms — teaching students to question, explore, and create, not just memorize.",img:"https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80",stream:"Humanities/Science",internalScholarship:true,scholarNote:"YES — Rato Bangala offers need-based financial aid and merit scholarships. They genuinely believe cost should not be a barrier to excellent education.",criteria:[{k:"SEE Performance",v:"Outstanding across all subjects"},{k:"Critical Thinking",v:"Analytical reasoning tested"},{k:"English",v:"Very high proficiency required"},{k:"Interview",v:"Personality and critical thinking interview"}],docs:["SEE Grade Sheet / Marksheet","Application form","Recent passport-size photographs","Character Certificate","Writing sample (may be required)","Parent/Guardian ID","Birth Certificate"],quote:"Not everyone studies at Rato Bangala. But everyone who does, leaves changed — with a mind that questions and a voice that matters.",interview:true,lat:27.6776,lng:85.3205,mapsUrl:"https://maps.google.com/?q=27.6776,85.3205"},
+{rank:9,name:"Little Angels' Higher Secondary",loc:"New Baneshwor, Kathmandu",diff:"Hard",focus:"Science, Maths, English & IQ — Balanced MCQ Entrance",scholar:["Merit-based","District-quota","Entrance Topper"],month:"Chaitra–Baisakh (Mar–Apr)",usp:"Kathmandu's beloved legacy institution with 95%+ board pass rate. Excellent for both Science and Management streams with rich cultural programs.",tip:"Solve past Little Angels entrance papers consistently. IQ and logical reasoning alongside Science MCQs. Understanding beats memorization — every single time.",desc:"Little Angels' Higher Secondary School is a Kathmandu institution beloved across generations. With striking architecture near New Baneshwor, it combines strong academic programs with active student life — sports, drama, music, and inter-house competitions. Known for consistently excellent NEB board results and dedicated teachers.",img:"https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=800&q=80",stream:"Science/Management",internalScholarship:true,scholarNote:"YES — District-quota and merit-based scholarships available. Entrance toppers receive meaningful fee reductions.",criteria:[{k:"SEE GPA",v:"3.00+ GPA recommended"},{k:"Entrance Exam",v:"MCQ: Science, Maths, English, IQ"},{k:"Application",v:"Physical + online submission"},{k:"Interview",v:"May be required for shortlisted candidates"}],docs:["SEE Grade Sheet / Marksheet (original + copy)","SEE Admit Card","Application form","Recent passport-size photographs (4 copies)","Character Certificate","Transfer Certificate (TC)","Birth Certificate / Citizenship copy"],quote:"Little Angels has shaped great Nepalis for decades. Add your name to that story.",interview:false,lat:27.6881,lng:85.3393,mapsUrl:"https://maps.google.com/?q=27.6881,85.3393"},
+{rank:10,name:"SOS Hermann Gmeiner HSS",loc:"Jorpati, Kathmandu",diff:"Medium",focus:"English proficiency, Science basics & General Knowledge",scholar:["Merit-based","SOS Internal Scholarship","District-quota"],month:"Jestha (May)",usp:"Compassion-driven institution with international curriculum ethos. Strong co-curricular emphasis — bilingual education and community leadership built in.",tip:"Science fundamentals and daily English newspaper reading. GK on Nepal and world affairs gives a meaningful edge. Show genuine curiosity and community spirit.",desc:"SOS Hermann Gmeiner School, part of the global SOS Children's Villages mission, brings a humanitarian spirit to +2 education. Located in the serene Jorpati area, the school offers a nurturing bilingual environment where every student is seen as an individual. Extra-curricular programs and international exchange networks make SOS genuinely unique.",img:"https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",stream:"Science/Management",internalScholarship:true,scholarNote:"YES — SOS offers its own internal scholarship program, especially for students from underprivileged backgrounds.",criteria:[{k:"SEE GPA",v:"Minimum 2.00 GPA"},{k:"Entrance Exam",v:"Written: English, Science, GK"},{k:"Interview",v:"May be conducted"},{k:"Application",v:"Physical form from school office"}],docs:["SEE Grade Sheet / Marksheet","Completed application form","Recent passport-size photographs (4 copies)","Character Certificate","Transfer Certificate (TC)","Citizenship / Birth Certificate"],quote:"Education with compassion. At SOS, you don't just gain knowledge — you gain a conscience.",interview:true,lat:27.6846,lng:85.3708,mapsUrl:"https://maps.google.com/?q=27.6846,85.3708"},
+{rank:11,name:"Apex College",loc:"Siphal, Kathmandu",diff:"Medium",focus:"Management, Economics, English & General Aptitude",scholar:["Merit-based","Entrance Topper","HSEB/NEB Recommended"],month:"Baisakh–Jestha (Apr–May)",usp:"Top pick for Management stream. TU-affiliated with exceptional internship networks and strong industry tie-ups.",tip:"General knowledge, basic accountancy, and English grammar are your foundation. Verbal analogies and business GK will differentiate you in the entrance.",desc:"Apex College has carved a strong reputation as one of Kathmandu's leading Management +2 destinations. Affiliated with Tribhuvan University, it offers rigorous coursework alongside practical internship opportunities. Guest lectures from industry leaders and an entrepreneurship club make Apex a genuine launchpad for future business leaders.",img:"https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",stream:"Management",internalScholarship:true,scholarNote:"YES — Apex offers merit-based and entrance-topper scholarships. HSEB/NEB-recommended students receive preferential consideration.",criteria:[{k:"SEE GPA",v:"Minimum 2.00 GPA"},{k:"Entrance Exam",v:"MCQ: Management, Economics, English, GK"},{k:"Application",v:"Online + physical form"},{k:"Stream",v:"Management only at +2 level"}],docs:["SEE Grade Sheet / Marksheet","Application form","Recent passport-size photographs (4 copies)","Character Certificate","Transfer Certificate (TC)","Citizenship / Birth Certificate"],quote:"Business doesn't wait for perfect conditions. Start learning to lead — at Apex.",interview:false,lat:27.6990,lng:85.3380,mapsUrl:"https://maps.google.com/?q=27.6990,85.3380"},
+{rank:12,name:"Prime College",loc:"Nayabazar, Kathmandu",diff:"Medium",focus:"Science/Management MCQs, English & Maths",scholar:["Merit-based","Entrance Topper","HSEB/NEB Recommended"],month:"Baisakh–Jestha (Apr–May)",usp:"Consistently high-performing for both Science and Management. Affordable, TU-affiliated, known for strong collaborative peer-learning culture.",tip:"Past SEE paper revision is foundational. Focus on Maths problem solving and English MCQs. Group study works extremely well for Prime's exam pattern.",desc:"Prime College in Nayabazar has built an impressive reputation as a well-rounded, affordable, and results-driven institution. Affiliated with Tribhuvan University, it offers strong Science and Management programs with experienced faculty, well-equipped labs, and a culture of collaborative learning.",img:"https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=800&q=80",stream:"Science/Management",internalScholarship:true,scholarNote:"YES — Prime College offers merit-based scholarships and HSEB/NEB-recommended student concessions.",criteria:[{k:"SEE GPA",v:"Minimum 2.00 GPA"},{k:"Entrance Exam",v:"MCQ: Science/Management + English + Maths"},{k:"Application",v:"Physical form from college office"}],docs:["SEE Grade Sheet / Marksheet","Application form","Recent passport-size photographs (4 copies)","Character Certificate","Transfer Certificate (TC)","Citizenship / Birth Certificate"],quote:"Prime isn't just a college — it's where average grades become extraordinary results.",interview:false,lat:27.7171,lng:85.3030,mapsUrl:"https://maps.google.com/?q=27.7171,85.3030"},
+{rank:13,name:"Moonlight Higher Secondary",loc:"Sinamangal, Kathmandu",diff:"Medium",focus:"Science & Mathematics MCQs with English Comprehension",scholar:["Merit-based","District-quota"],month:"Jestha (May)",usp:"Rising-star Science college with excellent faculty, disciplined campus culture, and strong focus on post-+2 entrance exam preparation.",tip:"MCQ-heavy entrance across Physics, Chemistry, Biology, and Math. Revise all SEE Science topics and sharpen mental math every day. Consistency beats cramming.",desc:"Moonlight Higher Secondary School has been steadily climbing Kathmandu's Science college rankings. Located near the international airport in Sinamangal, it offers modern infrastructure, dedicated labs, and a strong institutional focus on preparing students for MBBS and IOE entrance exams.",img:"https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?w=800&q=80",stream:"Science",internalScholarship:true,scholarNote:"YES — Merit-based and district-quota scholarships available.",criteria:[{k:"SEE GPA",v:"Minimum 2.00 GPA (2.40+ recommended)"},{k:"Entrance Exam",v:"MCQ: Physics, Chemistry, Biology, Maths, English"},{k:"Application",v:"Physical form from college"}],docs:["SEE Grade Sheet / Marksheet","Application form","Recent passport-size photographs (4 copies)","Character Certificate","Transfer Certificate (TC)","Citizenship / Birth Certificate"],quote:"Every topper in Moonlight started exactly where you are — uncertain, but willing. That willingness is everything.",interview:false,lat:27.6704,lng:85.3218,mapsUrl:"https://maps.google.com/?q=27.6704,85.3218"},
+{rank:14,name:"St. Mary's Higher Secondary",loc:"Jawalakhel, Lalitpur",diff:"Hard",focus:"English, Science basics & Mathematics",scholar:["Merit-based","Need-based"],month:"Baisakh (Apr)",usp:"Premier girls' institution with strong Loreto values, rigorous academics, consistent board toppers, and a safe structured campus.",tip:"English comprehension, Biology, and general Maths form the core. Confidence in personality assessment matters — prepare to communicate clearly.",desc:"St. Mary's Higher Secondary School, run by the Sisters of Loreto, has been empowering young women in Nepal for generations. Located in peaceful Jawalakhel, the campus offers a secure environment where academic excellence and personal growth go hand in hand.",img:"https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800&q=80",stream:"Science",internalScholarship:true,scholarNote:"YES — St. Mary's offers need-based financial assistance and merit scholarships for outstanding applicants.",criteria:[{k:"Gender",v:"Girls only (Sisters of Loreto)"},{k:"SEE Performance",v:"Strong grades in Science, English & Maths"},{k:"Interview",v:"Personality and communication assessment"},{k:"Application",v:"Physical form from school office"}],docs:["SEE Grade Sheet / Marksheet","Application form","Recent passport-size photographs (4 copies)","Character Certificate","Transfer Certificate (TC)","Birth Certificate / Citizenship Certificate","Parent/Guardian ID copy"],quote:"At St. Mary's, she doesn't just become a scientist or doctor. She becomes a leader.",interview:true,lat:27.6759,lng:85.3117,mapsUrl:"https://maps.google.com/?q=27.6759,85.3117"},
+{rank:15,name:"Himalayan White House Int'l",loc:"Tinkune, Kathmandu",diff:"Hard",focus:"Management subjects, English & Communication Skills",scholar:["Merit-based","Sports Quota"],month:"Baisakh (Apr)",usp:"Nepal's most globally connected Management college. A-Level pathway with SAT, IELTS, and TOEFL prep embedded in the academic calendar.",tip:"Polish your spoken and written English first. Business awareness and current affairs knowledge will impress the interview panel.",desc:"Himalayan White House International College sits at the intersection of Nepali education and global ambition. Located in Tinkune, it offers A-Level alongside +2 Management, with SAT, IELTS, and TOEFL preparation integrated into the academic calendar.",img:"https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",stream:"Management",internalScholarship:true,scholarNote:"YES — Merit-based and sports-quota scholarships available.",criteria:[{k:"SEE GPA",v:"Minimum 2.40 GPA"},{k:"English",v:"Strong communication skills required"},{k:"Interview",v:"Mandatory personality interview"},{k:"Application",v:"Online and physical forms"}],docs:["SEE Grade Sheet / Marksheet","Application form","Recent passport-size photographs (4 copies)","Character Certificate","Transfer Certificate (TC)","Citizenship / Birth Certificate"],quote:"Your passport to the world begins with a classroom in Tinkune. Dream globally. Study locally. Succeed everywhere.",interview:true,lat:27.6835,lng:85.3469,mapsUrl:"https://maps.google.com/?q=27.6835,85.3469"},
+{rank:16,name:"National Infotech College (NI)",loc:"Shiromani Tole, Birgunj",diff:"Easy",focus:"Basic Science, Maths & English — SEE-level + college entrance test",scholar:["100% Scholarship for Toppers","Sports Scholarship","Need-based"],month:"Ashadh (June–July)",usp:"Terai's ONLY dedicated Science & Technology college. 100% scholarship for exceptional students. Highest engineering & medical success rate in Parsa district.",tip:"Minimum 2.00 GPA (60% in SEE). College entrance test covers basic Science, Maths, and English. Weekly test culture here means you must be consistent, not just smart.",desc:"National Infotech College (NI), established in 2002, is Birgunj's definitive Science and Technology institution. With fully-equipped science labs, modern computer lab, smart-board classrooms, and a library, NI has produced Parsa district toppers in Engineering and Medical entrance exams for consecutive years. Every student receives a complete set of textbooks.",img:"https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80",stream:"Science",internalScholarship:true,scholarNote:"YES — NI Birgunj offers 100% scholarships to academically excellent students. Different scholarship tiers based on entrance merit and SEE performance.",criteria:[{k:"SEE GPA",v:"Minimum 2.00 GPA (60% aggregate)"},{k:"Entrance Exam",v:"College-conducted: Science, Maths & English"},{k:"Scholarship Exam",v:"Separate test for 100% waiver"},{k:"Application",v:"Physical form from NI College, Birgunj"}],docs:["SEE Grade Sheet / Marksheet (original + photocopy)","SEE Admit Card (photocopy)","Character Certificate","Application form receipt","Recent passport-size photographs (4 copies)","Citizenship Certificate / Birth Certificate copy"],quote:"Birgunj's best future engineers and doctors are sitting in NI classrooms right now. Will your seat be next to them?",interview:false,lat:27.0210,lng:84.8921,mapsUrl:"https://maps.google.com/?q=27.0210,84.8921"},
+{rank:17,name:"Birgunj Public College (BPC)",loc:"Panitanki, Birgunj",diff:"Easy",focus:"Management: Economics, Accountancy & English — Entrance + Interview",scholar:["Need-cum-Merit Scholarship","Merit-based"],month:"Ashadh (June–July)",usp:"Province 2's Best Business School Award (2019). ISO Certified — first in the state. Top Management college in Birgunj with dual TU & PU affiliation.",tip:"Entrance exam is mandatory. Personal interview with parents present is compulsory. Focus on English communication, basic Economics, and accountancy concepts.",desc:"Birgunj Public College (BPC), founded in 2057 BS, has established itself as the premier Management institution in Province 2. Awarded 'Best Business School of Province 2' in 2019 and the state's first ISO-Certified educational institution. With dual affiliation to TU and Purbanchal University, BPC offers BBA, BBS, BIM, MBA, and MBS programs.",img:"https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",stream:"Management",internalScholarship:true,scholarNote:"YES — BPC offers need-cum-merit scholarships for deserving students. Committed to making education accessible to all eligible students.",criteria:[{k:"SEE GPA",v:"SEE pass required (1.60+ GPA)"},{k:"Entrance Exam",v:"Mandatory: English, Economics, Maths basics"},{k:"Interview",v:"Compulsory with parents present"},{k:"Application",v:"Physical form from BPC Admissions"},{k:"Stream",v:"+2 Management only"}],docs:["SEE Grade Sheet / Marksheet (photocopy)","Transfer Certificate (TC) — photocopy","Character Certificate (CC) — photocopy","Academic Transcript (photocopy)","Original Migration Certificate + photocopy","Recent passport-size photographs (6 copies)","Duly filled Admission Form"],quote:"In an industrial city like Birgunj, every great business started with someone who understood how business works. That education begins at BPC.",interview:true,lat:27.0144,lng:84.8842,mapsUrl:"https://maps.google.com/?q=27.0144,84.8842"},
+{rank:18,name:"Gandaki College of Engineering",loc:"Pokhara, Gandaki Province",diff:"Medium",focus:"Heavy on Mathematics, Physics & Chemistry (IOE-prep focused)",scholar:["Merit-based","District-quota","Regional Scholarship"],month:"Jestha (May)",usp:"Top Science +2 outside Kathmandu. Primary gateway to IOE engineering in Pokhara zone — strong labs, dedicated faculty, mountain-city inspiration.",tip:"Physics numericals, Chemistry equations, and advanced Maths are your priorities. Pokhara-zone students enjoy district quota advantage — leverage it strategically.",desc:"GCES stands as Pokhara's premier Science college and the definitive pathway for engineering aspirants in western Nepal. With the majestic Annapurna range as a backdrop, the college combines exceptional academic rigor with one of Nepal's most inspiring learning environments.",img:"https://images.unsplash.com/photo-1610484826967-09c5720778c7?w=800&q=80",stream:"Science",internalScholarship:true,scholarNote:"YES — District-quota and regional scholarships available. Students from Gandaki Province receive preferential scholarship consideration.",criteria:[{k:"SEE GPA",v:"Minimum 2.00 GPA"},{k:"Focus",v:"Strong Maths and Science background"},{k:"Entrance Exam",v:"Written: Maths, Physics, Chemistry"},{k:"District Quota",v:"Gandaki Province students preferred"}],docs:["SEE Grade Sheet / Marksheet","Application form","Recent passport-size photographs (4 copies)","Character Certificate","Transfer Certificate (TC)","Citizenship / Birth Certificate","District/Province ID (for quota applicants)"],quote:"From Pokhara's lakes to Nepal's engineering halls — GCES is your first step.",interview:false,lat:28.2590,lng:83.9706,mapsUrl:"https://maps.google.com/?q=28.2590,83.9706"},
+{rank:19,name:"Orchid International College",loc:"Gaushala, Kathmandu",diff:"Easy",focus:"Basic Maths, English & General Science (SEE-level)",scholar:["Merit-based","HSEB/NEB Recommended"],month:"Ashadh (June–July)",usp:"Welcoming, inclusive campus focused on building confidence alongside academics. Great for students prioritizing a supportive community and holistic growth.",tip:"Revise SEE-level Maths and Science. English grammar basics and a confident interview attitude will carry you through their selection successfully.",desc:"Orchid International College provides an accessible and nurturing environment for students who want to grow both academically and personally. With modern facilities in Gaushala, the college builds confidence through public speaking clubs, cultural events, and mentorship programs.",img:"https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80",stream:"Science/Management",internalScholarship:true,scholarNote:"YES — Merit-based and HSEB/NEB-recommended scholarships available.",criteria:[{k:"SEE GPA",v:"Minimum 1.60 GPA (SEE pass sufficient)"},{k:"Entrance Exam",v:"Basic Maths, English & Science"},{k:"Application",v:"Physical form from college"}],docs:["SEE Grade Sheet / Marksheet","Application form","Recent passport-size photographs (4 copies)","Character Certificate","Transfer Certificate (TC)","Citizenship / Birth Certificate"],quote:"You don't need a perfect SEE score to have a great future. You need the right college to help you grow into one.",interview:false,lat:27.7023,lng:85.3466,mapsUrl:"https://maps.google.com/?q=27.7023,85.3466"},
+{rank:20,name:"Mahendra Multiple Campus",loc:"Dharan, Sunsari District",diff:"Easy",focus:"General Science, Maths & Nepali/English basics",scholar:["Merit-based","District-quota","Janajati/Dalit Quota"],month:"Ashadh (June–July)",usp:"Largest public +2 in Province 1. Highly accessible, affordable, and generous with quota-based scholarships for students from eastern Nepal.",tip:"SEE-level revision is fully sufficient. Focus on Nepali essay writing, basic algebra, and GK about Province 1. Community involvement is valued.",desc:"Mahendra Multiple Campus in Dharan is the educational heartbeat of Province 1, serving thousands of students from across eastern Nepal with affordable fees and inclusive scholarship systems. The campus hosts Science, Management, Humanities, and Education programs.",img:"https://images.unsplash.com/photo-1580912534337-3f2f52f5e1cb?w=800&q=80",stream:"All Streams",internalScholarship:true,scholarNote:"YES — Janajati, Dalit, District-quota, and Single-parent scholarships available. Government-aided programs accessible for eligible students.",criteria:[{k:"SEE GPA",v:"SEE pass (1.60+ GPA) sufficient"},{k:"Application",v:"Physical form from campus office"},{k:"Special Quotas",v:"Janajati, Dalit, District quotas available"}],docs:["SEE Grade Sheet / Marksheet","Application form","Recent passport-size photographs (4 copies)","Character Certificate","Transfer Certificate (TC)","Citizenship / Birth Certificate","Quota Certificate (if applicable)"],quote:"Your address in the eastern hills doesn't limit your destination. It's your starting line — not your finish.",interview:false,lat:26.8140,lng:87.2822,mapsUrl:"https://maps.google.com/?q=26.8140,87.2822"}
+];
+
+/* ════════════════════════════════════
+   HELPERS
+════════════════════════════════════ */
+const dk=d=>d==='Very Hard'?'v':d==='Hard'?'h':d==='Medium'?'m':'e';
+const ST={e:'se',m:'sm',h:'sh',v:'sv'};
+const DB={e:'de',m:'dm',h:'dh',v:'dv'};
+const EM={e:'✅',m:'⚖️',h:'⚡',v:'🔥'};
+
+/* ════════════════════════════════════
+   COMPARE STATE
+════════════════════════════════════ */
+let cmpList=[];
+function addCmp(c){
+  if(cmpList.find(x=>x.rank===c.rank)){removeCmp(c);return;}
+  if(cmpList.length>=3)return;
+  cmpList.push(c);
+  renderSlots();renderGrid();
+}
+function removeCmp(c){cmpList=cmpList.filter(x=>x.rank!==c.rank);renderSlots();renderGrid();}
+function renderSlots(){
+  for(let i=0;i<3;i++){
+    const sl=document.getElementById('slot'+i);
+    if(cmpList[i]){
+      sl.className='cmp-slot filled';
+      sl.innerHTML=`<span style="font-size:11px">${cmpList[i].name.substring(0,22)}</span><button class="rm" onclick="removeCmpByIdx(${i})">✕</button>`;
+    } else {
+      sl.className='cmp-slot';
+      sl.innerHTML=`Select college ${i+1}…`;
+    }
+  }
+  document.getElementById('cmpGo').disabled=cmpList.length<2;
+  // Update card buttons
+  document.querySelectorAll('.cmp-card-btn').forEach(b=>{
+    const idx=+b.dataset.idx;
+    const c=curList[idx];
+    if(!c)return;
+    const added=cmpList.find(x=>x.rank===c.rank);
+    b.textContent=added?'✓ Added':'+ Compare';
+    b.className='cmp-card-btn'+(added?' added':'');
+  });
+  // update card border
+  document.querySelectorAll('.card').forEach(card=>{
+    const idx=+card.dataset.idx;
+    const c=curList[idx];
+    if(!c)return;
+    const added=cmpList.find(x=>x.rank===c.rank);
+    card.classList.toggle('cmp-sel',!!added);
+  });
+}
+function removeCmpByIdx(i){cmpList.splice(i,1);renderSlots();renderGrid();}
+function goCmp(){showPage('compare');renderCmpPage();}
+
+/* ════════════════════════════════════
+   CARD RENDER
+════════════════════════════════════ */
+let curList=[...DATA];
+function cardHTML(c,i){
+  const k=dk(c.diff);
+  const tags=c.scholar.map(s=>`<span class="tag">${s}</span>`).join('');
+  const xb=c.isXavier?`<div class="xbadge">✦ JESUIT</div>`:'';
+  const sp=c.internalScholarship?`<div class="spill sy">✅ Internal Scholarship</div>`:`<div class="spill sn2">✕ No Internal Scholarship</div>`;
+  const added=cmpList.find(x=>x.rank===c.rank);
+  return `<div class="card${added?' cmp-sel':''}" data-diff="${c.diff}" data-idx="${i}" style="transition-delay:${(i%4)*60}ms">
+  <div class="cstr ${ST[k]}"></div>
+  <div class="ciw">
+    <img class="cimg" src="${c.img}" alt="${c.name}" loading="lazy">
+    <div class="cov"></div><div class="cgr"></div>
+    <div class="crk">${String(c.rank).padStart(2,'0')}</div>
+    ${xb}
+    <div class="dbadge ${DB[k]}">${EM[k]} ${c.diff}</div>
+    <button class="cmp-card-btn${added?' added':''}" data-idx="${i}" onclick="event.stopPropagation();addCmp(curList[${i}])">${added?'✓ Added':'+ Compare'}</button>
+  </div>
+  <div class="cbdy">
+    <div class="cname">${c.name}</div>
+    <div class="cloc"><span style="color:var(--a3);font-size:9px">◎</span>${c.loc}<a class="map-link" href="${c.mapsUrl}" target="_blank">🗺️ Map ↗</a></div>
+    ${sp}
+    <div class="cdesc">${c.desc.substring(0,120)}…</div>
+    <div class="div"></div>
+    <div class="ig">
+      <div><div class="ik">ENTRANCE FOCUS</div><div class="iv">${c.focus.substring(0,60)}…</div></div>
+      <div><div class="ik">STREAM</div><div class="iv">${c.stream}</div></div>
+    </div>
+    <div class="ik" style="margin-bottom:6px">SCHOLARSHIPS</div>
+    <div class="tags">${tags}</div>
+    <div class="ubox"><div class="blbl bacc">★ USP</div><div class="btxt bital">${c.usp.substring(0,100)}…</div></div>
+    ${c.quote?`<div class="qbanner"><div class="qtxt">"${c.quote.substring(0,90)}…"</div></div>`:''}
+    <div style="display:flex;align-items:center;flex-wrap:wrap">
+      <div class="mpill">📅 ${c.month}</div>
+      <button class="rmbtn" onclick="openModal(curList[${i}])">Full Details →</button>
+    </div>
+  </div>
+</div>`;
+}
+
+function render(list){
+  curList=list;
+  document.getElementById('cnt').textContent=`${list.length} result${list.length!==1?'s':''}`;
+  const g=document.getElementById('grid');
+  if(!list.length){g.innerHTML='<div class="nores">No colleges found 🔍</div>';return;}
+  g.innerHTML=list.map((c,i)=>cardHTML(c,i)).join('');
+  g.querySelectorAll('.cimg').forEach(img=>{img.onerror=()=>{img.src=`https://placehold.co/800x196/6c63ff/fff?text=${encodeURIComponent(img.alt)}`;img.onerror=null;};});
+  const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');}),{threshold:.07});
+  g.querySelectorAll('.card').forEach(c=>io.observe(c));
+}
+
+/* ════════════════════════════════════
+   MODAL
+════════════════════════════════════ */
+const modal=document.getElementById('modal');
+function openModal(c){
+  const k=dk(c.diff);
+  const mi=document.getElementById('mImg');
+  mi.src=c.img;mi.alt=c.name;
+  mi.onerror=()=>{mi.src=`https://placehold.co/760x270/6c63ff/fff?text=${encodeURIComponent(c.name)}`;mi.onerror=null;};
+  document.getElementById('mStr').className=`mstr ${ST[k]}`;
+  document.getElementById('mName').textContent=c.name;
+  document.getElementById('mLoc').innerHTML=`<span style="color:var(--a3)">◎</span> ${c.loc} &nbsp;·&nbsp; ${c.stream}`;
+
+  // Embedded map
+  const mapSrc=`https://maps.google.com/maps?q=${c.lat},${c.lng}&z=16&output=embed`;
+  document.getElementById('mMapFrame').src=mapSrc;
+  document.getElementById('mMapLink').href=c.mapsUrl;
+
+  // Quote
+  const qw=document.getElementById('mQW');
+  if(c.quote){qw.style.display='block';document.getElementById('mQ').textContent=`"${c.quote}"`;}
+  else{qw.style.display='none';}
+
+  document.getElementById('mDesc').textContent=c.desc;
+
+  // Scholarship
+  const ss=document.getElementById('mSS');
+  if(c.internalScholarship){ss.className='sst yes';ss.textContent='✅ Internal Scholarship Available';}
+  else{ss.className='sst no';ss.textContent='✕ No Internal Scholarship at +2 Level';}
+  document.getElementById('mSN').textContent=c.scholarNote||'';
+
+  // Criteria
+  document.getElementById('mCr').innerHTML=(c.criteria||[]).map(x=>`<div class="cri"><div class="crik">${x.k}</div><div class="criv">${x.v}</div></div>`).join('');
+  // Docs
+  document.getElementById('mDocs').innerHTML=(c.docs||[]).map(d=>`<div class="doc"><span class="dico">📎</span><span>${d}</span></div>`).join('');
+  // Facts
+  document.getElementById('mGrid').innerHTML=`
+    <div class="cri"><div class="crik">DIFFICULTY</div><div class="criv">${EM[k]} ${c.diff}</div></div>
+    <div class="cri"><div class="crik">ENTRANCE MONTH</div><div class="criv">${c.month}</div></div>
+    <div class="cri"><div class="crik">INTERVIEW</div><div class="criv">${c.interview?'✅ Yes — Mandatory':'✕ Not Required'}</div></div>
+    <div class="cri"><div class="crik">STREAM</div><div class="criv">${c.stream}</div></div>`;
+  document.getElementById('mSch').innerHTML=c.scholar.map(s=>`<span class="tag">${s}</span>`).join('');
+  document.getElementById('mUSP').textContent=c.usp;
+  document.getElementById('mTip').textContent=c.tip;
+  document.getElementById('mMo').textContent=`📅 ${c.month}`;
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+  document.querySelector('.mbox').scrollTop=0;
+}
+function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
+document.getElementById('mCls').addEventListener('click',closeModal);
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+/* ════════════════════════════════════
+   MAPS PAGE
+════════════════════════════════════ */
+function renderMaps(){
+  const ml=document.getElementById('mapList');
+  ml.innerHTML=DATA.map(c=>`
+    <div class="map-card">
+      <iframe class="map-frame" src="https://maps.google.com/maps?q=${c.lat},${c.lng}&z=15&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-info">
+        <div class="map-name">${c.name}</div>
+        <div class="map-addr">📍 ${c.loc}</div>
+        <a class="map-open-btn" href="${c.mapsUrl}" target="_blank">🗺️ Open in Google Maps ↗</a>
+      </div>
+    </div>`).join('');
+}
+
+/* ════════════════════════════════════
+   COMPARE PAGE
+════════════════════════════════════ */
+function renderGrid(){render(curList);}
+function renderCmpPage(){
+  const cc=document.getElementById('cmpCols');
+  if(!cmpList.length){cc.innerHTML='<div class="cmp-empty">No colleges selected yet.<br><span style="font-size:16px;font-family:Syne,sans-serif;font-style:normal;color:var(--mut)">Go to Colleges → click + Compare → Compare Now</span></div>';return;}
+  const rows=[
+    {k:'Difficulty',fn:c=>c.diff},
+    {k:'Stream',fn:c=>c.stream},
+    {k:'Entrance Focus',fn:c=>c.focus},
+    {k:'Internal Scholarship',fn:c=>c.internalScholarship?'✅ Yes':'✕ No'},
+    {k:'Entrance Month',fn:c=>c.month},
+    {k:'Interview Required',fn:c=>c.interview?'✅ Yes':'✕ No'},
+    {k:'Bridge Course Tip',fn:c=>c.tip},
+    {k:'USP',fn:c=>c.usp}
+  ];
+  cc.innerHTML=cmpList.map(c=>`
+    <div class="cmp-col">
+      <img class="cmp-col-img" src="${c.img}" alt="${c.name}" onerror="this.src='https://placehold.co/400x160/6c63ff/fff?text=${encodeURIComponent(c.name)}'">
+      <div class="cmp-col-body">
+        <div class="cmp-col-name">#${c.rank} ${c.name}</div>
+        <div class="cmp-col-loc">📍 ${c.loc}</div>
+        ${rows.map(r=>`<div class="cmp-row"><div class="cmp-rk">${r.k}</div><div class="cmp-rv">${r.fn(c)}</div></div>`).join('')}
+        <div style="margin-top:14px"><a class="map-open-btn" href="${c.mapsUrl}" target="_blank" style="font-size:10px">🗺️ View on Google Maps ↗</a></div>
+      </div>
+    </div>`).join('');
+}
+
+/* ════════════════════════════════════
+   PYQ
+════════════════════════════════════ */
+let pyqPapers=[];
+function renderPYQ(){
+  const sel=document.getElementById('pyqFilter').value;
+  const yr=document.getElementById('pyqYear').value;
+  const filtered=pyqPapers.filter(p=>(sel==='all'||p.college===sel)&&(yr==='all'||p.year===yr));
+  const g=document.getElementById('pyqGrid');
+  document.getElementById('pyqCount').textContent=`${filtered.length} paper${filtered.length!==1?'s':''}`;
+  if(!filtered.length){g.innerHTML='<div class="pyq-empty">No papers uploaded yet.<br><span style="font-size:14px;font-family:Syne,sans-serif;font-style:normal">Upload entrance exam papers above to build your PYQ library!</span></div>';return;}
+  g.innerHTML=filtered.map((p,i)=>`
+    <div class="pyq-card">
+      <div class="pyq-college">${p.college}</div>
+      <div class="pyq-title">${p.title}</div>
+      <div class="pyq-meta">📅 ${p.year} &nbsp;·&nbsp; 📁 ${p.type} &nbsp;·&nbsp; ${(p.size/1024).toFixed(1)} KB</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+        ${p.tags.map(t=>`<span class="pyq-tag">${t}</span>`).join('')}
+      </div>
+      <div class="pyq-actions">
+        <a class="pyq-btn dl" href="${p.url}" download="${p.title}">⬇️ Download</a>
+        <a class="pyq-btn" href="${p.url}" target="_blank">👁️ View</a>
+        <button class="pyq-btn" onclick="delPYQ(${i})" style="color:var(--a2);border-color:rgba(255,107,107,.3)">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+function delPYQ(i){
+  URL.revokeObjectURL(pyqPapers[i].url);
+  pyqPapers.splice(i,1);
+  renderPYQ();
+}
+// Populate college select
+function populatePYQSelect(){
+  const sel=document.getElementById('pyqFilter');
+  DATA.forEach(c=>{const o=document.createElement('option');o.value=c.name;o.textContent=c.name;sel.appendChild(o);});
+}
+// File upload
+document.getElementById('pyqFile').addEventListener('change',function(){
+  const collegeSel=document.getElementById('pyqFilter').value;
+  const yearSel=document.getElementById('pyqYear').value;
+  Array.from(this.files).forEach(f=>{
+    const url=URL.createObjectURL(f);
+    const ext=f.name.split('.').pop().toUpperCase();
+    const collegeName=collegeSel==='all'?'Unknown College':collegeSel;
+    const year=yearSel==='all'?'2081 BS':yearSel;
+    pyqPapers.unshift({college:collegeName,title:f.name.replace(/\.[^/.]+$/,''),year,type:ext,size:f.size,url,tags:[ext,'Entrance Exam',collegeName.split(' ')[0]]});
+  });
+  this.value='';
+  renderPYQ();
+});
+// Drag and drop
+const dz=document.getElementById('dropZone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));
+dz.addEventListener('drop',e=>{
+  e.preventDefault();dz.classList.remove('drag');
+  const ft=document.getElementById('pyqFile');
+  const dl=new DataTransfer();
+  Array.from(e.dataTransfer.files).forEach(f=>dl.items.add(f));
+  ft.files=dl.files;
+  ft.dispatchEvent(new Event('change'));
+});
+// Filter change
+['pyqFilter','pyqYear'].forEach(id=>document.getElementById(id).addEventListener('change',renderPYQ));
+
+/* ════════════════════════════════════
+   FILTER & SEARCH
+════════════════════════════════════ */
+let af='all';
+document.querySelectorAll('.fb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.fb').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');af=b.dataset.f;go();
+  });
+});
+document.getElementById('sInput').addEventListener('input',go);
+function go(){
+  const q=document.getElementById('sInput').value.toLowerCase().trim();
+  render(DATA.filter(c=>{
+    const md=af==='all'||c.diff===af;
+    const mq=!q||c.name.toLowerCase().includes(q)||c.loc.toLowerCase().includes(q)||c.stream.toLowerCase().includes(q);
+    return md&&mq;
+  }));
+}
+
+/* ════════════════════════════════════
+   PAGE NAV
+════════════════════════════════════ */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
+  document.getElementById('page-'+id).classList.add('show');
+  document.querySelectorAll('.ntab').forEach(t=>{t.classList.toggle('active',t.dataset.page===id);});
+  window.scrollTo(0,0);
+  if(id==='maps')renderMaps();
+  if(id==='compare')renderCmpPage();
+}
+document.querySelectorAll('.ntab').forEach(t=>{
+  t.addEventListener('click',()=>showPage(t.dataset.page));
+});
+
+/* ════════════════════════════════════
+   THEME
+════════════════════════════════════ */
+document.getElementById('tBtn').addEventListener('click',()=>{
+  const d=document.documentElement.dataset.theme==='dark';
+  document.documentElement.dataset.theme=d?'light':'dark';
+  document.getElementById('tIco').textContent=d?'☀️':'🌙';
+});
+
+/* ════════════════════════════════════
+   CURSOR
+════════════════════════════════════ */
+const curEl=document.getElementById('cur'),rEl=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;curEl.style.left=mx+'px';curEl.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;rEl.style.left=rx+'px';rEl.style.top=ry+'px';requestAnimationFrame(loop);})();
+
+/* ════════════════════════════════════
+   COUNTERS
+════════════════════════════════════ */
+document.querySelectorAll('[data-t]').forEach(el=>{
+  const t=+el.dataset.t;let n=0;
+  const s=()=>{n=Math.min(n+Math.ceil(t/18),t);el.textContent=n;if(n<t)requestAnimationFrame(s);};
+  setTimeout(s,900);
+});
+
+/* ════════════════════════════════════
+   INIT
+════════════════════════════════════ */
+render(DATA);
+populatePYQSelect();
+</script>
+</body>
+</html>

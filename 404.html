@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>404 — Page Not Found · AURA V.2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#080b12;--bg2:#0d1117;
+  --surf:rgba(255,255,255,.04);--border:rgba(255,255,255,.08);
+  --text:#f0f4ff;--text2:rgba(240,244,255,.5);--text3:rgba(240,244,255,.22);
+  --cyan:#00e5ff;--violet:#7c3aed;--blue:#3b82f6;--pink:#f472b6;
+  --fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;--fm:'JetBrains Mono',monospace;
+  --r:14px;--rx:24px;
+}
+[data-theme=light]{
+  --bg:#f4f6fb;--bg2:#eef0f7;
+  --surf:rgba(0,0,0,.04);--border:rgba(0,0,0,.09);
+  --text:#0d1117;--text2:rgba(13,17,23,.55);--text3:rgba(13,17,23,.28);
+  --cyan:#0077cc;--violet:#6d28d9;--blue:#2563eb;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%}
+body{
+  font-family:var(--fb);background:var(--bg);color:var(--text);
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:100vh;padding:2rem;
+  transition:background .5s,color .5s;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;
+}
+canvas{position:fixed;inset:0;z-index:0;opacity:.35;pointer-events:none}
+
+/* GRID */
+.grid{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,229,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,229,255,.035) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 80%);
+}
+[data-theme=light] .grid{background-image:linear-gradient(rgba(0,100,200,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,100,200,.04) 1px,transparent 1px)}
+
+/* ORB */
+.orb{position:fixed;border-radius:50%;pointer-events:none;filter:blur(70px);z-index:0}
+.o1{width:500px;height:500px;top:-150px;left:-100px;background:radial-gradient(circle,rgba(0,229,255,.08),transparent 70%)}
+.o2{width:400px;height:400px;bottom:-100px;right:-80px;background:radial-gradient(circle,rgba(124,58,237,.1),transparent 70%)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:99;height:60px;display:flex;
+  align-items:center;justify-content:space-between;padding:0 2rem;
+  background:rgba(8,11,18,.75);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+[data-theme=light] nav{background:rgba(244,246,251,.8)}
+.nlogo{display:flex;align-items:center;gap:8px;font-family:var(--fd);font-weight:800;font-size:1rem}
+.nlogo-icon{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:flex;align-items:center;justify-content:center;font-size:12px}
+.nbadge{font-family:var(--fm);font-size:.54rem;color:var(--cyan);background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);padding:2px 6px;border-radius:4px}
+.tbtn{width:42px;height:22px;border-radius:99px;background:var(--surf);border:1px solid var(--border);position:relative;cursor:pointer}
+.tbtn::before{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--violet));transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+[data-theme=light] .tbtn::before{transform:translateX(20px)}
+
+/* MAIN */
+main{position:relative;z-index:2;text-align:center;max-width:680px;width:100%;
+  animation:rise .8s cubic-bezier(.4,0,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* 404 GLITCH NUMBER */
+.glitch-wrap{position:relative;display:inline-block;margin-bottom:1.5rem}
+.four{
+  font-family:var(--fd);font-weight:800;
+  font-size:clamp(8rem,22vw,15rem);
+  letter-spacing:-.04em;line-height:1;
+  background:linear-gradient(135deg,var(--cyan) 0%,#a78bfa 45%,var(--blue) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  position:relative;
+  animation:glitch-base 6s ease infinite;
+  text-shadow:none;
+}
+.four::before,.four::after{
+  content:'404';
+  position:absolute;top:0;left:0;
+  font-family:var(--fd);font-weight:800;
+  font-size:clamp(8rem,22vw,15rem);
+  letter-spacing:-.04em;line-height:1;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.four::before{
+  background:linear-gradient(135deg,var(--cyan),var(--violet));
+  -webkit-background-clip:text;background-clip:text;
+  animation:glitch-1 6s ease infinite;opacity:.7;
+}
+.four::after{
+  background:linear-gradient(135deg,var(--violet),var(--pink));
+  -webkit-background-clip:text;background-clip:text;
+  animation:glitch-2 6s ease infinite;opacity:.5;
+}
+@keyframes glitch-base{
+  0%,90%,100%{filter:none}
+  91%,95%{filter:hue-rotate(30deg)}
+  92%,94%{filter:hue-rotate(-20deg)}
+}
+@keyframes glitch-1{
+  0%,89%,100%{clip-path:none;transform:none}
+  90%{clip-path:polygon(0 20%,100% 20%,100% 40%,0 40%);transform:translate(-4px,0)}
+  91%{clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%);transform:translate(4px,0)}
+  92%,99%{clip-path:none;transform:none}
+}
+@keyframes glitch-2{
+  0%,91%,100%{clip-path:none;transform:none}
+  92%{clip-path:polygon(0 30%,100% 30%,100% 55%,0 55%);transform:translate(3px,0)}
+  93%{clip-path:polygon(0 70%,100% 70%,100% 85%,0 85%);transform:translate(-3px,0)}
+  94%,99%{clip-path:none;transform:none}
+}
+
+/* Scanline on the 404 */
+.four-scanline{
+  position:absolute;top:0;left:-5%;right:-5%;bottom:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,229,255,.015) 2px,rgba(0,229,255,.015) 4px);
+  pointer-events:none;border-radius:4px;
+}
+
+/* Lost in space tag */
+.error-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--fm);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--cyan);background:rgba(0,229,255,.08);
+  border:1px solid rgba(0,229,255,.18);padding:5px 14px;border-radius:99px;
+  margin-bottom:1.2rem;
+}
+.tag-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);
+  box-shadow:0 0 8px var(--pink);animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* Title & desc */
+.err-title{
+  font-family:var(--fd);font-weight:800;
+  font-size:clamp(1.6rem,3.5vw,2.4rem);
+  letter-spacing:-.02em;margin-bottom:.75rem;
+}
+.err-desc{
+  font-size:1rem;color:var(--text2);max-width:440px;margin:0 auto 2.5rem;
+  font-weight:300;line-height:1.75;
+}
+.err-desc code{
+  font-family:var(--fm);font-size:.85em;
+  color:var(--cyan);background:rgba(0,229,255,.08);
+  border:1px solid rgba(0,229,255,.15);
+  padding:1px 6px;border-radius:4px;
+}
+
+/* Actions */
+.actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--fd);font-weight:700;font-size:.82rem;
+  letter-spacing:.04em;text-transform:uppercase;
+  padding:12px 24px;border-radius:var(--r);
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+  text-decoration:none;position:relative;overflow:hidden;
+}
+.btn:hover{transform:translateY(-2px) scale(1.02)}
+.btn-primary{
+  background:linear-gradient(135deg,var(--cyan),var(--violet));
+  color:#fff;box-shadow:0 0 24px rgba(0,229,255,.25);
+}
+.btn-primary:hover{box-shadow:0 0 40px rgba(0,229,255,.45)}
+.btn-ghost{
+  background:var(--surf);color:var(--text2);
+  border:1px solid var(--border);
+}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* Quick links */
+.quick-title{
+  font-family:var(--fm);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:.85rem;
+}
+.quick-links{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-bottom:2.5rem}
+.qlink{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.82rem;color:var(--text2);
+  background:var(--surf);border:1px solid var(--border);
+  padding:7px 14px;border-radius:var(--r);
+  text-decoration:none;transition:all .2s;
+}
+.qlink:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
+
+/* Terminal-style error log */
+.terminal{
+  background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--rx);
+  padding:1rem 1.25rem;max-width:480px;margin:0 auto;text-align:left;
+  font-family:var(--fm);font-size:.72rem;line-height:1.8;
+}
+[data-theme=light] .terminal{background:rgba(0,0,0,.06)}
+.terminal-header{display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.t-dot{width:10px;height:10px;border-radius:50%}
+.t-title{font-size:.65rem;color:var(--text3);margin-left:.25rem}
+.t-line{color:var(--text3)}
+.t-line .kw{color:var(--pink)}
+.t-line .val{color:var(--cyan)}
+.t-line .ok{color:var(--green)}
+.t-cursor{display:inline-block;width:8px;height:1em;background:var(--cyan);vertical-align:middle;animation:cur 1s step-end infinite}
+@keyframes cur{0%,100%{opacity:1}50%{opacity:0}}
+
+/* Footer */
+.err-footer{
+  margin-top:2.5rem;font-family:var(--fm);font-size:.62rem;
+  letter-spacing:.1em;color:var(--text3);text-transform:uppercase;
+}
+.err-footer span{color:var(--cyan)}
+</style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+<div class="grid"></div>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+
+<nav>
+  <a href="index.html" class="nlogo">
+    <div class="nlogo-icon">⚡</div>
+    <span>AURA</span>
+    <span class="nbadge">V.2</span>
+  </a>
+  <button class="tbtn" id="tbtn"></button>
+</nav>
+
+<main>
+  <div class="error-tag">
+    <div class="tag-dot"></div>
+    Error · Page Not Found
+  </div>
+
+  <div class="glitch-wrap">
+    <div class="four">404</div>
+    <div class="four-scanline"></div>
+  </div>
+
+  <h1 class="err-title">You've drifted<br>off the orbit</h1>
+  <p class="err-desc">
+    The page at <code id="bad-url">/this-page</code> doesn't exist in our universe.
+    It may have been deleted, moved, or never existed — much like the formula you forgot
+    before the exam.
+  </p>
+
+  <div class="actions">
+    <a href="index.html" class="btn btn-primary">⚡ Back to AURA</a>
+    <a href="formula-bank.html" class="btn btn-ghost">📘 Formula Bank</a>
+  </div>
+
+  <div class="quick-title">Or jump to one of these</div>
+  <div class="quick-links">
+    <a href="index.html" class="qlink">🏠 Home</a>
+    <a href="formula-bank.html" class="qlink">⚡ Physics</a>
+    <a href="formula-bank.html" class="qlink">🧬 Chemistry</a>
+    <a href="formula-bank.html" class="qlink">📐 Mathematics</a>
+    <a href="dashboard.html" class="qlink">📊 Dashboard</a>
+    <a href="about.html" class="qlink">👤 About</a>
+  </div>
+
+  <!-- Terminal error log -->
+  <div class="terminal">
+    <div class="terminal-header">
+      <div class="t-dot" style="background:#ff5f57"></div>
+      <div class="t-dot" style="background:#ffbd2e"></div>
+      <div class="t-dot" style="background:#28ca41"></div>
+      <div class="t-title">aura-v2 · error.log</div>
+    </div>
+    <div class="t-line"><span class="kw">ERROR</span> · <span class="val" id="t-url">/page</span> → <span class="kw">404 Not Found</span></div>
+    <div class="t-line"><span class="kw">TIME</span>  · <span class="val" id="t-time"></span></div>
+    <div class="t-line"><span class="kw">USER</span>  · <span class="val">+2 Science student</span></div>
+    <div class="t-line"><span class="kw">HINT</span>  · Try <span class="ok">formula-bank.html</span> or <span class="ok">index.html</span></div>
+    <div class="t-line" style="margin-top:.35rem"><span class="ok">✓</span> Redirecting to safety... <span class="t-cursor"></span></div>
+  </div>
+
+  <div class="err-footer">
+    AURA V.2 · Built by <span>VISION-S</span> · Kathmandu, Nepal
+  </div>
+</main>
+
+<script>
+// Show actual URL
+const path = window.location.pathname;
+document.getElementById('bad-url').textContent = path === '/404.html' ? '/unknown-page' : path;
+document.getElementById('t-url').textContent = path;
+document.getElementById('t-time').textContent = new Date().toISOString().replace('T',' ').slice(0,19)+' UTC';
+
+// Theme
+const html = document.documentElement;
+html.setAttribute('data-theme', localStorage.getItem('aura-theme')||'dark');
+document.getElementById('tbtn').addEventListener('click',()=>{
+  const n = html.getAttribute('data-theme')==='dark'?'light':'dark';
+  html.setAttribute('data-theme',n); localStorage.setItem('aura-theme',n);
+});
+
+// Particles
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+let W,H;
+function r(){W=cv.width=innerWidth;H=cv.height=innerHeight}r();window.addEventListener('resize',r);
+const pts=Array.from({length:40},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,
+  vx:(Math.random()-.5)*.12,vy:(Math.random()-.5)*.12,r:Math.random()*1.5+.5,
+  c:Math.random()>.5?'#00e5ff':'#7c3aed'}));
+(function draw(){
+  ctx.clearRect(0,0,W,H);
+  pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=p.c+'44';ctx.fill()});
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
