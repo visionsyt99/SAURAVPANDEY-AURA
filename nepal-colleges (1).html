@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA — +2 College Guide Nepal</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--accent:#6c63ff;--accent2:#ff6b6b;--accent3:#00d4aa;--gold:#ffd700;}
+[data-theme="dark"]{--bg:#030409;--surface:#080c18;--card:#0d1426;--card2:#111827;--text:#e8eaf0;--text2:#8b95aa;--muted:#485168;--border:rgba(108,99,255,0.18);--glow:0 0 40px rgba(108,99,255,0.28);--nav:rgba(3,4,9,0.9);--overlay:linear-gradient(to bottom,rgba(13,20,38,0) 20%,rgba(13,20,38,0.97) 100%);--noise:0.04;}
+[data-theme="light"]{--bg:#eef0ff;--surface:#e4e7f8;--card:#ffffff;--card2:#f4f5ff;--text:#111827;--text2:#374151;--muted:#8b95a8;--border:rgba(108,99,255,0.2);--glow:0 8px 40px rgba(108,99,255,0.18);--nav:rgba(238,240,255,0.92);--overlay:linear-gradient(to bottom,rgba(255,255,255,0) 20%,rgba(255,255,255,0.97) 100%);--noise:0.02;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;overflow-x:hidden;cursor:none;transition:background .4s,color .4s;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:9000;opacity:var(--noise);mix-blend-mode:overlay;}
+
+/* CURSOR */
+.cursor{width:10px;height:10px;background:var(--accent);border-radius:50%;position:fixed;transform:translate(-50%,-50%);pointer-events:none;z-index:9998;mix-blend-mode:screen;}
+[data-theme="light"] .cursor{mix-blend-mode:multiply;}
+.c-ring{width:38px;height:38px;border:1.5px solid rgba(108,99,255,.45);border-radius:50%;position:fixed;transform:translate(-50%,-50%);pointer-events:none;z-index:9997;transition:width .3s,height .3s;}
+
+/* BG */
+.g-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(108,99,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(108,99,255,.04) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;z-index:0;}
+[data-theme="light"] .g-bg{opacity:.6;}
+.orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;animation:orbF 10s ease-in-out infinite;}
+.o1{width:600px;height:600px;background:rgba(108,99,255,.07);top:-250px;left:-200px;}
+.o2{width:450px;height:450px;background:rgba(0,212,170,.05);bottom:50px;right:-150px;animation-delay:4s;}
+.o3{width:300px;height:300px;background:rgba(255,107,107,.04);top:55%;left:40%;animation-delay:7s;}
+[data-theme="light"] .o1{background:rgba(108,99,255,.1);}
+[data-theme="light"] .o2{background:rgba(0,212,170,.08);}
+@keyframes orbF{0%,100%{transform:translate(0,0);}50%{transform:translate(24px,-24px);}}
+
+/* THEME */
+.t-btn{position:fixed;top:22px;right:22px;z-index:500;width:64px;height:32px;background:var(--card);border:1.5px solid var(--border);border-radius:100px;cursor:none;display:flex;align-items:center;padding:4px;transition:all .3s;box-shadow:var(--glow);}
+.t-btn:hover{border-color:var(--accent);}
+.t-knob{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent3));display:flex;align-items:center;justify-content:center;font-size:12px;transition:transform .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 2px 10px rgba(108,99,255,.45);}
+[data-theme="light"] .t-knob{transform:translateX(32px);}
+
+/* HERO */
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:100px 24px 80px;}
+.h-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(108,99,255,.1);border:1px solid var(--border);border-radius:100px;padding:8px 24px;font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:2.5px;margin-bottom:44px;animation:fadeUp .8s ease forwards;opacity:0;}
+.p-dot{width:7px;height:7px;background:var(--accent3);border-radius:50%;animation:pd 2s ease-in-out infinite;}
+@keyframes pd{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.6);}}
+.h-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(68px,13vw,170px);line-height:.88;letter-spacing:-1px;animation:fadeUp .8s ease .15s forwards;opacity:0;}
+.outline{color:transparent;-webkit-text-stroke:1.5px rgba(108,99,255,.4);}
+.cursive{font-style:italic;font-family:'DM Serif Display',serif;color:var(--accent);font-size:.58em;-webkit-text-stroke:0;vertical-align:middle;}
+.h-desc{font-size:15.5px;color:var(--text2);max-width:520px;line-height:1.8;margin:30px auto 50px;animation:fadeUp .8s ease .3s forwards;opacity:0;}
+.h-stats{display:flex;gap:56px;animation:fadeUp .8s ease .45s forwards;opacity:0;}
+.stat{text-align:center;}
+.sn{font-family:'Bebas Neue',sans-serif;font-size:54px;line-height:1;color:var(--accent);text-shadow:0 0 30px rgba(108,99,255,.5);}
+[data-theme="light"] .sn{text-shadow:none;}
+.sl{font-size:10px;color:var(--muted);letter-spacing:2.5px;margin-top:4px;}
+.s-hint{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--muted);font-size:10px;letter-spacing:2.5px;animation:fadeUp .8s ease 1s forwards;opacity:0;}
+.s-line{width:1px;height:56px;background:linear-gradient(to bottom,var(--accent),transparent);animation:sl 2.2s ease-in-out infinite;}
+@keyframes sl{0%,100%{transform:scaleY(1);opacity:1;}50%{transform:scaleY(.4);opacity:.4;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
+/* FILTERS */
+.fbar{position:sticky;top:0;z-index:200;background:var(--nav);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);border-bottom:1px solid var(--border);padding:14px 48px;transition:background .4s,border-color .4s;}
+.fbar-in{max-width:1440px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.fl{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-right:4px;}
+.sw{position:relative;flex:1;max-width:260px;}
+.si{width:100%;background:rgba(108,99,255,.06);border:1px solid var(--border);color:var(--text);padding:9px 14px 9px 36px;border-radius:100px;font-family:'Syne',sans-serif;font-size:13px;outline:none;cursor:none;transition:all .3s;}
+.si::placeholder{color:var(--muted);}
+.si:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,99,255,.12);}
+.sico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;pointer-events:none;}
+.fb{background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 18px;border-radius:100px;font-family:'Syne',sans-serif;font-size:13px;font-weight:600;cursor:none;transition:all .25s;}
+.fb:hover{color:var(--text);border-color:rgba(108,99,255,.4);}
+.fb.active{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 0 20px rgba(108,99,255,.4);}
+
+/* MAIN */
+.main{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:64px 48px;}
+.sec-hd{display:flex;align-items:baseline;gap:16px;margin-bottom:48px;}
+.sec-t{font-family:'DM Serif Display',serif;font-size:44px;color:var(--text);}
+.sec-c{font-family:'Space Mono',monospace;font-size:13px;color:var(--muted);}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:28px;}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:24px;overflow:hidden;position:relative;cursor:none;opacity:0;transform:translateY(40px);transition:box-shadow .35s,border-color .35s,background .4s;}
+.card.vis{opacity:1;transform:translateY(0);transition:opacity .6s ease,transform .6s ease,box-shadow .35s,border-color .35s,background .4s;}
+.card:hover{border-color:rgba(108,99,255,.45);box-shadow:var(--glow);transform:translateY(-6px)!important;}
+.c-stripe{position:absolute;top:0;left:0;right:0;height:4px;z-index:2;}
+.se{background:linear-gradient(90deg,#00d4aa,#00b894);}
+.sm{background:linear-gradient(90deg,#ffd700,#f39c12);}
+.sh{background:linear-gradient(90deg,#ff6b6b,#ff4757);}
+.sv{background:linear-gradient(90deg,#ff4757,#c0392b);}
+.c-img-w{position:relative;height:200px;overflow:hidden;}
+.c-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.4,0,.2,1);}
+.card:hover .c-img{transform:scale(1.07);}
+.c-ov{position:absolute;inset:0;background:var(--overlay);}
+.c-gr{position:absolute;inset:0;background:linear-gradient(135deg,rgba(108,99,255,.22) 0%,transparent 55%);}
+.c-rank{position:absolute;bottom:10px;right:14px;font-family:'Bebas Neue',sans-serif;font-size:70px;color:rgba(255,255,255,.07);line-height:1;pointer-events:none;z-index:1;}
+[data-theme="light"] .c-rank{color:rgba(0,0,0,.04);}
+.d-badge{position:absolute;bottom:14px;left:14px;z-index:3;display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1px;backdrop-filter:blur(8px);}
+.xavier-badge{position:absolute;top:14px;left:14px;z-index:3;display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;background:rgba(108,99,255,.25);color:#a29bfe;border:1px solid rgba(108,99,255,.5);backdrop-filter:blur(8px);}
+.de{background:rgba(0,212,170,.2);color:#00d4aa;border:1px solid rgba(0,212,170,.4);}
+.dm{background:rgba(255,215,0,.18);color:#ffd700;border:1px solid rgba(255,215,0,.4);}
+.dh{background:rgba(255,107,107,.2);color:#ff6b6b;border:1px solid rgba(255,107,107,.4);}
+.dv{background:rgba(255,71,87,.2);color:#ff4757;border:1px solid rgba(255,71,87,.4);}
+.c-body{padding:24px 26px 26px;}
+.c-name{font-family:'DM Serif Display',serif;font-size:21px;color:var(--text);line-height:1.25;margin-bottom:5px;}
+.c-loc{display:flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);}
+.c-desc{font-size:12.5px;color:var(--text2);line-height:1.7;margin:13px 0;padding-left:13px;border-left:2px solid var(--border);}
+.div{height:1px;background:var(--border);margin:16px 0;}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.ik{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:4px;}
+.iv{font-size:12.5px;color:var(--text);line-height:1.4;}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.tag{background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.22);color:var(--gold);font-family:'Space Mono',monospace;font-size:10px;padding:4px 10px;border-radius:6px;}
+/* internal scholarship pill */
+.sch-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:100px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;margin-bottom:14px;}
+.sch-yes{background:rgba(0,212,170,.12);color:var(--accent3);border:1px solid rgba(0,212,170,.3);}
+.sch-no{background:rgba(255,107,107,.1);color:var(--accent2);border:1px solid rgba(255,107,107,.25);}
+.usp-box{background:rgba(108,99,255,.07);border:1px solid rgba(108,99,255,.16);border-radius:14px;padding:12px 14px;margin-bottom:11px;}
+[data-theme="light"] .usp-box{background:rgba(108,99,255,.06);}
+.bx-lbl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:6px;}
+.bx-acc{color:var(--accent);}
+.bx-acc3{color:var(--accent3);}
+.bx-gold{color:var(--gold);}
+.bx-txt{font-size:12.5px;color:var(--text);line-height:1.55;}
+.bx-italic{font-style:italic;}
+.tip-box{background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.14);border-radius:14px;padding:12px 14px;}
+[data-theme="light"] .tip-box{background:rgba(0,212,170,.06);}
+.m-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.2);border-radius:8px;padding:6px 12px;font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);margin-top:13px;}
+.rm-btn{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--border);color:var(--accent);padding:8px 18px;border-radius:100px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:none;transition:all .25s;margin-top:13px;margin-left:8px;}
+.rm-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+/* MOTIVATING QUOTE */
+.quote-banner{background:linear-gradient(135deg,rgba(108,99,255,.12),rgba(0,212,170,.08));border:1px solid rgba(108,99,255,.25);border-radius:14px;padding:14px 16px;margin-top:12px;}
+.q-text{font-family:'DM Serif Display',serif;font-size:14px;font-style:italic;color:var(--text);line-height:1.6;}
+.q-src{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:1.5px;margin-top:6px;}
+
+/* MODAL */
+.m-back{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.75);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.m-back.open{opacity:1;pointer-events:all;}
+.m-box{background:var(--card);border:1px solid var(--border);border-radius:28px;max-width:740px;width:100%;max-height:92vh;overflow-y:auto;position:relative;transform:scale(.92) translateY(20px);transition:transform .38s cubic-bezier(.34,1.56,.64,1);scrollbar-width:thin;scrollbar-color:var(--accent) transparent;}
+.m-back.open .m-box{transform:scale(1) translateY(0);}
+.m-close{position:absolute;top:18px;right:18px;z-index:10;background:rgba(108,99,255,.15);border:1px solid var(--border);color:var(--text);width:36px;height:36px;border-radius:50%;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:none;transition:all .2s;}
+.m-close:hover{background:var(--accent);color:#fff;}
+.m-img-w{position:relative;}
+.m-img{width:100%;height:280px;object-fit:cover;display:block;border-radius:28px 28px 0 0;}
+.m-img-ov{position:absolute;inset:0;background:var(--overlay);border-radius:28px 28px 0 0;pointer-events:none;}
+.m-body{padding:26px 30px 34px;}
+.m-stripe{height:3px;border-radius:4px;margin-bottom:18px;}
+.m-name{font-family:'DM Serif Display',serif;font-size:28px;color:var(--text);margin-bottom:6px;}
+.m-loc{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:18px;}
+.m-desc{font-size:13.5px;color:var(--text2);line-height:1.8;padding:15px 17px;background:var(--card2);border-radius:14px;border-left:3px solid var(--accent);margin-bottom:20px;}
+/* New modal sections */
+.m-section{margin-bottom:18px;}
+.m-sec-title{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.m-sec-title::after{content:'';flex:1;height:1px;background:var(--border);}
+.criteria-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;}
+.criteria-item{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;}
+.c-item-label{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:5px;}
+.c-item-val{font-size:13px;color:var(--text);line-height:1.45;}
+.docs-list{display:flex;flex-direction:column;gap:7px;}
+.doc-item{display:flex;align-items:flex-start;gap:10px;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px 13px;font-size:13px;color:var(--text);line-height:1.45;}
+.doc-ico{color:var(--accent3);font-size:13px;flex-shrink:0;margin-top:1px;}
+.m-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;}
+.m-quote{background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(0,212,170,.06));border:1px solid rgba(108,99,255,.22);border-radius:14px;padding:16px 18px;margin-bottom:18px;}
+.m-q-text{font-family:'DM Serif Display',serif;font-size:16px;font-style:italic;color:var(--text);line-height:1.65;}
+.m-q-src{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:1.5px;margin-top:8px;}
+.sch-status{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;margin-bottom:18px;}
+.sch-status.yes{background:rgba(0,212,170,.12);color:var(--accent3);border:1px solid rgba(0,212,170,.3);}
+.sch-status.no{background:rgba(255,107,107,.1);color:var(--accent2);border:1px solid rgba(255,107,107,.25);}
+.sch-note{font-size:12px;color:var(--text2);margin-left:8px;font-weight:400;}
+
+/* NO RESULTS */
+.no-res{grid-column:1/-1;text-align:center;padding:80px 0;color:var(--muted);font-family:'DM Serif Display',serif;font-size:28px;font-style:italic;}
+
+/* FOOTER */
+footer{position:relative;z-index:1;text-align:center;padding:80px 24px 60px;border-top:1px solid var(--border);transition:border-color .4s;}
+.f-logo{font-family:'Bebas Neue',sans-serif;font-size:88px;color:transparent;-webkit-text-stroke:1.5px rgba(108,99,255,.25);margin-bottom:18px;line-height:1;}
+footer p{color:var(--muted);font-size:13px;line-height:1.75;max-width:420px;margin:0 auto;}
+.f-mono{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;margin-top:22px;}
+
+@media(max-width:768px){.grid{grid-template-columns:1fr;}.h-stats{gap:32px;}.h-title{font-size:60px;}.fbar{padding:12px 20px;}.main{padding:40px 20px;}.m-grid{grid-template-columns:1fr;}.ig{grid-template-columns:1fr;}.criteria-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="c-ring" id="ring"></div>
+<button class="t-btn" id="tBtn"><div class="t-knob"><span id="tIco">🌙</span></div></button>
+<div class="g-bg"></div>
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="h-badge"><div class="p-dot"></div>AURA EDUCATION GUIDE · NEPAL 2025</div>
+  <h1 class="h-title">TOP 23<br><span class="outline">+2</span> <span class="cursive">Colleges</span><br>NEPAL</h1>
+  <p class="h-desc">Your definitive, curated guide to Nepal's finest +2 colleges — with entrance criteria, required documents, scholarship status, and insider tips for every SEE graduate ready to take the next bold step.</p>
+  <div class="h-stats">
+    <div class="stat"><div class="sn" data-target="23">0</div><div class="sl">COLLEGES</div></div>
+    <div class="stat"><div class="sn" data-target="4">0</div><div class="sl">DIFF LEVELS</div></div>
+    <div class="stat"><div class="sn" data-target="5">0</div><div class="sl">STREAMS</div></div>
+  </div>
+  <div class="s-hint"><span>EXPLORE</span><div class="s-line"></div></div>
+</section>
+
+<!-- FILTERS -->
+<div class="fbar">
+  <div class="fbar-in">
+    <span class="fl">FILTER //</span>
+    <div class="sw"><span class="sico">⌕</span><input class="si" type="text" placeholder="Search college, city, stream…" id="sInput"></div>
+    <button class="fb active" data-f="all">All 23</button>
+    <button class="fb" data-f="Easy">✅ Easy</button>
+    <button class="fb" data-f="Medium">⚖️ Medium</button>
+    <button class="fb" data-f="Hard">⚡ Hard</button>
+    <button class="fb" data-f="Very Hard">🔥 Very Hard</button>
+  </div>
+</div>
+
+<!-- GRID -->
+<section class="main">
+  <div class="sec-hd"><h2 class="sec-t">All Colleges</h2><span class="sec-c" id="cnt">23 results</span></div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<!-- MODAL -->
+<div class="m-back" id="modal">
+  <div class="m-box">
+    <button class="m-close" id="mClose">✕</button>
+    <div class="m-img-w"><img class="m-img" id="mImg" src="" alt=""><div class="m-img-ov"></div></div>
+    <div class="m-body">
+      <div class="m-stripe" id="mStripe"></div>
+      <div class="m-name" id="mName"></div>
+      <div class="m-loc" id="mLoc"></div>
+
+      <!-- MOTIVATING QUOTE -->
+      <div class="m-quote" id="mQuoteWrap" style="display:none">
+        <div class="m-q-text" id="mQuote"></div>
+        <div class="m-q-src">— AURA MOTIVATION</div>
+      </div>
+
+      <div class="m-desc" id="mDesc"></div>
+
+      <!-- INTERNAL SCHOLARSHIP -->
+      <div class="m-section">
+        <div class="m-sec-title">🎓 INTERNAL SCHOLARSHIP STATUS</div>
+        <div class="sch-status" id="mSchStatus"></div>
+        <div id="mSchNote" style="font-size:13px;color:var(--text2);line-height:1.6;margin-top:4px;"></div>
+      </div>
+
+      <!-- FORM CRITERIA -->
+      <div class="m-section">
+        <div class="m-sec-title">📋 MINIMUM CRITERIA TO FILL FORM</div>
+        <div class="criteria-grid" id="mCriteria"></div>
+      </div>
+
+      <!-- DOCUMENTS REQUIRED -->
+      <div class="m-section">
+        <div class="m-sec-title">📄 DOCUMENTS REQUIRED</div>
+        <div class="docs-list" id="mDocs"></div>
+      </div>
+
+      <!-- QUICK STATS -->
+      <div class="m-section">
+        <div class="m-sec-title">📊 QUICK FACTS</div>
+        <div class="m-grid" id="mGrid"></div>
+      </div>
+
+      <!-- SCHOLARSHIPS -->
+      <div class="ik" style="margin-bottom:8px">🏅 EXTERNAL SCHOLARSHIPS AVAILABLE</div>
+      <div class="tags" id="mScholar" style="margin-bottom:18px"></div>
+
+      <!-- USP + TIP -->
+      <div class="usp-box">
+        <div class="bx-lbl bx-acc">★ UNIQUE SELLING POINT</div>
+        <div class="bx-txt bx-italic" id="mUSP"></div>
+      </div>
+      <div class="tip-box" style="margin-top:12px">
+        <div class="bx-lbl bx-acc3">◈ BRIDGE COURSE TIP</div>
+        <div class="bx-txt" id="mTip"></div>
+      </div>
+      <div class="m-pill" id="mMonth"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">AURA</div>
+  <p>Built for every SEE graduate who dares to dream big. Your journey starts here — choose wisely, study hard, and shine bright. 🇳🇵</p>
+  <p class="f-mono">AURA EDUCATION PLATFORM · NEPAL · 2025</p>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════
+   DATA — 23 COLLEGES
+═══════════════════════════════════════ */
+const DATA=[
+{
+  name:"St. Xavier's College (SXC)",
+  loc:"Maitighar, Kathmandu",
+  diff:"Very Hard",
+  focus:"Mathematics, Science, English & Logic — 100 MCQs",
+  scholar:["Entrance Topper (Partial Fee Waiver)"],
+  month:"Ashadh (Late June–July)",
+  usp:"Nepal's most prestigious +2 institution. Jesuit-run since 1988. Acceptance rate under 2.8% — tougher than most Ivy League schools.",
+  tip:"Master Olympiad-level Maths and verbal analogies. Revise all past SXC papers. NEVER trust a coaching institute — SXC officially states it is NOT affiliated with any.",
+  desc:"Nepal's crown jewel of +2 education. Founded by the Nepal Jesuit Society in 1988, SXC has produced Nepal's most accomplished graduates across medicine, engineering, law, and international academia. Each year 18,000–30,000 students apply for just 504 seats — an acceptance rate below 2.8%. The college runs two Science groups: Biology and Computer. It boasts state-of-the-art labs, a rooftop cafeteria, 40 Mbps internet, multimedia classrooms, and an alumni network reaching Oxford, Cambridge, MIT, and Harvard. No hostel. No transport. Pure merit.",
+  img:"https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80",
+  rank:1, stream:"Science", isXavier:true,
+  internalScholarship:false,
+  scholarNote:"SXC does NOT offer internal scholarships for the +2 program. Admission is 100% merit-based with no fee waivers or need-based aid at +2 level. A partial fee concession may apply for the absolute entrance exam topper only.",
+  criteria:[
+    {k:"SEE Grade (Science)", v:"Minimum 'A' in Science"},
+    {k:"SEE Grade (Maths)", v:"Minimum 'A' in Compulsory & Optional Maths"},
+    {k:"SEE Grade (English)", v:"Minimum 'A' in English"},
+    {k:"All Other Subjects", v:"Minimum 'B+' in all remaining subjects"},
+    {k:"Form Fee", v:"Rs. 125 via Khalti or eSewa"},
+    {k:"Application Mode", v:"Online only at sxc.edu.np"},
+    {k:"Groups Available", v:"Biology OR Computer (choose one, no change allowed)"},
+    {k:"Symbol Number", v:"Required — SEE symbol number to begin form"}
+  ],
+  docs:[
+    "SEE Admit Card (original — required at exam hall)",
+    "SXC Entrance Exam Admit Card (color printed)",
+    "SEE Grade Sheet / Marksheet (internet print)",
+    "Grade 8, 9 & 10 marksheets (uploaded during form filling)",
+    "2B Pencil, eraser, ordinary calculator (for exam day)",
+    "NO mobile phones or smart devices allowed at exam",
+    "Parents/Guardian must accompany student to interview",
+    "Character Certificate (original — submission at admission)"
+  ],
+  quote:"30,000 students walked in. 700 made it to interview. 500 were selected. You don't need luck — you need preparation, grit, and the belief that your name belongs on that list. It's difficult, but not impossible.",
+  interview:true
+},
+{
+  name:"St. Xavier's School Jawalakhel (SXJ)",
+  loc:"Jawalakhel, Lalitpur",
+  diff:"Very Hard",
+  focus:"Maths, Science, English & IQ — Objective MCQs + Interview",
+  scholar:["Merit-based (Limited)"],
+  month:"Baisakh–Jestha (Apr–May)",
+  usp:"The original Xavier's school campus. Jesuit values, disciplined culture, and a legacy since 1951. Smaller intake = more personal attention.",
+  tip:"Entrance tests Maths, Science, English, and IQ through objective questions. Revise all SEE topics deeply. Interview assesses character — be honest, confident, and curious.",
+  desc:"St. Xavier's School Jawalakhel, run by the Nepal Jesuit Society, is the school that gave birth to the entire Xaverian tradition in the Kathmandu Valley. Operating from the peaceful Jawalakhel campus in Lalitpur, SXJ offers a smaller, more intimate learning environment compared to SXC Maitighar. The school upholds the Jesuit ideals of forming 'Men and Women for Others' — combining strong academics with moral formation, co-curricular excellence, and community service. A smaller intake means each student receives genuine individual attention.",
+  img:"https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80",
+  rank:2, stream:"Science", isXavier:true,
+  internalScholarship:false,
+  scholarNote:"SXJ follows the Jesuit network's general policy — scholarships are not formally offered at the +2 level. Some merit-based partial concessions may exist at the school's discretion. Confirm directly with SXJ admissions office.",
+  criteria:[
+    {k:"SEE Performance", v:"Strong grades in Science, Maths & English expected"},
+    {k:"Entrance Exam", v:"Objective MCQs — Maths, Science, English, IQ"},
+    {k:"Exam Duration", v:"75 minutes"},
+    {k:"Interview", v:"Mandatory after written shortlisting"},
+    {k:"Application Mode", v:"Visit stx.edu.np for current cycle details"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet (copy)",
+    "SEE Admit Card (for reference)",
+    "Completed application form (from school or website)",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate from previous school",
+    "Transfer Certificate (TC) from previous school",
+    "Birth Certificate (photocopy)",
+    "Parent/Guardian ID copy"
+  ],
+  quote:"The Jesuit tradition has shaped Nepal's greatest minds for over 70 years. To walk through SXJ's gates is to join a legacy — one earned by those who work harder than doubt.",
+  interview:true
+},
+{
+  name:"St. Xavier's School Godavari (SXG)",
+  loc:"Godavari, Lalitpur",
+  diff:"Hard",
+  focus:"Maths, Science, English & IQ — Objective Questions (75 mins)",
+  scholar:["Merit-based"],
+  month:"Baisakh–Jestha (Apr–May)",
+  usp:"Nepal's oldest modern educational institution (est. 1951). A scenic, serene residential-style campus at the foot of the Godavari hills. Rare and deeply formative.",
+  tip:"The entrance exam is 75 minutes — objective questions in Maths, Science, English, and IQ. Depth of understanding beats last-minute cramming. Come calm and confident.",
+  desc:"St. Xavier's School Godavari is where it all began — founded in 1951 by American Jesuit priest Fr. Marshall D. Moran at the invitation of King Tribhuvan, it is Nepal's oldest modern educational institution. Set against the forested slopes of the Godavari hills in Lalitpur, the campus offers a serene, almost meditative learning environment that is unlike any other school in Nepal. As a co-educational day school with Classes XI and XII now formally added, SXG brings the full Xaverian tradition to students in the scenic southern valley.",
+  img:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
+  rank:3, stream:"Science", isXavier:true,
+  internalScholarship:false,
+  scholarNote:"SXG does not formally offer internal scholarships at the +2 level. As a Jesuit institution, it may consider exceptional cases. Detailed scholarship info will be in the current year's admission notice at sxg.edu.np.",
+  criteria:[
+    {k:"SEE Performance", v:"Strong grades in Science, Maths & English"},
+    {k:"Entrance Exam", v:"Objective: Maths, Science, English & IQ"},
+    {k:"Duration", v:"75 minutes"},
+    {k:"Interview", v:"Shortlisted candidates face interview panel"},
+    {k:"Updates", v:"Check sxg.edu.np after SEE results"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet (attested copy)",
+    "SEE Admit Card",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate from previous school",
+    "Transfer Certificate (TC)",
+    "Birth Certificate (photocopy, government issued)",
+    "Parent / Guardian ID photocopy"
+  ],
+  quote:"Nepal's oldest school still stands — not because of age, but because of values. If you can earn a seat in Godavari's hills, you'll carry those values for life.",
+  interview:true
+},
+{
+  name:"Budhanilkantha School",
+  loc:"Budhanilkantha, Kathmandu",
+  diff:"Very Hard",
+  focus:"Balanced: Maths, Science, English & Critical Thinking",
+  scholar:["Full Government Scholarship","HSEB/NEB Recommended","Merit-based"],
+  month:"Chaitra–Baisakh (Mar–Apr)",
+  usp:"Nepal's only fully residential 100% scholarship school. Government-founded, globally oriented — graduates are accepted at Oxford, Cambridge & Ivy Leagues.",
+  tip:"Advanced algebra, geometry, and English comprehension are key. Physical fitness and personality assessment matter enormously — prepare holistically.",
+  desc:"Established in 1972 under royal patronage, Budhanilkantha is Nepal's most unique +2 institution — fully residential with a 100% scholarship model for selected students. The sprawling campus north of Kathmandu offers exceptional faculty, a nationally competitive entrance, and an environment that builds both intellect and character. Graduates consistently make it into the world's top universities on full scholarships.",
+  img:"https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80",
+  rank:4, stream:"Science",
+  internalScholarship:true,
+  scholarNote:"YES — Budhanilkantha operates on a full government scholarship model. Most students pay little to no tuition. This is one of the rare institutions where scholarship is the default, not the exception.",
+  criteria:[
+    {k:"SEE Performance", v:"Exceptional grades across all subjects"},
+    {k:"Entrance Exam", v:"Competitive written test (Math, Science, English)"},
+    {k:"Physical Fitness", v:"Physical assessment is part of selection"},
+    {k:"Personality Test", v:"Interview and personality evaluation required"},
+    {k:"Residential Commitment", v:"Students must be willing to live on campus"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "SEE Admit Card",
+    "Application form (from official website)",
+    "Recent passport-size photographs",
+    "Character Certificate",
+    "Birth Certificate",
+    "Citizenship Certificate / Parent Citizenship copy",
+    "Medical fitness certificate"
+  ],
+  quote:"A scholarship to Budhanilkantha isn't given. It's earned by the few who are both academically fearless and personally exceptional.",
+  interview:true
+},
+{
+  name:"Trinity International College",
+  loc:"Dillibazar, Kathmandu",
+  diff:"Hard",
+  focus:"Mathematics, Science, English & Logical Reasoning (MCQ-based)",
+  scholar:["Merit-based","Entrance Topper","Sibling Discount"],
+  month:"Baisakh (Apr)",
+  usp:"Kathmandu's most popular Science +2 with exceptional NEB board results, experienced faculty & a fiercely competitive peer environment that sharpens every student.",
+  tip:"Speed-based MCQ Maths practice is essential. Chemistry numericals and Physics formula application are critical — time management under exam pressure is your real advantage.",
+  desc:"Trinity International College is synonymous with Science +2 excellence in Nepal. Consistently producing NEB toppers and high-scorers who ace MBBS and IOE entrance exams, Trinity maintains a strict academic culture, regular mock tests, and specialized faculty in every science subject. Its large student body creates a genuinely competitive environment — the kind that prepares you for the real entrance exams ahead.",
+  img:"https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=800&q=80",
+  rank:5, stream:"Science",
+  internalScholarship:true,
+  scholarNote:"YES — Trinity offers merit-based internal scholarships, entrance topper scholarships (significant fee reduction), and sibling discounts. Scholarship percentage depends on entrance exam rank.",
+  criteria:[
+    {k:"SEE GPA", v:"Minimum 3.20 GPA overall recommended"},
+    {k:"Science & Maths", v:"Strong grades in Science and Mathematics"},
+    {k:"Entrance Exam", v:"Written MCQ test — Maths, Science, English"},
+    {k:"Application Mode", v:"Online & physical form both accepted"},
+    {k:"Form Fee", v:"Check current notice on college website"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet (original + photocopy)",
+    "SEE Admit Card (photocopy)",
+    "Application form (duly filled)",
+    "Recent passport-size photographs (4–6 copies)",
+    "Character Certificate from previous school",
+    "Transfer Certificate (TC)",
+    "Citizenship Certificate / Birth Certificate",
+    "Parent/Guardian ID photocopy"
+  ],
+  quote:"At Trinity, your competition sits next to you in class. Use that pressure as fuel — not fear.",
+  interview:false
+},
+{
+  name:"Prasadi Academy",
+  loc:"Dillibazar, Kathmandu",
+  diff:"Hard",
+  focus:"Mathematics, Physics, Biology & Aptitude (MCQ-heavy)",
+  scholar:["Merit-based","Entrance Topper"],
+  month:"Baisakh (Apr)",
+  usp:"Top-ranked launchpad for Nepal's future doctors and engineers. Consistently produces MBBS and IOE entrance toppers through intense, focused academics.",
+  tip:"Biology diagrams, chemical equations, and Physics MCQs dominate. Solve at least 5 years of past papers. Speed + accuracy is the golden formula — build both simultaneously.",
+  desc:"Prasadi Academy has earned a legendary reputation as the definitive launchpad for Nepal's doctors and engineers. Running an intensive academic program with dedicated entrance coaching, weekly benchmark tests, and doubt-clearing sessions, Prasadi's students graduate ready to ace MBBS and IOE. Its entrance is demanding, but those who pass are already halfway to their medical or engineering dreams.",
+  img:"https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80",
+  rank:6, stream:"Science",
+  internalScholarship:true,
+  scholarNote:"YES — Prasadi offers entrance-topper scholarships and merit-based fee reductions. Exceptional SEE performers may receive partial to significant fee waivers.",
+  criteria:[
+    {k:"SEE GPA", v:"3.20+ GPA strongly recommended"},
+    {k:"Entrance Exam", v:"MCQ — Physics, Chemistry, Biology, Maths"},
+    {k:"Application Mode", v:"Physical form from college office"},
+    {k:"Focus Subjects", v:"Strong Biology & Maths essential"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "SEE Admit Card",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Citizenship / Birth Certificate copy"
+  ],
+  quote:"Every MBBS topper was once a confused SEE graduate. The difference? They chose Prasadi and never looked back.",
+  interview:false
+},
+{
+  name:"Kathmandu Model College (KMC)",
+  loc:"Bagbazar, Kathmandu",
+  diff:"Hard",
+  focus:"Management: Economics, English & Accountancy basics / Science: Physics & Chemistry MCQs",
+  scholar:["Merit-based","District-quota","Sports Quota"],
+  month:"Jestha (May)",
+  usp:"Legacy institution since 1961 with Nepal's largest +2 enrollment. Exceptional Management stream — alumni lead Nepal's top corporations, banks, and CA firms.",
+  tip:"For Management: Economics basics, English writing, and accountancy fundamentals. For Science: Physics and Chemistry MCQ speed is everything. Cover all SEE topics thoroughly.",
+  desc:"Kathmandu Model College, established in 1961, is one of Nepal's oldest and most respected educational institutions. With thousands of students across Science, Management, and Humanities, KMC offers vibrant student societies, sports programs, and cultural events. Its Management faculty is particularly renowned — producing CAs, MBAs, and corporate leaders who dominate Nepal's business landscape.",
+  img:"https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=800&q=80",
+  rank:7, stream:"Management/Science",
+  internalScholarship:true,
+  scholarNote:"YES — KMC offers merit-based, district-quota, and sports-quota scholarships. Fee reductions vary; top entrance scorers receive significant discounts.",
+  criteria:[
+    {k:"SEE GPA", v:"Minimum 2.40 GPA (higher = better chance)"},
+    {k:"Entrance Exam", v:"Written MCQ test by the college"},
+    {k:"Streams Available", v:"Science & Management"},
+    {k:"Application Mode", v:"Physical form from college, online available"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "SEE Admit Card",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Citizenship / Birth Certificate"
+  ],
+  quote:"Six decades of graduates. One consistent truth: KMC doesn't just teach students — it builds careers.",
+  interview:false
+},
+{
+  name:"Rato Bangala School",
+  loc:"Patan, Lalitpur",
+  diff:"Very Hard",
+  focus:"English Literature, Critical Thinking, Maths & Creative Writing",
+  scholar:["Merit-based","Need-based Financial Aid","Entrance Topper"],
+  month:"Chaitra–Baisakh (Mar–Apr)",
+  usp:"Nepal's pioneer of progressive, child-centered pedagogy. Internationally benchmarked curriculum — English and critical thinking excellence at their absolute peak.",
+  tip:"Read widely — newspapers, novels, essays. Practice critical analysis and creative writing. Their Maths tests logical reasoning, not rote formulas. Think before you answer.",
+  desc:"Rato Bangala School, born from the legendary Rato Bangala Kitab publishing project, is a pioneer of progressive education in Nepal. Located in the cultural heart of Patan, the school applies a creative philosophy across classrooms — teaching students to question, explore, and create, not just memorize. With internationally benchmarked curriculum and outstanding English programs, Rato Bangala is in a class of its own.",
+  img:"https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80",
+  rank:8, stream:"Humanities/Science",
+  internalScholarship:true,
+  scholarNote:"YES — Rato Bangala offers need-based financial aid and merit scholarships. They genuinely believe cost should not be a barrier to excellent education.",
+  criteria:[
+    {k:"SEE Performance", v:"Outstanding across all subjects"},
+    {k:"Critical Thinking", v:"Test assesses reasoning & analytical skills"},
+    {k:"English", v:"Very high English proficiency required"},
+    {k:"Interview", v:"Personality and critical thinking interview mandatory"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "Completed application form",
+    "Recent passport-size photographs",
+    "Character Certificate",
+    "Writing sample (may be required — check notice)",
+    "Parent / Guardian ID",
+    "Birth Certificate"
+  ],
+  quote:"Not everyone studies at Rato Bangala. But everyone who does, leaves changed — with a mind that questions, a voice that matters, and the courage to think differently.",
+  interview:true
+},
+{
+  name:"Little Angels' Higher Secondary",
+  loc:"New Baneshwor, Kathmandu",
+  diff:"Hard",
+  focus:"Science, Maths, English & IQ Tests — Balanced MCQ Entrance",
+  scholar:["Merit-based","District-quota","Entrance Topper"],
+  month:"Chaitra–Baisakh (Mar–Apr)",
+  usp:"Kathmandu's beloved legacy institution with 95%+ board pass rate. Excellent for both Science and Management streams with rich cultural programs.",
+  tip:"Solve past Little Angels entrance papers consistently. IQ and logical reasoning alongside Science MCQs. Understanding > memorization — every single time here.",
+  desc:"Little Angels' Higher Secondary School is a Kathmandu institution beloved across generations. With striking architecture near New Baneshwor, it combines strong academic programs with active student life — sports, drama, music, and inter-house competitions. Known for consistently excellent NEB board results, dedicated teachers, and a warm alumni network across Nepal and abroad.",
+  img:"https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=800&q=80",
+  rank:9, stream:"Science/Management",
+  internalScholarship:true,
+  scholarNote:"YES — Little Angels offers district-quota and merit-based scholarships. Entrance toppers receive meaningful fee reductions. Scholarship details published annually with the admission notice.",
+  criteria:[
+    {k:"SEE GPA", v:"3.00+ GPA recommended"},
+    {k:"Entrance Exam", v:"MCQ: Science, Maths, English, IQ"},
+    {k:"Application Mode", v:"Physical form + online submission"},
+    {k:"Interview", v:"May be required for shortlisted candidates"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet (original + copy)",
+    "SEE Admit Card",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Birth Certificate / Citizenship Certificate copy"
+  ],
+  quote:"Little Angels has shaped great Nepalis for decades. Add your name to that story.",
+  interview:false
+},
+{
+  name:"National College of Computer Studies",
+  loc:"Paknajol, Kathmandu",
+  diff:"Medium",
+  focus:"Mathematics, Computer Science basics & Logical Reasoning",
+  scholar:["Merit-based","Entrance Topper"],
+  month:"Jestha (May)",
+  usp:"Nepal's best dedicated CS +2 institution. Cutting-edge labs, vibrant coding culture, and strong placement pathways into top IT universities worldwide.",
+  tip:"Strong algebra, number systems, and basic programming logic are essential. Logical puzzle solving dominates their entrance — practice daily with dedicated IQ resources.",
+  desc:"NCCS stands alone as Nepal's premier computer science +2 college. With state-of-the-art computer labs, active coding clubs, and faculty who are industry professionals, students graduate with real practical skills. Strong ties with Nepal's IT sector and international tech universities make NCCS the definitive launchpad for future software engineers and data scientists.",
+  img:"https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80",
+  rank:10, stream:"Computer Science",
+  internalScholarship:true,
+  scholarNote:"YES — NCCS offers merit-based and entrance-topper scholarships. Top performers in the entrance exam receive partial to significant fee reductions.",
+  criteria:[
+    {k:"SEE GPA", v:"Minimum 2.00 GPA (2.40+ recommended)"},
+    {k:"Focus Subjects", v:"Good grades in Maths and Optional Maths/Computer"},
+    {k:"Entrance Exam", v:"Written: Maths, Logic, Basic Computer"},
+    {k:"Application Mode", v:"Physical form from college"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "SEE Admit Card",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Citizenship / Birth Certificate"
+  ],
+  quote:"Code is the new language of power. If you learn it here, you'll speak it everywhere.",
+  interview:false
+},
+{
+  name:"SOS Hermann Gmeiner HSS",
+  loc:"Jorpati, Kathmandu",
+  diff:"Medium",
+  focus:"English proficiency, Science basics & General Knowledge",
+  scholar:["Merit-based","SOS Internal Scholarship","District-quota"],
+  month:"Jestha (May)",
+  usp:"Compassion-driven institution with an international curriculum ethos. Strong co-curricular emphasis — bilingual education and community leadership built in.",
+  tip:"Science fundamentals and daily English newspaper reading. GK on Nepal and world affairs gives a meaningful edge. Show genuine curiosity and community spirit in interviews.",
+  desc:"SOS Hermann Gmeiner School, part of the global SOS Children's Villages mission, brings a humanitarian spirit to +2 education. Located in the serene Jorpati area, the school offers a nurturing bilingual environment where every student is seen as an individual. Extra-curricular programs in music, sports, social leadership, and international exchange networks make SOS genuinely unique.",
+  img:"https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
+  rank:11, stream:"Science/Management",
+  internalScholarship:true,
+  scholarNote:"YES — SOS offers its own internal scholarship program, especially for students from underprivileged backgrounds. The SOS mission prioritizes access to education regardless of financial status.",
+  criteria:[
+    {k:"SEE GPA", v:"Minimum 2.00 GPA"},
+    {k:"Entrance Exam", v:"Written test in English, Science, GK"},
+    {k:"Interview", v:"May be conducted after written test"},
+    {k:"Application Mode", v:"Physical form from school office"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "SEE Admit Card",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Citizenship / Birth Certificate"
+  ],
+  quote:"Education with compassion. At SOS, you don't just gain knowledge — you gain a conscience.",
+  interview:true
+},
+{
+  name:"Apex College",
+  loc:"Siphal, Kathmandu",
+  diff:"Medium",
+  focus:"Management, Economics, English & General Aptitude",
+  scholar:["Merit-based","Entrance Topper","HSEB/NEB Recommended"],
+  month:"Baisakh–Jestha (Apr–May)",
+  usp:"Top pick for Management stream. TU-affiliated with exceptional internship networks, strong industry tie-ups, and annual business competitions for students.",
+  tip:"General knowledge, basic accountancy, and English grammar are your foundation. Verbal analogies and business GK will meaningfully differentiate you in the Management entrance.",
+  desc:"Apex College has carved a strong reputation as one of Kathmandu's leading Management +2 destinations. Affiliated with Tribhuvan University, the college offers rigorous coursework in Business Studies, Accountancy, and Economics alongside practical internship opportunities. Guest lectures from industry leaders, case study competitions, and an entrepreneurship club make Apex a genuine launchpad for future business leaders.",
+  img:"https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
+  rank:12, stream:"Management",
+  internalScholarship:true,
+  scholarNote:"YES — Apex offers merit-based and entrance-topper scholarships. HSEB/NEB-recommended students also receive preferential consideration.",
+  criteria:[
+    {k:"SEE GPA", v:"Minimum 2.00 GPA"},
+    {k:"Entrance Exam", v:"MCQ: Management, Economics, English, GK"},
+    {k:"Application Mode", v:"Online + physical form both"},
+    {k:"Stream", v:"Management only at +2 level"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Citizenship / Birth Certificate"
+  ],
+  quote:"Business doesn't wait for perfect conditions. Start learning to lead — at Apex.",
+  interview:false
+},
+{
+  name:"Prime College",
+  loc:"Nayabazar, Kathmandu",
+  diff:"Medium",
+  focus:"Science/Management MCQs, English & Maths",
+  scholar:["Merit-based","Entrance Topper","HSEB/NEB Recommended"],
+  month:"Baisakh–Jestha (Apr–May)",
+  usp:"Consistently high-performing for both Science and Management. Affordable, TU-affiliated, and known for strong collaborative peer-learning culture.",
+  tip:"Past SEE paper revision is foundational. Focus on Maths problem solving and English MCQs. Group study works extremely well for Prime's exam pattern — use it.",
+  desc:"Prime College in Nayabazar has built an impressive reputation as a well-rounded, affordable, and results-driven institution. Affiliated with Tribhuvan University, it offers strong Science and Management programs with experienced faculty, well-equipped labs, and a culture of collaborative learning. The mid-size environment ensures personal faculty attention without sacrificing competitive energy.",
+  img:"https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=800&q=80",
+  rank:13, stream:"Science/Management",
+  internalScholarship:true,
+  scholarNote:"YES — Prime College offers merit-based scholarships and HSEB/NEB-recommended student concessions. Entrance toppers receive significant fee reductions.",
+  criteria:[
+    {k:"SEE GPA", v:"Minimum 2.00 GPA"},
+    {k:"Entrance Exam", v:"MCQ: Science/Management + English + Maths"},
+    {k:"Application Mode", v:"Physical form from college office"},
+    {k:"Streams", v:"Science and Management both available"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Citizenship / Birth Certificate"
+  ],
+  quote:"Prime isn't just a college — it's where average grades become extraordinary results.",
+  interview:false
+},
+{
+  name:"Moonlight Higher Secondary",
+  loc:"Sinamangal, Kathmandu",
+  diff:"Medium",
+  focus:"Science & Mathematics MCQs with English Comprehension",
+  scholar:["Merit-based","District-quota"],
+  month:"Jestha (May)",
+  usp:"Rising-star Science college with excellent faculty, disciplined campus culture, and strong institutional focus on post-+2 entrance exam preparation.",
+  tip:"MCQ-heavy entrance across Physics, Chemistry, Biology, and Math. Revise all SEE Science topics and sharpen mental math every day. Consistency beats cramming.",
+  desc:"Moonlight Higher Secondary School has been steadily climbing Kathmandu's Science college rankings. Located near the international airport in Sinamangal, it offers modern infrastructure, dedicated labs, and a strong institutional focus on preparing students for MBBS and IOE entrance exams. With affordable fees and experienced Science faculty, Moonlight is excellent value for serious Science students.",
+  img:"https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?w=800&q=80",
+  rank:14, stream:"Science",
+  internalScholarship:true,
+  scholarNote:"YES — Moonlight offers merit-based and district-quota scholarships. Students from underprivileged backgrounds may also apply for need-based assistance.",
+  criteria:[
+    {k:"SEE GPA", v:"Minimum 2.00 GPA (2.40+ recommended)"},
+    {k:"Entrance Exam", v:"MCQ: Physics, Chemistry, Biology, Maths, English"},
+    {k:"Application Mode", v:"Physical form from college office"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Citizenship / Birth Certificate"
+  ],
+  quote:"Every topper in Moonlight started exactly where you are — uncertain, but willing. That willingness is everything.",
+  interview:false
+},
+{
+  name:"Himalayan White House Int'l",
+  loc:"Sanepa, Lalitpur",
+  diff:"Hard",
+  focus:"Management subjects, English & Communication Skills",
+  scholar:["Merit-based","Sports Quota"],
+  month:"Baisakh (Apr)",
+  usp:"Nepal's most globally connected Management college. A-Level pathway with SAT, IELTS, and TOEFL prep embedded in the academic calendar.",
+  tip:"Polish your spoken and written English first. Business awareness and current affairs knowledge will impress the interview panel. Articulate confidence is your biggest asset.",
+  desc:"Himalayan White House International College sits at the intersection of Nepali education and global ambition. Located in upscale Sanepa, it offers A-Level alongside +2 Management, with SAT, IELTS, and TOEFL preparation integrated into the academic calendar. Strong university placement partnerships with institutions in the UK, USA, and Australia make it the definitive gateway for Nepal's aspiring international students.",
+  img:"https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
+  rank:15, stream:"Management",
+  internalScholarship:true,
+  scholarNote:"YES — Merit-based and sports-quota scholarships available. International pathway students may receive separate scholarship consideration.",
+  criteria:[
+    {k:"SEE GPA", v:"Minimum 2.40 GPA"},
+    {k:"English", v:"Strong English communication skills required"},
+    {k:"Interview", v:"Mandatory personality and communication interview"},
+    {k:"Application Mode", v:"Online and physical forms available"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Citizenship / Birth Certificate",
+    "English proficiency test (if applicable)"
+  ],
+  quote:"Your passport to the world begins with a classroom in Sanepa. Dream globally. Study locally. Succeed everywhere.",
+  interview:true
+},
+{
+  name:"St. Mary's Higher Secondary",
+  loc:"Jawalakhel, Lalitpur",
+  diff:"Hard",
+  focus:"English, Science basics & Mathematics",
+  scholar:["Merit-based","Need-based"],
+  month:"Baisakh (Apr)",
+  usp:"Premier girls' institution with strong Loreto values, rigorous academics, consistent board toppers, and a safe, structured campus environment.",
+  tip:"English comprehension, Biology, and general Maths form the core. Confidence in presentation and personality matters in their selection process — prepare to communicate clearly.",
+  desc:"St. Mary's Higher Secondary School, run by the Sisters of Loreto, has been empowering young women in Nepal for generations. Located in peaceful Jawalakhel, the campus offers a secure environment where academic excellence and personal growth go hand in hand. Famous for disciplined culture, outstanding NEB results, and a rich tradition of mentorship, St. Mary's graduates lead across medicine, law, academia, and public service.",
+  img:"https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800&q=80",
+  rank:16, stream:"Science",
+  internalScholarship:true,
+  scholarNote:"YES — St. Mary's offers need-based financial assistance for deserving students. Merit scholarships are also available for academically outstanding applicants.",
+  criteria:[
+    {k:"Gender", v:"Girls only (run by Sisters of Loreto)"},
+    {k:"SEE Performance", v:"Strong grades in Science, English & Maths"},
+    {k:"Interview", v:"Personality and communication assessment"},
+    {k:"Application Mode", v:"Physical form from school office"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Birth Certificate / Citizenship Certificate",
+    "Parent/Guardian ID copy"
+  ],
+  quote:"At St. Mary's, she doesn't just become a scientist or doctor. She becomes a leader.",
+  interview:true
+},
+{
+  name:"Orchid International College",
+  loc:"Gaushala, Kathmandu",
+  diff:"Easy",
+  focus:"Basic Maths, English & General Science (SEE-level)",
+  scholar:["Merit-based","HSEB/NEB Recommended"],
+  month:"Ashadh (June–July)",
+  usp:"Welcoming, inclusive campus focused on building confidence alongside academics. Great for students prioritizing a supportive community and personal growth.",
+  tip:"Revise SEE-level Maths and Science. English grammar basics and a confident, well-prepared interview attitude will carry you through their selection successfully.",
+  desc:"Orchid International College provides an accessible and nurturing environment for students who want to grow both academically and personally. With modern facilities in Gaushala, the college builds confidence through public speaking clubs, cultural events, and mentorship programs — helping every student become the best version of themselves.",
+  img:"https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80",
+  rank:17, stream:"Science/Management",
+  internalScholarship:true,
+  scholarNote:"YES — Merit-based and HSEB/NEB-recommended scholarships available. Students with high SEE GPA may receive meaningful fee reductions.",
+  criteria:[
+    {k:"SEE GPA", v:"Minimum 1.60 GPA (SEE pass sufficient)"},
+    {k:"Entrance Exam", v:"Basic Maths, English & Science"},
+    {k:"Application Mode", v:"Physical form from college"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Citizenship / Birth Certificate"
+  ],
+  quote:"You don't need a perfect SEE score to have a great future. You need the right college to help you grow into one.",
+  interview:false
+},
+{
+  name:"Gandaki College of Engineering",
+  loc:"Pokhara, Gandaki Province",
+  diff:"Medium",
+  focus:"Heavy on Mathematics, Physics & Chemistry (IOE-prep focused)",
+  scholar:["Merit-based","District-quota","Regional Scholarship"],
+  month:"Jestha (May)",
+  usp:"Top Science +2 outside Kathmandu. Primary gateway to IOE engineering in the Pokhara zone — strong labs, dedicated faculty, and mountain-city inspiration.",
+  tip:"Physics numericals, Chemistry equations, and advanced Maths are your priorities. Pokhara-zone students enjoy a district quota advantage — leverage it strategically and early.",
+  desc:"GCES stands as Pokhara's premier Science college and the definitive pathway for engineering aspirants in western Nepal. With the majestic Annapurna range as a backdrop, the college combines exceptional academic rigor with one of Nepal's most inspiring learning environments. Its strong partnerships with IOE Pokhara and Purwanchal campuses make GCES the strategic choice for future engineers outside Kathmandu.",
+  img:"https://images.unsplash.com/photo-1610484826967-09c5720778c7?w=800&q=80",
+  rank:18, stream:"Science",
+  internalScholarship:true,
+  scholarNote:"YES — District-quota and regional scholarships available. Students from Gandaki Province receive preferential scholarship consideration.",
+  criteria:[
+    {k:"SEE GPA", v:"Minimum 2.00 GPA"},
+    {k:"Focus", v:"Strong Maths and Science background"},
+    {k:"Entrance Exam", v:"Written: Maths, Physics, Chemistry"},
+    {k:"District Quota", v:"Gandaki Province students get preference"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Citizenship / Birth Certificate",
+    "District/Province ID (for quota applicants)"
+  ],
+  quote:"From Pokhara's lakes to Nepal's engineering halls — GCES is your first step.",
+  interview:false
+},
+{
+  name:"Mahendra Multiple Campus",
+  loc:"Dharan, Sunsari District",
+  diff:"Easy",
+  focus:"General Science, Maths & Nepali/English basics",
+  scholar:["Merit-based","District-quota","Janajati/Dalit Quota"],
+  month:"Ashadh (June–July)",
+  usp:"Largest public +2 in Province 1. Highly accessible, affordable, and generous with quota-based scholarships for students from eastern Nepal.",
+  tip:"SEE-level revision is fully sufficient. Focus on Nepali essay writing, basic algebra, and GK about Province 1. Community involvement and local leadership are valued.",
+  desc:"Mahendra Multiple Campus in Dharan is the educational heartbeat of Province 1. As one of Nepal's largest public campuses, it serves thousands of students from across eastern Nepal with affordable fees and inclusive scholarship systems. The campus hosts Science, Management, Humanities, and Education programs — truly serving every SEE graduate from the eastern hills, valleys, and plains.",
+  img:"https://images.unsplash.com/photo-1580912534337-3f2f52f5e1cb?w=800&q=80",
+  rank:19, stream:"All Streams",
+  internalScholarship:true,
+  scholarNote:"YES — Janajati, Dalit, and District-quota scholarships are available. Government-aided scholarships are also accessible for eligible students. Highly inclusive scholarship system.",
+  criteria:[
+    {k:"SEE GPA", v:"SEE pass (1.60+ GPA) sufficient"},
+    {k:"Application Mode", v:"Physical form from campus office"},
+    {k:"Special Quotas", v:"Janajati, Dalit, District, and Single-parent quotas"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Citizenship / Birth Certificate",
+    "Quota Certificate (Janajati/Dalit/District — if applicable)"
+  ],
+  quote:"Your address in the eastern hills doesn't limit your destination. It's your starting line — not your finish.",
+  interview:false
+},
+{
+  name:"National Infotech College (NI)",
+  loc:"Shiromani Tole, Birgunj",
+  diff:"Easy",
+  focus:"Basic Science, Maths & English — SEE-level MCQs + college entrance test",
+  scholar:["Merit-based (100% Scholarship for toppers)","Sports Scholarship","Need-based"],
+  month:"Ashadh (June–July)",
+  usp:"Terai's ONLY college dedicated exclusively to Science & Technology. 100% scholarship for academically exceptional students. Highest engineering and medical success rate in Parsa district back-to-back years.",
+  tip:"Minimum 60% aggregate in SEE (2.00 GPA). College entrance test required — covers basic Science, Maths, and English. Weekly test culture here means you must be consistent, not just smart.",
+  desc:"National Infotech College (NI), established in 2002, is Birgunj's definitive Science and Technology institution and the only college in the Terai dedicated exclusively to these fields. With three fully-equipped science labs, a modern computer lab, smart-board classrooms, and a library, NI has produced Parsa district toppers in Engineering and Medical entrance exams for consecutive years. It offers comprehensive Pre-Med and Pre-Engineering coaching alongside the +2 curriculum. Every student receives a complete set of textbooks and reference books.",
+  img:"https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80",
+  rank:20, stream:"Science",
+  internalScholarship:true,
+  scholarNote:"YES — NI Birgunj offers 100% scholarships to academically excellent students. Different scholarship tiers are available based on entrance merit and SEE performance. Sports scholarships also available.",
+  criteria:[
+    {k:"SEE GPA / Marks", v:"Minimum 2.00 GPA (60% aggregate)"},
+    {k:"Entrance Exam", v:"College-conducted test in Science, Maths & English"},
+    {k:"Pass Mark", v:"Students must pass the college entrance exam"},
+    {k:"Application Mode", v:"Physical form from NI College, Birgunj"},
+    {k:"Scholarship Exam", v:"Separate scholarship test for 100% waiver"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet (original + photocopy)",
+    "SEE Admit Card (photocopy)",
+    "Character Certificate from previous school",
+    "Application form receipt (processing fee paid)",
+    "Recent passport-size photographs (4 copies)",
+    "Citizenship Certificate / Birth Certificate copy"
+  ],
+  quote:"Birgunj's best future engineers and doctors are sitting in NI classrooms right now. Will your seat be next to them?",
+  interview:false
+},
+{
+  name:"Birgunj Public College (BPC)",
+  loc:"Panitanki, Birgunj",
+  diff:"Easy",
+  focus:"Management: Economics, Accountancy & English basics — Entrance exam + Interview",
+  scholar:["Need-cum-Merit Scholarship","Merit-based"],
+  month:"Ashadh (June–July)",
+  usp:"Province 2's Best Business School Award (2019). ISO Certified — first in the state. Top Management college in Birgunj with dual university affiliation (TU & PU).",
+  tip:"Entrance exam is mandatory. Personal interview with parents present is also compulsory. Focus on English communication, basic Economics, and accountancy concepts. Show respect and seriousness.",
+  desc:"Birgunj Public College (BPC), founded in 2057 BS, has established itself as the premier Management institution in Province 2. Located in peaceful Panitanki near the Birgunj cantonment, BPC was awarded 'Best Business School of Province 2' in 2019 and is the state's first ISO-Certified educational institution. With dual affiliation to both Tribhuvan University and Purbanchal University, BPC offers BBA, BBS, BIM, MBA, and MBS programs — starting from its strong NEB +2 Management stream. The college prides itself on a strong placement record in Birgunj's growing industrial economy.",
+  img:"https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
+  rank:21, stream:"Management",
+  internalScholarship:true,
+  scholarNote:"YES — BPC offers need-cum-merit scholarships for deserving students. The college has a stated commitment to making education accessible to all eligible students.",
+  criteria:[
+    {k:"SEE GPA", v:"SEE pass required (1.60+ GPA)"},
+    {k:"Entrance Exam", v:"Mandatory — English, Economics, Maths basics"},
+    {k:"Interview", v:"Compulsory personal interview with parents present"},
+    {k:"Application Mode", v:"Physical form from BPC Admissions Office"},
+    {k:"Stream", v:"+2 Management only"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet (photocopy)",
+    "Transfer Certificate (TC) — photocopy",
+    "Character Certificate (CC) — photocopy",
+    "Academic Transcript (photocopy)",
+    "Original Migration Certificate + photocopy",
+    "Recent passport-size photographs (6 copies)",
+    "Duly filled Admission Form"
+  ],
+  quote:"In an industrial city like Birgunj, every great business started with someone who chose to understand how business works. That education begins at BPC.",
+  interview:true
+},
+{
+  name:"Pokhara Secondary School",
+  loc:"Pokhara, Gandaki Province",
+  diff:"Easy",
+  focus:"Basic Science, English & General Knowledge",
+  scholar:["Merit-based","Government Scholarship","District-quota"],
+  month:"Ashadh (June–July)",
+  usp:"Government-aided institution in Nepal's lakeside tourism capital. Growing Science reputation with accessible scholarship pathways for Gandaki Province students.",
+  tip:"Revise SEE Science and Maths thoroughly. English comprehension and a clear personal statement will differentiate you. Government scholarship eligibility — check early.",
+  desc:"Pokhara Secondary School sits in one of Nepal's most breathtaking cities, offering +2 education with accessible government scholarship pathways for eligible students. With Phewa Lake and Himalayan panoramas as daily inspiration, the campus has been steadily modernizing its facilities and growing its Science program. A top choice for local students and those from across Gandaki Province who want quality education at accessible cost.",
+  img:"https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&q=80",
+  rank:22, stream:"Science",
+  internalScholarship:false,
+  scholarNote:"Government scholarships are available through the provincial education system — not directly from the institution. Students must apply separately for provincial and national scholarship schemes.",
+  criteria:[
+    {k:"SEE GPA", v:"Minimum 1.60 GPA (SEE pass)"},
+    {k:"Entrance Exam", v:"Basic Science, English & GK"},
+    {k:"Application Mode", v:"Physical form from school office"},
+    {k:"Scholarship", v:"Apply through provincial scholarship scheme"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Citizenship / Birth Certificate"
+  ],
+  quote:"Pokhara's mountains don't move — but you can. Start climbing from right here.",
+  interview:false
+},
+{
+  name:"Mahendra Multiple Campus",
+  loc:"Dharan, Sunsari District",
+  diff:"Easy",
+  focus:"General Science, Maths & Nepali/English basics",
+  scholar:["Merit-based","District-quota","Janajati/Dalit Quota"],
+  month:"Ashadh (June–July)",
+  usp:"Largest public +2 in Province 1. Highly accessible, affordable, and generous with quota-based scholarships for students from eastern Nepal.",
+  tip:"SEE-level revision is fully sufficient. Focus on Nepali essay writing, basic algebra, and GK about Province 1. Community involvement and local leadership are valued.",
+  desc:"Mahendra Multiple Campus in Dharan is the educational heartbeat of Province 1, serving thousands of students from across the eastern Hilly and Terai regions. The campus hosts Science, Management, Humanities, and Education programs with affordable fees and an inclusive scholarship system. Government-aided and publicly accessible, it truly serves every SEE graduate from eastern Nepal.",
+  img:"https://images.unsplash.com/photo-1580912534337-3f2f52f5e1cb?w=800&q=80",
+  rank:23, stream:"All Streams",
+  internalScholarship:true,
+  scholarNote:"YES — Janajati, Dalit, District-quota, and Single-parent scholarships available. Government-aided scholarship programs accessible for eligible students.",
+  criteria:[
+    {k:"SEE GPA", v:"SEE pass (1.60+ GPA) sufficient"},
+    {k:"Application Mode", v:"Physical form from campus office"},
+    {k:"Special Quotas", v:"Janajati, Dalit, District, and other government quotas"}
+  ],
+  docs:[
+    "SEE Grade Sheet / Marksheet",
+    "Completed application form",
+    "Recent passport-size photographs (4 copies)",
+    "Character Certificate",
+    "Transfer Certificate (TC)",
+    "Citizenship / Birth Certificate",
+    "Quota Certificate (if applicable)"
+  ],
+  quote:"Your address in the eastern hills doesn't limit your destination. It's your starting line — not your finish.",
+  interview:false
+}
+];
+
+/* Remove duplicate rank 23 — keep data clean */
+const COLLEGES = DATA.filter((c,i,arr) => arr.findIndex(x=>x.name===c.name)===i);
+
+/* ═══════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════ */
+const dk=d=>d==='Very Hard'?'v':d==='Hard'?'h':d==='Medium'?'m':'e';
+const stripe={e:'se',m:'sm',h:'sh',v:'sv'};
+const dbadge={e:'de',m:'dm',h:'dh',v:'dv'};
+const emoji={e:'✅',m:'⚖️',h:'⚡',v:'🔥'};
+
+/* ═══════════════════════════════════════
+   CARD
+═══════════════════════════════════════ */
+function cardHTML(c,i){
+  const k=dk(c.diff);
+  const tags=c.scholar.map(s=>`<span class="tag">${s}</span>`).join('');
+  const xb=c.isXavier?`<div class="xavier-badge">✦ JESUIT NETWORK</div>`:'';
+  const schPill=c.internalScholarship
+    ?`<div class="sch-pill sch-yes">✅ Internal Scholarship Available</div>`
+    :`<div class="sch-pill sch-no">✕ No Internal Scholarship (+2)</div>`;
+  return `<div class="card" data-diff="${c.diff}" data-idx="${i}" data-search="${c.name.toLowerCase()} ${c.loc.toLowerCase()} ${c.stream.toLowerCase()}" style="transition-delay:${(i%4)*70}ms">
+  <div class="c-stripe ${stripe[k]}"></div>
+  <div class="c-img-w">
+    <img class="c-img" src="${c.img}" alt="${c.name}" loading="lazy">
+    <div class="c-ov"></div><div class="c-gr"></div>
+    <div class="c-rank">${String(c.rank).padStart(2,'0')}</div>
+    ${xb}
+    <div class="d-badge ${dbadge[k]}">${emoji[k]} ${c.diff}</div>
+  </div>
+  <div class="c-body">
+    <div class="c-name">${c.name}</div>
+    <div class="c-loc"><span style="color:var(--accent3);font-size:9px">◎</span> ${c.loc}</div>
+    ${schPill}
+    <div class="c-desc">${c.desc.substring(0,130)}…</div>
+    <div class="div"></div>
+    <div class="ig">
+      <div><div class="ik">ENTRANCE FOCUS</div><div class="iv">${c.focus}</div></div>
+      <div><div class="ik">STREAM</div><div class="iv">${c.stream}</div></div>
+    </div>
+    <div class="ik" style="margin-bottom:7px">SCHOLARSHIPS</div>
+    <div class="tags">${tags}</div>
+    <div class="usp-box">
+      <div class="bx-lbl bx-acc">★ USP</div>
+      <div class="bx-txt bx-italic">${c.usp}</div>
+    </div>
+    ${c.quote?`<div class="quote-banner"><div class="q-text">"${c.quote.substring(0,100)}${c.quote.length>100?'…':''}"</div></div>`:''}
+    <div style="display:flex;align-items:center;flex-wrap:wrap;gap:0">
+      <div class="m-pill">📅 ${c.month}</div>
+      <button class="rm-btn" data-idx="${i}">Full Details →</button>
+    </div>
+  </div>
+</div>`;
+}
+
+/* ═══════════════════════════════════════
+   RENDER
+═══════════════════════════════════════ */
+let curList=[...COLLEGES];
+function render(list){
+  curList=list;
+  document.getElementById('cnt').textContent=`${list.length} result${list.length!==1?'s':''}`;
+  const g=document.getElementById('grid');
+  if(!list.length){g.innerHTML='<div class="no-res">No colleges match your search 🔍</div>';return;}
+  g.innerHTML=list.map((c,i)=>cardHTML(c,i)).join('');
+  g.querySelectorAll('.c-img').forEach(img=>{img.onerror=()=>{img.src=`https://placehold.co/800x200/6c63ff/ffffff?text=${encodeURIComponent(img.alt)}`;img.onerror=null;};});
+  const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');}),{threshold:.07});
+  g.querySelectorAll('.card').forEach(c=>io.observe(c));
+  g.querySelectorAll('.rm-btn').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();openModal(list[+btn.dataset.idx]);}));
+}
+
+/* ═══════════════════════════════════════
+   MODAL
+═══════════════════════════════════════ */
+const modal=document.getElementById('modal');
+function openModal(c){
+  const k=dk(c.diff);
+  const mImg=document.getElementById('mImg');
+  mImg.src=c.img; mImg.alt=c.name;
+  mImg.onerror=()=>{mImg.src=`https://placehold.co/740x280/6c63ff/fff?text=${encodeURIComponent(c.name)}`;mImg.onerror=null;};
+  document.getElementById('mStripe').className=`m-stripe ${stripe[k]}`;
+  document.getElementById('mName').textContent=c.name;
+  document.getElementById('mLoc').innerHTML=`<span style="color:var(--accent3)">◎</span> ${c.loc} &nbsp;·&nbsp; <span style="color:var(--accent)">${c.stream}</span>`;
+  document.getElementById('mDesc').textContent=c.desc;
+
+  // Quote
+  const qw=document.getElementById('mQuoteWrap');
+  if(c.quote){qw.style.display='block';document.getElementById('mQuote').textContent=`"${c.quote}"`;}
+  else{qw.style.display='none';}
+
+  // Scholarship
+  const ss=document.getElementById('mSchStatus');
+  if(c.internalScholarship){ss.className='sch-status yes';ss.innerHTML='✅ Internal Scholarship Available';}
+  else{ss.className='sch-status no';ss.innerHTML='✕ No Internal Scholarship at +2 Level';}
+  document.getElementById('mSchNote').textContent=c.scholarNote||'';
+
+  // Criteria
+  const cr=document.getElementById('mCriteria');
+  cr.innerHTML=(c.criteria||[]).map(x=>`<div class="criteria-item"><div class="c-item-label">${x.k}</div><div class="c-item-val">${x.v}</div></div>`).join('');
+
+  // Documents
+  const dl=document.getElementById('mDocs');
+  dl.innerHTML=(c.docs||[]).map(d=>`<div class="doc-item"><span class="doc-ico">📎</span><span>${d}</span></div>`).join('');
+
+  // Quick facts
+  document.getElementById('mGrid').innerHTML=`
+    <div class="criteria-item"><div class="c-item-label">DIFFICULTY</div><div class="c-item-val">${emoji[k]} ${c.diff}</div></div>
+    <div class="criteria-item"><div class="c-item-label">ENTRANCE MONTH</div><div class="c-item-val">${c.month}</div></div>
+    <div class="criteria-item"><div class="c-item-label">INTERVIEW</div><div class="c-item-val">${c.interview?'✅ Yes — Mandatory':'✕ Not Required'}</div></div>
+    <div class="criteria-item"><div class="c-item-label">STREAM</div><div class="c-item-val">${c.stream}</div></div>`;
+
+  document.getElementById('mScholar').innerHTML=c.scholar.map(s=>`<span class="tag">${s}</span>`).join('');
+  document.getElementById('mUSP').textContent=c.usp;
+  document.getElementById('mTip').textContent=c.tip;
+  document.getElementById('mMonth').textContent=`📅 Entrance: ${c.month}`;
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+  document.querySelector('.m-box').scrollTop=0;
+}
+function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
+document.getElementById('mClose').addEventListener('click',closeModal);
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+/* ═══════════════════════════════════════
+   FILTER & SEARCH
+═══════════════════════════════════════ */
+let af='all';
+document.querySelectorAll('.fb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.fb').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); af=b.dataset.f; go();
+  });
+});
+document.getElementById('sInput').addEventListener('input',go);
+function go(){
+  const q=document.getElementById('sInput').value.toLowerCase().trim();
+  render(COLLEGES.filter(c=>{
+    const md=af==='all'||c.diff===af;
+    const mq=!q||c.name.toLowerCase().includes(q)||c.loc.toLowerCase().includes(q)||c.stream.toLowerCase().includes(q);
+    return md&&mq;
+  }));
+}
+
+/* ═══════════════════════════════════════
+   THEME
+═══════════════════════════════════════ */
+document.getElementById('tBtn').addEventListener('click',()=>{
+  const dark=document.documentElement.dataset.theme==='dark';
+  document.documentElement.dataset.theme=dark?'light':'dark';
+  document.getElementById('tIco').textContent=dark?'☀️':'🌙';
+});
+
+/* ═══════════════════════════════════════
+   CURSOR
+═══════════════════════════════════════ */
+const cur2=document.getElementById('cursor'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur2.style.left=mx+'px';cur2.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+
+/* ═══════════════════════════════════════
+   COUNTERS
+═══════════════════════════════════════ */
+document.querySelectorAll('[data-target]').forEach(el=>{
+  const t=+el.dataset.target;let n=0;
+  const step=()=>{n=Math.min(n+Math.ceil(t/20),t);el.textContent=n;if(n<t)requestAnimationFrame(step);};
+  setTimeout(step,900);
+});
+
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+render(COLLEGES);
+</script>
+</body>
+</html>
