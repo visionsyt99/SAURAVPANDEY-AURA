@@ -419,8 +419,8 @@ h2 .ac{color:var(--gold);}
 // 🔑  YOUR GEMINI API KEY GOES HERE
 // Get one free at: https://aistudio.google.com/
 // ════════════════════════════════════════════
-const GEMINI_KEY = 'AIzaSyDNv1s8pMM2M0zgSsdVMCEJjU3_nrryTXw';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`;
+// ADD THIS LINE (Use your actual Cloudflare Worker URL here):
+const WORKER_URL = "https://steep-paper-1ddf.sauravgamingyt99-3f7.workers.dev/";
 
 // ════════════════════════════════════════════
 // VERIFIED NEB CHAPTER DATA
@@ -975,19 +975,33 @@ function chkBtn(){
 // ════════════════════════════════════════════
 // QUIZ START
 // ════════════════════════════════════════════
-async function startQuiz(){
-  S.qs=[]; S.ans={}; S.curQ=0; S.done=false; S.hashes=new Set();
-  go('qs');
-  document.getElementById('qtitle').textContent=`${S.subject} – Class ${S.cls}`;
-  document.getElementById('qmeta').textContent=`${S.chapters.length} chapter(s)  •  ${S.totalQ} questions  •  ${S.mins} min`;
-  document.getElementById('qnav').style.display='none';
-  document.getElementById('qcontent').innerHTML=`
-    <div class="ldo">
-      <div class="spin"></div>
-      <div class="ltxt">Generating NEB Questions<span class="ldots"></span></div>
-      <div class="lsub">VISION-S AI is creating ${S.totalQ} unique questions strictly from your selected chapters. This may take 30–90 seconds for larger sets — please wait.</div>
-    </div>`;
-  await genAll();
+async function startQuiz() {
+  // ... (keep your existing setup code above this)
+
+  try {
+    // UPDATED FETCH CALL:
+    const response = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ 
+          parts: [{ text: prompt }] 
+        }]
+      })
+    });
+
+    const data = await response.json();
+    
+    // Check if the response is valid
+    if (!data.candidates || !data.candidates[0].content.parts[0].text) {
+      throw new Error("Invalid API Response");
+    }
+
+    const raw = data.candidates[0].content.parts[0].text;
+    // ... (keep the rest of your existing logic below)
+  } catch (e) {
+    // ... (your existing error handling)
+  }
 }
 
 async function geminiCall(prompt) {
