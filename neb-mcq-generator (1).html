@@ -419,7 +419,9 @@ h2 .ac{color:var(--gold);}
 // 🔑  YOUR GEMINI API KEY GOES HERE
 // Get one free at: https://aistudio.google.com/
 // ════════════════════════════════════════════
-const WORKER_URL = "https://steep-paper-1ddf.sauravgamingyt99-3f7.workers.dev/";
+const GEMINI_KEY = 'AIzaSyDNv1s8pMM2M0zgSsdVMCEJjU3_nrryTXw';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`;
+
 // ════════════════════════════════════════════
 // VERIFIED NEB CHAPTER DATA
 // Source: CDC Curriculum 2079-2081 (NEB new syllabus)
@@ -851,23 +853,171 @@ const CUR = {
 // ════════════════════════════════════════════
 // STATE
 // ════════════════════════════════════════════
-let S = {
-  cls: null, stream: null, group: null, subject: null, chapters: [],
-  mins: null, totalQ: 0, qs: [], cur: 0, ans: [], timer: null, left: 0,
-  hashes: new Set()
+let S={
+  cls:null,stream:null,group:null,subject:null,
+  chapters:[],mins:null,totalQ:null,
+  qs:[],ans:{},curQ:0,
+  timer:null,secsLeft:0,
+  done:false,hashes:new Set()
 };
 
-const L = ["A", "B", "C", "D"];
+// ════════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════════
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function toast(msg,ms=3200){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid=setTimeout(()=>t.classList.remove('show'),ms);
+}
+function hq(q){let h=0;for(let c of q.toLowerCase().trim()){h=Math.imul(31,h)+c.charCodeAt(0)|0;}return h;}
 
-// Duplicate detection helper
-function hq(s) { return s.toLowerCase().replace(/\s+/g, '').slice(0, 50); }
+// ════════════════════════════════════════════
+// STEP PICKERS
+// ════════════════════════════════════════════
+function pick(step,val,el){
+  el.closest('.og').querySelectorAll('.oc').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  if(step==='cls'){S.cls=val;document.getElementById('cls-nx').disabled=false;}
+  if(step==='str'){S.stream=val;S.group=null;S.subject=null;document.getElementById('str-nx').disabled=false;}
+}
+
+function showGroup(){
+  const gc=document.getElementById('gcnt'); gc.innerHTML='';
+  S.group=null; S.subject=null;
+  document.getElementById('grp-nx').disabled=true;
+  if(S.stream==='science'){
+    document.getElementById('gdesc').textContent='Choose Bio or Physical group, then pick a subject.';
+    gc.innerHTML=`
+      <div class="og" id="gsel" style="margin-bottom:18px">
+        <div class="oc" onclick="pickGrp('bio',this)"><div class="oi">🧬</div><div class="ot">Bio Group</div><div class="os">Physics, Chemistry, Biology, Math</div><div class="cb">✓</div></div>
+        <div class="oc" onclick="pickGrp('physical',this)"><div class="oi">💻</div><div class="ot">Physical Group</div><div class="os">Physics, Chemistry, Math, Computer</div><div class="cb">✓</div></div>
+      </div>
+      <div id="ssel"></div>`;
+  } else {
+    document.getElementById('gdesc').textContent='Select a Management subject.';
+    S.group='gen';
+    renderSubs('gen',gc);
+  }
+  go('grp');
+}
+
+function pickGrp(g,el){
+  document.querySelectorAll('#gsel .oc').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel'); S.group=g; S.subject=null;
+  document.getElementById('grp-nx').disabled=true;
+  const ss=document.getElementById('ssel'); ss.innerHTML='';
+  renderSubs(g,ss);
+}
+
+function renderSubs(g,cont){
+  const data=S.stream==='science'?CUR.science:CUR.management;
+  const subs=data[g].subjects;
+  const div=document.createElement('div'); div.className='og';
+  for(const[nm,d] of Object.entries(subs)){
+    div.innerHTML+=`<div class="oc" onclick="pickSub('${nm}',this)">
+      <div class="oi">${d.icon}</div><div class="ot">${nm}</div>
+      <div class="os">Class ${S.cls} – NEB ${S.stream==='science'?'Science':'Management'}</div>
+      <div class="cb">✓</div>
+    </div>`;
+  }
+  cont.appendChild(div);
+}
+
+function pickSub(nm,el){
+  document.querySelectorAll('#gcnt .oc').forEach(c=>{if(!c.closest('#gsel'))c.classList.remove('sel');});
+  el.classList.add('sel'); S.subject=nm;
+  document.getElementById('grp-nx').disabled=false;
+}
+
+function showTopics(){
+  const data=S.stream==='science'?CUR.science:CUR.management;
+  const chs=data[S.group].subjects[S.subject][S.cls];
+  S.chapters=[]; S.mins=null; S.totalQ=null;
+  document.getElementById('tpc-nx').disabled=true;
+  document.querySelectorAll('.mc').forEach(c=>c.classList.remove('sel'));
+  const grid=document.getElementById('tgrid'); grid.innerHTML='';
+  chs.forEach(ch=>{
+    const chip=document.createElement('div'); chip.className='tc'; chip.textContent=ch;
+    chip.onclick=()=>{
+      chip.classList.toggle('sel');
+      if(chip.classList.contains('sel')) S.chapters.push(ch);
+      else S.chapters=S.chapters.filter(x=>x!==ch);
+      chkBtn();
+      document.getElementById('saBtn').textContent=S.chapters.length===chs.length?'Deselect All':'Select All Chapters';
+    };
+    grid.appendChild(chip);
+  });
+  document.getElementById('saBtn').textContent='Select All Chapters';
+  go('tpc');
+}
+function toggleAll(){
+  const chips=document.querySelectorAll('.tc');
+  const data=S.stream==='science'?CUR.science:CUR.management;
+  const chs=data[S.group].subjects[S.subject][S.cls];
+  if(S.chapters.length===chs.length){chips.forEach(c=>c.classList.remove('sel'));S.chapters=[];document.getElementById('saBtn').textContent='Select All Chapters';}
+  else{chips.forEach(c=>c.classList.add('sel'));S.chapters=[...chs];document.getElementById('saBtn').textContent='Deselect All';}
+  chkBtn();
+}
+function pickMode(m,q,el){
+  document.querySelectorAll('.mc').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel'); S.mins=m; S.totalQ=q; chkBtn();
+}
+function chkBtn(){
+  document.getElementById('tpc-nx').disabled=S.chapters.length===0||!S.mins;
+}
+
+// ════════════════════════════════════════════
+// QUIZ START
+// ════════════════════════════════════════════
+async function startQuiz(){
+  S.qs=[]; S.ans={}; S.curQ=0; S.done=false; S.hashes=new Set();
+  go('qs');
+  document.getElementById('qtitle').textContent=`${S.subject} – Class ${S.cls}`;
+  document.getElementById('qmeta').textContent=`${S.chapters.length} chapter(s)  •  ${S.totalQ} questions  •  ${S.mins} min`;
+  document.getElementById('qnav').style.display='none';
+  document.getElementById('qcontent').innerHTML=`
+    <div class="ldo">
+      <div class="spin"></div>
+      <div class="ltxt">Generating NEB Questions<span class="ldots"></span></div>
+      <div class="lsub">VISION-S AI is creating ${S.totalQ} unique questions strictly from your selected chapters. This may take 30–90 seconds for larger sets — please wait.</div>
+    </div>`;
+  await genAll();
+}
 
 async function geminiCall(prompt) {
-  const res = await fetch(WORKER_URL, {
+  // Use v1beta for better JSON support
+  const API_URL = GEMINI_URL.replace('/v1/', '/v1beta/'); 
+  
+  const res = await fetch(API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }]
+      contents: [{ parts: [{ text: prompt }] }],
+      // THIS IS THE KEY: We force the AI to follow your JSON structure
+      generationConfig: {
+        temperature: 0.7,
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              ch: { type: "string" },
+              q: { type: "string" },
+              opts: { type: "array", items: { type: "string" } },
+              ans: { type: "integer" },
+              exp: { type: "string" }
+            },
+            required: ["ch", "q", "opts", "ans", "exp"]
+          }
+        }
+      }
     })
   });
 
@@ -875,239 +1025,317 @@ async function geminiCall(prompt) {
     const e = await res.json();
     throw new Error(e.error?.message || `HTTP ${res.status}`);
   }
-
   const d = await res.json();
   let raw = d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  
+  // Clean up any potential markdown fluff
   return raw.replace(/```json|```/gi, '').trim();
 }
 
-// ════════════════════════════════════════════
-// BATCH GENERATION LOGIC (Your Rules)
-// ════════════════════════════════════════════
-async function genAll() {
-  const BATCH = 15;
-  let tries = 0;
-  S.qs = [];
-  S.hashes.clear();
+async function genAll(){
+  const BATCH=15;
+  let tries=0;
+  while(S.qs.length<S.totalQ && tries<25){
+    const need=Math.min(BATCH,S.totalQ-S.qs.length);
+    const used=S.qs.slice(-25).map(q=>q.q.substring(0,65)).join(' | ');
+    const chList=S.chapters.join('\n- ');
 
-  while (S.qs.length < S.totalQ && tries < 25) {
-    tries++;
-    const need = Math.min(BATCH, S.totalQ - S.qs.length);
-    const used = S.qs.slice(-25).map(q => q.q.substring(0, 65)).join(' | ');
-    const chList = S.chapters.join('\n- ');
+    const prompt=`You are an expert NEB (National Examinations Board) Nepal teacher for Class ${S.cls} ${S.subject}.
 
-    const prompt = `You are an expert NEB (National Examinations Board) Nepal teacher for Class ${S.cls} ${S.subject}.
 Generate exactly ${need} UNIQUE multiple-choice questions (MCQs) from ONLY these chapters:
-
 - ${chList}
 
 STRICT RULES – never break these:
 1. Questions MUST come ONLY from the listed chapters. Zero exceptions.
 2. Follow NEB new curriculum (CDC 2079-2081). No old syllabus content.
 3. Each question: exactly 4 options labeled implicitly as index 0-3. Only 1 is correct.
-4. NEVER generate a question similar to any of these: ${used || 'none yet'}
+4. NEVER generate a question similar to any of these already used (avoid repeating concepts too): ${used||'none yet'}
 5. Spread difficulty: 30% easy, 45% medium, 25% hard.
 6. For Physics/Chemistry/Math numericals: include specific numbers, units, formulas.
-7. Distribute questions EVENLY across all listed chapters.
+7. Distribute questions EVENLY across all listed chapters – don't focus on just one.
 8. Explanation must be educational (2-3 sentences), mentioning the exact concept name.
-9. Return ONLY a valid JSON array:
-[
-  {"ch": "chapter name", "q": "question", "opts": ["A","B","C","D"], "ans": 0, "exp": "explanation"}
-]`;
+9. All content must be factually accurate and exam-ready.
 
-    try {
-      const txt = await geminiCall(prompt);
-      const batch = JSON.parse(txt);
-      if (!Array.isArray(batch)) continue;
-      for (const item of batch) {
-        if (!item.q || !item.opts || item.opts.length !== 4 || item.ans === undefined) continue;
-        const h = hq(item.q);
-        if (!S.hashes.has(h) && S.qs.length < S.totalQ) {
-          S.hashes.add(h);
-          S.qs.push(item);
+Return ONLY a valid JSON array (no markdown, no extra text, no comments):
+[
+  {
+    "ch": "exact chapter name as listed",
+    "q": "question text",
+    "opts": ["option A text", "option B text", "option C text", "option D text"],
+    "ans": 0,
+    "exp": "clear explanation of why the answer is correct"
+  }
+]
+"ans" is the 0-based index of the correct option.`;
+
+    try{
+      const txt=await geminiCall(prompt);
+      const batch=JSON.parse(txt);
+      if(!Array.isArray(batch)) throw new Error('Not an array');
+      for(const item of batch){
+        if(!item.q||!item.opts||item.opts.length!==4||item.ans===undefined) continue;
+        const h=hq(item.q);
+        if(!S.hashes.has(h)&&S.qs.length<S.totalQ){
+          S.hashes.add(h); S.qs.push(item);
         }
       }
-    } catch (e) { console.error("Batch error:", e); }
-  }
-  if (S.qs.length === 0) throw new Error("Could not generate questions. Please try again.");
-}
-
-// ════════════════════════════════════════════
-// ORIGINAL UI FUNCTIONS (Restored)
-// ════════════════════════════════════════════
-function go(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('act'));
-  document.getElementById(id).classList.add('act');
-  window.scrollTo(0, 0);
-}
-
-function selectCls(c) { S.cls = c; go('s2'); }
-function selectStream(s) { S.stream = s; buildG(); go('s3'); }
-
-function buildG() {
-  const cont = document.getElementById('g-cont'); cont.innerHTML = '';
-  const gs = D[S.cls][S.stream];
-  Object.keys(gs).forEach(g => {
-    const div = document.createElement('div'); div.className = 'opt-card';
-    div.innerHTML = `<h3>${g}</h3><p>${gs[g].subs.join(', ')}</p>`;
-    div.onclick = () => { S.group = g; buildSubs(); go('s4'); };
-    cont.appendChild(div);
-  });
-}
-
-function buildSubs() {
-  const cont = document.getElementById('sub-cont'); cont.innerHTML = '';
-  D[S.cls][S.stream][S.group].subs.forEach(sub => {
-    const div = document.createElement('div'); div.className = 'opt-card';
-    div.innerHTML = `<h3>${sub}</h3>`;
-    div.onclick = () => { S.subject = sub; buildChs(); go('s5'); };
-    cont.appendChild(div);
-  });
-}
-
-function buildChs() {
-  const cont = document.getElementById('ch-list'); cont.innerHTML = '';
-  const chs = CH[S.subject] || [];
-  chs.forEach(ch => {
-    const item = document.createElement('div'); item.className = 'ch-item';
-    item.innerHTML = `<span>${ch}</span><input type="checkbox" value="${ch}">`;
-    item.onclick = (e) => {
-      if (e.target.tagName !== 'INPUT') {
-        const cb = item.querySelector('input'); cb.checked = !cb.checked;
+    }catch(e){
+      if(S.qs.length===0){
+        document.getElementById('qcontent').innerHTML=`
+          <div class="ldo">
+            <div style="font-size:2rem;margin-bottom:14px">❌</div>
+            <div class="ltxt" style="color:var(--red)">Gemini API Error</div>
+            <div class="lsub">${e.message}<br><br>
+              Check your API key. Make sure it is a valid Google AI Studio key from<br>
+              <a href="https://aistudio.google.com" target="_blank" style="color:var(--blue)">aistudio.google.com</a><br><br>
+              Replace GEMINI_KEY in the code with your actual key.
+            </div>
+            <button class="bn" onclick="go('home')" style="margin-top:22px">← Home</button>
+          </div>`;
+        return;
       }
-    };
-    cont.appendChild(item);
-  });
-}
-
-function proceedToConf() {
-  const selected = Array.from(document.querySelectorAll('#ch-list input:checked')).map(i => i.value);
-  if (!selected.length) return alert('Select at least one chapter');
-  S.chapters = selected;
-  go('s6');
-}
-
-async function startQuiz() {
-  const qVal = document.getElementById('q-count').value;
-  const tVal = document.getElementById('t-count').value;
-  S.totalQ = parseInt(qVal); S.mins = parseInt(tVal); S.left = S.mins * 60;
-
-  go('loading');
-
-  try {
-    await genAll();
-    S.cur = 0; S.ans = new Array(S.qs.length).fill(null);
-    renderQ(); startTimer();
-    document.addEventListener('keydown', onKey);
-    go('s7');
-  } catch (e) {
-    alert(`❌\n\nGemini API Error\n\n${e.message}`);
-    go('s6');
+      break;
+    }
+    tries++;
   }
+  if(S.qs.length===0) return;
+  startTimer(); buildDots(); renderQ();
+  document.getElementById('qnav').style.display='flex';
+  document.addEventListener('keydown',onKey);
 }
 
 // ════════════════════════════════════════════
-// QUIZ ENGINE FUNCTIONS
+// TIMER
 // ════════════════════════════════════════════
-function renderQ() {
-  const q = S.qs[S.cur];
-  document.getElementById('q-txt').innerText = q.q;
-  document.getElementById('q-info').innerText = `Question ${S.cur + 1} of ${S.qs.length} • ${q.ch}`;
-  const cont = document.getElementById('opts-cont'); cont.innerHTML = '';
-  q.opts.forEach((opt, i) => {
-    const btn = document.createElement('div');
-    btn.className = `opt ${S.ans[S.cur] === i ? 'sel' : ''}`;
-    btn.innerHTML = `<div class="opt-lbl">${L[i]}</div><span>${opt}</span>`;
-    btn.onclick = () => { S.ans[S.cur] = i; renderQ(); updateStrip(); };
-    cont.appendChild(btn);
-  });
-  updateStrip();
-}
-
-function updateStrip() {
-  const strip = document.getElementById('q-strip'); strip.innerHTML = '';
-  S.qs.forEach((_, i) => {
-    const dot = document.createElement('div');
-    dot.className = `q-dot ${i === S.cur ? 'act' : ''} ${S.ans[i] !== null ? 'done' : ''}`;
-    dot.onclick = () => { S.cur = i; renderQ(); };
-    strip.appendChild(dot);
-  });
-}
-
-function nextQ() { if (S.cur < S.qs.length - 1) { S.cur++; renderQ(); } }
-function prevQ() { if (S.cur > 0) { S.cur--; renderQ(); } }
-
-function onKey(e) {
-  if (e.key === 'ArrowRight') nextQ();
-  if (e.key === 'ArrowLeft') prevQ();
-  if (['1', '2', '3', '4'].includes(e.key)) { S.ans[S.cur] = parseInt(e.key) - 1; renderQ(); }
-}
-
-function startTimer() {
-  if (S.timer) clearInterval(S.timer);
-  S.timer = setInterval(() => {
-    S.left--;
-    const m = Math.floor(S.left / 60), s = S.left % 60;
-    document.getElementById('time-left').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
-    if (S.left <= 0) submitQuiz();
-  }, 1000);
-}
-
-function submitQuiz() {
+function startTimer(){
+  S.secsLeft=S.mins*60;
   clearInterval(S.timer);
-  let correct = 0;
-  S.qs.forEach((q, i) => { if (S.ans[i] === q.ans) correct++; });
-  const score = Math.round((correct / S.qs.length) * 100);
-
-  document.getElementById('res-score').innerText = `${score}%`;
-  document.getElementById('res-stats').innerText = `Correct: ${correct} | Total: ${S.qs.length} | Time: ${Math.floor((S.mins * 60 - S.left) / 60)}m`;
-  
-  buildAnalysis('all');
-  go('s8');
+  renderTimer();
+  S.timer=setInterval(()=>{
+    S.secsLeft--;
+    renderTimer();
+    if(S.secsLeft<=60) document.getElementById('tbdg').classList.add('urg');
+    if(S.secsLeft<=0){clearInterval(S.timer);toast('⏰ Time up! Auto-submitting…',4000);setTimeout(doSubmit,1800);}
+  },1000);
+}
+function renderTimer(){
+  const m=Math.floor(S.secsLeft/60).toString().padStart(2,'0');
+  const s=(S.secsLeft%60).toString().padStart(2,'0');
+  document.getElementById('tdsp').textContent=`${m}:${s}`;
 }
 
-function buildAnalysis(filter) {
-  const list = document.getElementById('analysis-list'); list.innerHTML = '';
-  S.qs.forEach((q, i) => {
-    const ua = S.ans[i];
-    const isCorrect = ua === q.ans;
-    if (filter === 'wrong' && isCorrect) return;
-    if (filter === 'correct' && !isCorrect) return;
+// ════════════════════════════════════════════
+// KEYBOARD
+// ════════════════════════════════════════════
+function onKey(e){
+  if(S.done) return;
+  if(!document.getElementById('qs').classList.contains('active')) return;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();nextQ();}
+  else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();prevQ();}
+  else if(['1','2','3','4'].includes(e.key)){e.preventDefault();pickAns(parseInt(e.key)-1);}
+}
 
-    const card = document.createElement('div'); card.className = 'ana-card';
-    const yatxt = ua === null ? 'Not Answered' : `Your Answer: ${L[ua]}`;
-    
-    card.innerHTML = `
-      <div class="ah" onclick="this.parentElement.classList.toggle('open')">
-        <div class="atag ${isCorrect ? 'c' : 'w'}">${isCorrect ? 'Correct' : 'Incorrect'}</div>
+// ════════════════════════════════════════════
+// NAV DOTS
+// ════════════════════════════════════════════
+function buildDots(){
+  const strip=document.getElementById('nstrip'); strip.innerHTML='';
+  S.qs.forEach((_,i)=>{
+    const d=document.createElement('div'); d.className='nd'; d.textContent=i+1; d.id=`d${i}`;
+    d.onclick=(()=>{const idx=i;return()=>jumpTo(idx);})();
+    strip.appendChild(d);
+  });
+  redrawDots();
+}
+function redrawDots(){
+  S.qs.forEach((_,i)=>{
+    const d=document.getElementById(`d${i}`); if(!d)return;
+    d.className='nd';
+    if(S.ans[i]!==undefined) d.classList.add('ans');
+    if(i===S.curQ) d.classList.add('cur');
+  });
+}
+
+// ════════════════════════════════════════════
+// RENDER QUESTION
+// ════════════════════════════════════════════
+function renderQ(){
+  const q=S.qs[S.curQ]; if(!q)return;
+  document.getElementById('qpf').style.width=(S.curQ/S.qs.length*100)+'%';
+  document.getElementById('qctxt').textContent=`Question ${S.curQ+1} of ${S.qs.length}`;
+  document.getElementById('qatxt').textContent=`Answered: ${Object.keys(S.ans).length}`;
+  const L=['A','B','C','D'];
+  const sel=S.ans[S.curQ];
+  document.getElementById('qcontent').innerHTML=`
+    <div class="qcard">
+      <div class="qtag">${q.ch}</div>
+      <div class="qnl">Q${S.curQ+1} of ${S.qs.length}</div>
+      <div class="qtxt">${q.q}</div>
+      <div class="qopts">
+        ${q.opts.map((o,i)=>`
+          <div class="qopt${sel===i?' picked':''}" onclick="pickAns(${i})" id="opt${i}">
+            <div class="ol">${L[i]}</div><span>${o}</span>
+          </div>`).join('')}
+      </div>
+      <div class="qhint">Press 1–4 to pick • ← → to navigate • Change answer any time before Submit</div>
+    </div>`;
+  document.getElementById('pbtn').disabled=S.curQ===0;
+  document.getElementById('nbtn').disabled=S.curQ>=S.qs.length-1;
+  redrawDots();
+}
+
+function pickAns(i){
+  if(S.done) return;
+  S.ans[S.curQ]=i;
+  document.querySelectorAll('.qopt').forEach((o,j)=>{
+    o.classList.toggle('picked',j===i);
+    o.querySelector('.ol').style.background=j===i?'var(--gold)':'';
+    o.querySelector('.ol').style.color=j===i?'#000':'';
+  });
+  document.getElementById('qatxt').textContent=`Answered: ${Object.keys(S.ans).length}`;
+  redrawDots();
+}
+function nextQ(){if(S.curQ<S.qs.length-1){S.curQ++;renderQ();window.scrollTo(0,0);}}
+function prevQ(){if(S.curQ>0){S.curQ--;renderQ();window.scrollTo(0,0);}}
+function jumpTo(i){S.curQ=i;renderQ();window.scrollTo(0,0);}
+
+// ════════════════════════════════════════════
+// SUBMIT
+// ════════════════════════════════════════════
+function openMod(){
+  const a=Object.keys(S.ans).length, u=S.qs.length-a;
+  document.getElementById('mmsg').textContent=u>0
+    ?`You still have ${u} unanswered question(s). You can go back and answer them. Submit anyway?`
+    :`All ${a} questions answered. Ready to see your results?`;
+  document.getElementById('smodal').classList.add('show');
+}
+function closeMod(){document.getElementById('smodal').classList.remove('show');}
+function doSubmit(){
+  closeMod();
+  clearInterval(S.timer);
+  document.removeEventListener('keydown',onKey);
+  S.done=true;
+  buildResults();
+  go('rs');
+}
+
+// ════════════════════════════════════════════
+// RESULTS
+// ════════════════════════════════════════════
+function buildResults(){
+  const qs=S.qs;
+  let cor=0,wrg=0,skp=0;
+  const cmap={};
+  qs.forEach((q,i)=>{
+    const ua=S.ans[i];
+    if(!cmap[q.ch]) cmap[q.ch]={c:0,t:0};
+    cmap[q.ch].t++;
+    if(ua===undefined)skp++;
+    else if(ua===q.ans){cor++;cmap[q.ch].c++;}
+    else wrg++;
+  });
+  const pct=Math.round((cor/qs.length)*100);
+  const used=S.mins*60-S.secsLeft;
+  const mm=Math.floor(used/60),ss=used%60;
+  let grade,gc,gmsg;
+  if(pct>=90){grade='A+';gc='#f5c842';gmsg='Outstanding! NEB Distinction level.';}
+  else if(pct>=80){grade='A';gc='#22c55e';gmsg='Excellent performance!';}
+  else if(pct>=65){grade='B+';gc='#4f8ef7';gmsg='Good job! A bit more practice and you\'re there.';}
+  else if(pct>=50){grade='B';gc='#a78bfa';gmsg='You passed! Review your weak chapters.';}
+  else if(pct>=40){grade='C';gc='#f97316';gmsg='Keep practicing. Focus on core concepts.';}
+  else{grade='D';gc='#ff4d6d';gmsg='More revision needed. Don\'t give up!';}
+
+  // Ring
+  const circ=2*Math.PI*82;
+  const fl=document.getElementById('rfl');
+  fl.style.stroke=gc;
+  setTimeout(()=>{fl.style.strokeDashoffset=circ*(1-pct/100);},120);
+  document.getElementById('rpct').textContent=pct+'%';
+  document.getElementById('rpct').style.color=gc;
+  document.getElementById('rgb').textContent=`GRADE ${grade}`;
+  document.getElementById('rgm').textContent=`Grade: ${grade}`;
+  document.getElementById('rgm').style.color=gc;
+  document.getElementById('rmsg').textContent=gmsg;
+  document.getElementById('rsumt').textContent=`${S.subject} – Class ${S.cls}  •  ${qs.length} Questions  •  ${S.mins} Min`;
+
+  document.getElementById('rcards').innerHTML=`
+    <div class="rcard"><div class="rcn" style="color:var(--green)">${cor}</div><div class="rcl">✓ Correct</div></div>
+    <div class="rcard"><div class="rcn" style="color:var(--red)">${wrg}</div><div class="rcl">✗ Wrong</div></div>
+    <div class="rcard"><div class="rcn" style="color:var(--blue)">${skp}</div><div class="rcl">— Skipped</div></div>
+    <div class="rcard"><div class="rcn" style="color:var(--gold)">${pct}%</div><div class="rcl">Score %</div></div>
+    <div class="rcard"><div class="rcn" style="color:var(--org)">${mm}m ${ss}s</div><div class="rcl">Time Used</div></div>
+    <div class="rcard"><div class="rcn" style="color:var(--pur)">${S.chapters.length}</div><div class="rcl">Chapters</div></div>`;
+
+  // Chapter bars
+  const bars=document.getElementById('tbars'); bars.innerHTML='';
+  for(const[ch,d] of Object.entries(cmap)){
+    const p=Math.round((d.c/d.t)*100);
+    const col=p>=70?'var(--green)':p>=40?'var(--org)':'var(--red)';
+    bars.innerHTML+=`<div class="tbar">
+      <div class="tbr"><span class="tbn">${ch}</span><span class="tbs">${d.c}/${d.t} (${p}%)</span></div>
+      <div class="tbk"><div class="tbf" style="width:0%;background:${col}" data-p="${p}"></div></div>
+    </div>`;
+  }
+  setTimeout(()=>document.querySelectorAll('.tbf').forEach(b=>{b.style.width=b.dataset.p+'%';}),160);
+  buildAnalysis('all');
+}
+
+function buildAnalysis(f){
+  const list=document.getElementById('alist'); list.innerHTML='';
+  const L=['A','B','C','D'];
+  S.qs.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const st=ua===undefined?'s':ua===q.ans?'c':'w';
+    if(f!=='all'&&st!==f)return;
+    const icons={c:'✓',w:'✗',s:'—'};
+    let yatxt;
+    if(st==='c') yatxt=`<span class="cl">Correct ✓ — ${L[q.ans]}. ${q.opts[q.ans]}</span>`;
+    else if(st==='w') yatxt=`<span class="wl">Wrong ✗</span> — You chose <strong>${L[ua]}. ${q.opts[ua]}</strong>. Correct: <span class="cl">${L[q.ans]}. ${q.opts[q.ans]}</span>`;
+    else yatxt=`<span class="sl">Not Answered</span> — Correct: <span class="cl">${L[q.ans]}. ${q.opts[q.ans]}</span>`;
+    const card=document.createElement('div'); card.className='ac_';
+    card.innerHTML=`
+      <div class="ach" onclick="this.closest('.ac_').classList.toggle('open')">
+        <div class="aic ${st}">${icons[st]}</div>
+        <div class="aqn">Q${i+1}</div>
+        <div class="apv">${q.q}</div>
         <div class="atpl">${q.ch}</div>
+        <div class="aarr">▼</div>
       </div>
       <div class="acb">
         <div class="afq">${q.q}</div>
         <div class="ayan">${yatxt}</div>
         <div class="aopts">
-          ${q.opts.map((o, j) => {
-            let cls = '';
-            if (j === q.ans) cls = 'co';
-            else if (j === ua && ua !== q.ans) cls = 'wo';
-            return `<div class="ao ${cls}"><div class="aol">${L[j]}</div><span>${o}${j === q.ans ? ' <strong>✓</strong>' : ''}</span></div>`;
+          ${q.opts.map((o,j)=>{
+            let cls='';
+            if(j===q.ans)cls='co';
+            else if(j===ua&&ua!==q.ans)cls='wo';
+            return `<div class="ao ${cls}"><div class="aol">${L[j]}</div><span>${o}${j===q.ans?' <strong>✓ Correct Answer</strong>':''}</span></div>`;
           }).join('')}
         </div>
         <div class="aex">💡 ${q.exp}</div>
       </div>`;
     list.appendChild(card);
   });
+  if(!list.innerHTML) list.innerHTML=`<div style="text-align:center;color:var(--mut);padding:40px;font-size:.88rem">No questions in this category.</div>`;
 }
-
-function filterA(f, el) {
-  document.querySelectorAll('.ft').forEach(t => t.classList.remove('act'));
+function filterA(f,el){
+  document.querySelectorAll('.ft').forEach(t=>t.classList.remove('act'));
   el.classList.add('act'); buildAnalysis(f);
 }
 
-function restart() {
-  clearInterval(S.timer);
-  S = { cls: null, stream: null, group: null, subject: null, chapters: [], mins: null, totalQ: 0, qs: [], cur: 0, ans: [], timer: null, left: 0, hashes: new Set() };
-  go('s1');
+// ════════════════════════════════════════════
+// RESTART
+// ════════════════════════════════════════════
+function restart(){
+  clearInterval(S.timer); document.removeEventListener('keydown',onKey);
+  S={cls:null,stream:null,group:null,subject:null,chapters:[],mins:null,totalQ:null,
+    qs:[],ans:{},curQ:0,timer:null,secsLeft:0,done:false,hashes:new Set()};
+  go('home');
+}
+function retake(){
+  clearInterval(S.timer); document.removeEventListener('keydown',onKey);
+  S.qs=[]; S.ans={}; S.curQ=0; S.done=false; S.hashes=new Set();
+  startQuiz();
 }
 </script>
 </body>
