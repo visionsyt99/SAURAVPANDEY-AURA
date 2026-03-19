@@ -975,63 +975,29 @@ function chkBtn(){
 // ════════════════════════════════════════════
 // QUIZ START
 // ════════════════════════════════════════════
-async function startQuiz() {
-  // ... (keep your existing setup code above this)
+ // ════════════════════════════════════════════
+// CONFIGURATION & STATE
+// ════════════════════════════════════════════
+const WORKER_URL = "https://steep-paper-1ddf.sauravgamingyt99-3f7.workers.dev/";
 
-  try {
-    // UPDATED FETCH CALL:
-    const response = await fetch(WORKER_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ 
-          parts: [{ text: prompt }] 
-        }]
-      })
-    });
+let S = {
+  cls:null, stream:null, group:null, subject:null, chapters:[],
+  mins:null, totalQ:0, qs:[], cur:0, ans:[], timer:null, left:0,
+  hashes: new Set() // For duplicate detection
+};
 
-    const data = await response.json();
-    
-    // Check if the response is valid
-    if (!data.candidates || !data.candidates[0].content.parts[0].text) {
-      throw new Error("Invalid API Response");
-    }
+// Helper for duplicate detection
+function hq(s){ return s.toLowerCase().replace(/\s+/g,'').slice(0,50); }
 
-    const raw = data.candidates[0].content.parts[0].text;
-    // ... (keep the rest of your existing logic below)
-  } catch (e) {
-    // ... (your existing error handling)
-  }
-}
-
+// ════════════════════════════════════════════
+// SECURE API CALL VIA WORKER
+// ════════════════════════════════════════════
 async function geminiCall(prompt) {
-  // Use v1beta for better JSON support
-  const API_URL = GEMINI_URL.replace('/v1/', '/v1beta/'); 
-  
-  const res = await fetch(API_URL, {
+  const res = await fetch(WORKER_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      // THIS IS THE KEY: We force the AI to follow your JSON structure
-      generationConfig: {
-        temperature: 0.7,
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              ch: { type: "string" },
-              q: { type: "string" },
-              opts: { type: "array", items: { type: "string" } },
-              ans: { type: "integer" },
-              exp: { type: "string" }
-            },
-            required: ["ch", "q", "opts", "ans", "exp"]
-          }
-        }
-      }
+      contents: [{ parts: [{ text: prompt }] }]
     })
   });
 
@@ -1039,79 +1005,152 @@ async function geminiCall(prompt) {
     const e = await res.json();
     throw new Error(e.error?.message || `HTTP ${res.status}`);
   }
+
   const d = await res.json();
   let raw = d.candidates?.[0]?.content?.parts?.[0]?.text || '';
-  
   // Clean up any potential markdown fluff
   return raw.replace(/```json|```/gi, '').trim();
 }
 
-async function genAll(){
-  const BATCH=15;
-  let tries=0;
-  while(S.qs.length<S.totalQ && tries<25){
-    const need=Math.min(BATCH,S.totalQ-S.qs.length);
-    const used=S.qs.slice(-25).map(q=>q.q.substring(0,65)).join(' | ');
-    const chList=S.chapters.join('\n- ');
+// ════════════════════════════════════════════
+// BATCH GENERATION LOGIC
+// ════════════════════════════════════════════
+async function genAll() {
+  const BATCH = 15;
+  let tries = 0;
+  S.qs = [];
+  S.hashes.clear();
 
-    const prompt=`You are an expert NEB (National Examinations Board) Nepal teacher for Class ${S.cls} ${S.subject}.
+  while (S.qs.length < S.totalQ && tries < 25) {
+    tries++;
+    const need = Math.min(BATCH, S.totalQ - S.qs.length);
+    const used = S.qs.slice(-25).map(q => q.q.substring(0, 65)).join(' | ');
+    const chList = S.chapters.join('\n- ');
 
+    const prompt = `You are an expert NEB (National Examinations Board) Nepal teacher for Class ${S.cls} ${S.subject}.
 Generate exactly ${need} UNIQUE multiple-choice questions (MCQs) from ONLY these chapters:
+
 - ${chList}
 
 STRICT RULES – never break these:
 1. Questions MUST come ONLY from the listed chapters. Zero exceptions.
 2. Follow NEB new curriculum (CDC 2079-2081). No old syllabus content.
 3. Each question: exactly 4 options labeled implicitly as index 0-3. Only 1 is correct.
-4. NEVER generate a question similar to any of these already used (avoid repeating concepts too): ${used||'none yet'}
+4. NEVER generate a question similar to any of these already used: ${used || 'none yet'}
 5. Spread difficulty: 30% easy, 45% medium, 25% hard.
 6. For Physics/Chemistry/Math numericals: include specific numbers, units, formulas.
-7. Distribute questions EVENLY across all listed chapters – don't focus on just one.
+7. Distribute questions EVENLY across all listed chapters.
 8. Explanation must be educational (2-3 sentences), mentioning the exact concept name.
-9. All content must be factually accurate and exam-ready.
-
-Return ONLY a valid JSON array (no markdown, no extra text, no comments):
+9. Return ONLY a valid JSON array:
 [
-  {
-    "ch": "exact chapter name as listed",
-    "q": "question text",
-    "opts": ["option A text", "option B text", "option C text", "option D text"],
-    "ans": 0,
-    "exp": "clear explanation of why the answer is correct"
-  }
-]
-"ans" is the 0-based index of the correct option.`;
+  {"ch": "chapter name", "q": "question", "opts": ["A","B","C","D"], "ans": 0, "exp": "explanation"}
+]`;
 
-    try{
-      const txt=await geminiCall(prompt);
-      const batch=JSON.parse(txt);
-      if(!Array.isArray(batch)) throw new Error('Not an array');
-      for(const item of batch){
-        if(!item.q||!item.opts||item.opts.length!==4||item.ans===undefined) continue;
-        const h=hq(item.q);
-        if(!S.hashes.has(h)&&S.qs.length<S.totalQ){
-          S.hashes.add(h); S.qs.push(item);
+    try {
+      const txt = await geminiCall(prompt);
+      const batch = JSON.parse(txt);
+      if (!Array.isArray(batch)) throw new Error('Not an array');
+      
+      for (const item of batch) {
+        if (!item.q || !item.opts || item.opts.length !== 4 || item.ans === undefined) continue;
+        const h = hq(item.q);
+        if (!S.hashes.has(h) && S.qs.length < S.totalQ) {
+          S.hashes.add(h);
+          S.qs.push(item);
         }
       }
-    }catch(e){
-      if(S.qs.length===0){
-        document.getElementById('qcontent').innerHTML=`
-          <div class="ldo">
-            <div style="font-size:2rem;margin-bottom:14px">❌</div>
-            <div class="ltxt" style="color:var(--red)">Gemini API Error</div>
-            <div class="lsub">${e.message}<br><br>
-              Check your API key. Make sure it is a valid Google AI Studio key from<br>
-              <a href="https://aistudio.google.com" target="_blank" style="color:var(--blue)">aistudio.google.com</a><br><br>
-              Replace GEMINI_KEY in the code with your actual key.
-            </div>
-            <button class="bn" onclick="go('home')" style="margin-top:22px">← Home</button>
-          </div>`;
-        return;
-      }
-      break;
+      // Update loading UI if you have a progress bar
+      console.log(`Progress: ${S.qs.length}/${S.totalQ}`);
+    } catch (e) {
+      console.error("Batch Error:", e);
     }
-    tries++;
   }
+
+  if (S.qs.length === 0) throw new Error("Failed to generate questions.");
+}
+
+// ════════════════════════════════════════════
+// CORE UI LOGIC
+// ════════════════════════════════════════════
+function showS(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('act'));
+  document.getElementById(id).classList.add('act');
+  window.scrollTo(0,0);
+}
+
+// Selection Handlers (Existing logic)
+function selectCls(c){ S.cls=c; showS('s2'); }
+function selectStream(s){ S.stream=s; buildG(); showS('s3'); }
+
+function buildG(){
+  const cont = document.getElementById('g-cont'); cont.innerHTML='';
+  const gs = D[S.cls][S.stream];
+  Object.keys(gs).forEach(g=>{
+    const div = document.createElement('div'); div.className='opt-card';
+    div.innerHTML = `<h3>${g}</h3><p>${gs[g].subs.join(', ')}</p>`;
+    div.onclick = () => { S.group=g; buildSubs(); showS('s4'); };
+    cont.appendChild(div);
+  });
+}
+
+function buildSubs(){
+  const cont = document.getElementById('sub-cont'); cont.innerHTML='';
+  D[S.cls][S.stream][S.group].subs.forEach(sub=>{
+    const div = document.createElement('div'); div.className='opt-card';
+    div.innerHTML = `<h3>${sub}</h3>`;
+    div.onclick = () => { S.subject=sub; buildChs(); showS('s5'); };
+    cont.appendChild(div);
+  });
+}
+
+function buildChs(){
+  const cont = document.getElementById('ch-list'); cont.innerHTML='';
+  const chs = CH[S.subject] || [];
+  chs.forEach(ch=>{
+    const item = document.createElement('div'); item.className='ch-item';
+    item.innerHTML = `<span>${ch}</span><input type="checkbox" value="${ch}">`;
+    item.onclick = (e) => {
+      if(e.target.tagName!=='INPUT'){
+        const cb = item.querySelector('input'); cb.checked = !cb.checked;
+      }
+    };
+    cont.appendChild(item);
+  });
+}
+
+function proceedToConf(){
+  const selected = Array.from(document.querySelectorAll('#ch-list input:checked')).map(i=>i.value);
+  if(!selected.length) return alert('Select at least one chapter');
+  S.chapters = selected;
+  showS('s6');
+}
+
+// ════════════════════════════════════════════
+// EXECUTION
+// ════════════════════════════════════════════
+async function startQuiz(){
+  const qVal = document.getElementById('q-count').value;
+  const tVal = document.getElementById('t-count').value;
+  S.totalQ = parseInt(qVal); S.mins = parseInt(tVal); S.left = S.mins*60;
+  
+  showS('loading');
+  
+  try {
+    await genAll(); // This triggers the while loop batching logic
+    S.cur=0; 
+    S.ans=new Array(S.qs.length).fill(null);
+    renderQ(); 
+    startTimer(); 
+    showS('s7');
+  } catch(e) {
+alert(`❌\n\nGemini API Error\n\n${e.message}`);
+    showS('s6');
+  }
+}
+
+// ... Rest of your original UI functions (renderQ, nextQ, submit, etc.) go here
+  
+ 
   if(S.qs.length===0) return;
   startTimer(); buildDots(); renderQ();
   document.getElementById('qnav').style.display='flex';
