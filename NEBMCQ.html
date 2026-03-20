@@ -416,11 +416,10 @@ h2 .ac{color:var(--gold);}
 
 <script>
 // ════════════════════════════════════════════
-// 🔑  YOUR GEMINI API KEY GOES HERE
-// Get one free at: https://aistudio.google.com/
+// 🔒 PROXY URL – points to your Cloudflare Worker
+// Replace with your actual Worker URL after deploying
 // ════════════════════════════════════════════
-const GEMINI_KEY = 'AIzaSyDNv1s8pMM2M0zgSsdVMCEJjU3_nrryTXw';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`;
+const WORKER_URL = 'https://steep-paper-1ddf.sauravgamingyt99-3f7.workers.dev';
 
 // ════════════════════════════════════════════
 // VERIFIED NEB CHAPTER DATA
@@ -990,31 +989,34 @@ async function startQuiz(){
   await genAll();
 }
 
+// ════════════════════════════════════════════
+// 🔒 ALL API CALLS GO THROUGH THE WORKER
+// No API key is ever in this file
+// ════════════════════════════════════════════
 async function geminiCall(prompt) {
-  // Use v1beta for better JSON support
-  const API_URL = GEMINI_URL.replace('/v1/', '/v1beta/'); 
-  
-  const res = await fetch(API_URL, {
+  const res = await fetch(WORKER_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      // THIS IS THE KEY: We force the AI to follow your JSON structure
-      generationConfig: {
-        temperature: 0.7,
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              ch: { type: "string" },
-              q: { type: "string" },
-              opts: { type: "array", items: { type: "string" } },
-              ans: { type: "integer" },
-              exp: { type: "string" }
-            },
-            required: ["ch", "q", "opts", "ans", "exp"]
+      model: 'gemini-2.5-flash',
+      payload: {
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.7,
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                ch: { type: "string" },
+                q: { type: "string" },
+                opts: { type: "array", items: { type: "string" } },
+                ans: { type: "integer" },
+                exp: { type: "string" }
+              },
+              required: ["ch", "q", "opts", "ans", "exp"]
+            }
           }
         }
       }
@@ -1027,8 +1029,6 @@ async function geminiCall(prompt) {
   }
   const d = await res.json();
   let raw = d.candidates?.[0]?.content?.parts?.[0]?.text || '';
-  
-  // Clean up any potential markdown fluff
   return raw.replace(/```json|```/gi, '').trim();
 }
 
@@ -1084,11 +1084,9 @@ Return ONLY a valid JSON array (no markdown, no extra text, no comments):
         document.getElementById('qcontent').innerHTML=`
           <div class="ldo">
             <div style="font-size:2rem;margin-bottom:14px">❌</div>
-            <div class="ltxt" style="color:var(--red)">Gemini API Error</div>
+            <div class="ltxt" style="color:var(--red)">API Error</div>
             <div class="lsub">${e.message}<br><br>
-              Check your API key. Make sure it is a valid Google AI Studio key from<br>
-              <a href="https://aistudio.google.com" target="_blank" style="color:var(--blue)">aistudio.google.com</a><br><br>
-              Replace GEMINI_KEY in the code with your actual key.
+              Make sure your Cloudflare Worker is deployed and the GEMINI_API_KEY secret is set correctly.
             </div>
             <button class="bn" onclick="go('home')" style="margin-top:22px">← Home</button>
           </div>`;
@@ -1245,7 +1243,6 @@ function buildResults(){
   else if(pct>=40){grade='C';gc='#f97316';gmsg='Keep practicing. Focus on core concepts.';}
   else{grade='D';gc='#ff4d6d';gmsg='More revision needed. Don\'t give up!';}
 
-  // Ring
   const circ=2*Math.PI*82;
   const fl=document.getElementById('rfl');
   fl.style.stroke=gc;
@@ -1266,7 +1263,6 @@ function buildResults(){
     <div class="rcard"><div class="rcn" style="color:var(--org)">${mm}m ${ss}s</div><div class="rcl">Time Used</div></div>
     <div class="rcard"><div class="rcn" style="color:var(--pur)">${S.chapters.length}</div><div class="rcl">Chapters</div></div>`;
 
-  // Chapter bars
   const bars=document.getElementById('tbars'); bars.innerHTML='';
   for(const[ch,d] of Object.entries(cmap)){
     const p=Math.round((d.c/d.t)*100);
@@ -1340,3 +1336,4 @@ function retake(){
 </script>
 </body>
 </html>
+
